@@ -20,13 +20,11 @@ To contribute code to the upsteam:
 ::  Return value
 
 
-[+] #define BLK, YLW,... :: ANSI COLOR ESCAPED SEQUENCES
-
+[+] #define BLK, YLW,... :: ANSI escaped-sequences for colors
 [+] assert (expression)  :: True || False
 [+] file_read(filename)  :: File's content
 [+] int_str(int)         :: Converts int to str
 [+] len(array)           :: Length of the array
-[-] max(num, ...)        :: The biggest number
 [+] substr(str, substr)  :: substr (up to matched)
 [+] sum(array, len(array))
 [+] typeof(variable)    :: Int corresponding to a type
@@ -45,4 +43,4 @@ The initial plan was to make the function as much as polymorphic as possible. Bu
 
 
 ---- SPECIAL GRATITUDE ----
-- @your-name-here (your-organization-here)
+- @your-name-here
