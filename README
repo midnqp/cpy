@@ -35,6 +35,13 @@ char implemented[20][128]=
 [-] max(array, len(array))         :: Item with the maximum value
 [-] min(array, len(array))         :: Item with the minimum value
 [-] sort(array, len(array))        :: An array with the items sorted.
+[-] in(array, element)             :: 0 | 1
+[-] print(anything, anything, ...) :: Writes to stdout
+
+[-] str_split(string, splitString) :: An array of strings, separated by splitString.
+
+[-] sys_output("command")          :: Unlike os.system(), this function shall
+                                      actually return the output.
 
 
 
