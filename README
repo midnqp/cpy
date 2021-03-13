@@ -1,0 +1,30 @@
+---- libavoidrepitition.h ----
+This library aims to implement in C the builtin and/or most useful functions of the interpreted Python3 programming language, as Python3 is almost 30x slower compared to C. Mainly because Python3 source needs to run on a VM, rather that being compiled into CPU native binary.
+
+
+
+
+---- GETTING INVOLVED ----
+[+] Already implemented
+[-] Yet to implement
+::  Return value
+
+
+[+] #define BLK, YLW,... :: ANSI COLOR ESCAPED SEQUENCES
+
+[+] assert (expression)  :: True || False
+[+] file_read(filename)  :: File's content
+[+] int_str(int)         :: Converts int to str
+[+] len(array)           :: Length of the array
+[-] max(num, ...)        :: The biggest number
+[+] substr(str, substr)  :: substr (up to matched)
+[+] sum(array, len(array))
+[+] typeof(variable)    :: Int corresponding to a type
+
+
+
+
+The initial plan was to make the function as much as polymorphic as possible. But due to C being a strongly(no implicit conversions) and statically(type-checking at compile-time) typed language, the routines maybe needed to be written fragmented. For instance:
+[-] len_str(str)
+[-] len_array(array)
+[-] float_str(float)    :: Converts float to str
