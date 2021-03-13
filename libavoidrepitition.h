@@ -116,28 +116,3 @@ double max(double num, ...) {
 	va_end(list);
 	return max;
 }
-
-
-/* Todo: 
--- print(comma-separated everything), like:
-like: print(name, "'s age is: ", age, "years old!");
-
--- round(double | float)
--- [5] in [1, 2, 3, 4, 5, 6]
--- sort(array) returns: a sorted array
--- max, min
-++ assert(expression)
-++ len(array | string)
-++ sum(array)
-
-// I don't feel like coding in C. I feel like coding C #define
-// And #define is capable of doing things that a function can't.
-// #define can take everything and process everything.
-// It is a pre-compiler header.
-// It's fast, it's the best!
-// It's ... It doesn't care about the data type.
-
-// Remember, #define returns automatically.
-// If you want to add something continuously, and return sum without saying
-// how to do it. It's not gonna work.
-*/
