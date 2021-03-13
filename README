@@ -1,10 +1,20 @@
 ---- libavoidrepitition.h ----
-This library aims to implement in C the builtin and/or most useful functions of the interpreted Python3 programming language, as Python3 is almost 30x slower compared to C. Mainly because Python3 source needs to run on a VM, rather that being compiled into CPU native binary.
+This library aims to implement in C the builtin and/or most useful functions of the interpreted Python3 programming language, as Python3 is almost 30x slower compared to C. Mainly because Python3 source needs to run on a VM, rather than being compiled into CPU native binary.
 
 
 
 
 ---- GETTING INVOLVED ----
+To contribute code to the upsteam:
+  1. Fork this project.
+  2. Make your changes.
+  3. Do a pull request to this project.
+  4. Code review + Merge!!
+
+
+
+
+---- ROADMAP ----
 [+] Already implemented
 [-] Yet to implement
 ::  Return value
@@ -28,3 +38,11 @@ The initial plan was to make the function as much as polymorphic as possible. Bu
 [-] len_str(str)
 [-] len_array(array)
 [-] float_str(float)    :: Converts float to str
+[-] str_float(str)
+[-] str_int(str)
+
+
+
+
+---- SPECIAL GRATITUDE ----
+- @your-name-here (your-organization-here)
