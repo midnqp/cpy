@@ -15,29 +15,26 @@ To contribute code to the upsteam:
 
 
 ---- ROADMAP ----
-[+] Already implemented
+[n] Implemented
 [-] Yet to implement
 ::  Return value
 
+- - - - - - - - - - - - - - - -
+char implemented[20][128]=
+ {	
+    "[1] assert(expression)        :: True | False",
+    "[2] file_read(char* filename) :: File's content",
+    "[3] int_str(int)              :: Converts int to str",
+    "[4] len(array)                :: Length of the array",
+    "[5] substr(str, substr)       :: substr (up to matched)",
+    "[6] sum(array, len(array))    :: Sum of the array of numbers",
+    "[7] typeof(variable name)     :: Integer corresponding to a type",
+};
+- - - - - - - - - - - - - - - -
 
-[+] #define BLK, YLW,... :: ANSI escaped-sequences for colors
-[+] assert (expression)  :: True || False
-[+] file_read(filename)  :: File's content
-[+] int_str(int)         :: Converts int to str
-[+] len(array)           :: Length of the array
-[+] substr(str, substr)  :: substr (up to matched)
-[+] sum(array, len(array))
-[+] typeof(variable)    :: Int corresponding to a type
-
-
-
-
-The initial plan was to make the function as much as polymorphic as possible. But due to C being a strongly(no implicit conversions) and statically(type-checking at compile-time) typed language, the routines maybe needed to be written fragmented. For instance:
-[-] len_str(str)
-[-] len_array(array)
-[-] float_str(float)    :: Converts float to str
-[-] str_float(str)
-[-] str_int(str)
+[-] max(array, len(array))         :: Item with the maximum value
+[-] min(array, len(array))         :: Item with the minimum value
+[-] sort(array, len(array))        :: An array with the items sorted.
 
 
 
