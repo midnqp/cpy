@@ -29,17 +29,21 @@ char implemented[20][128]=
     "[5] substr(str, substr)       :: substr (up to matched)",
     "[6] sum(array, len(array))    :: Sum of the array of numbers",
     "[7] typeof(variable name)     :: Integer corresponding to a type",
+    "[8] max(array, len(array))    :: Item with the maximum value",
+    "[9] min(array, len(array))    :: Item with the minimum value",
+
 };
 - - - - - - - - - - - - - - - -
 
-[-] max(array, len(array))         :: Item with the maximum value
-[-] min(array, len(array))         :: Item with the minimum value
+
 [-] sort(array, len(array))        :: An array with the items sorted.
 [-] in(array, element)             :: 0 | 1
 [-] print(anything, anything, ...) :: Writes to stdout
-[-] str_split(string, splitString) :: An array of strings, separated by splitString.
-[-] sys_output("command")          :: Unlike os.system(), this function shall
-                                      actually return the output to a var.
+[-] str_split(string, splitString) :: An array of strings, separated 
+                                      by splitString.
+[-] sys_output("command")          :: Unlike os.system(), this function 
+                                      shall actually return the output 
+                                      to a var.
 
 
 
