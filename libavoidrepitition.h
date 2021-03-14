@@ -127,14 +127,14 @@ double sum(double numbers[], int arrlen) {
  * Returns the maximum item.
  */
 
-double max(double ar[], int len) {
-	double f = ar[0];
-	for(int i=1;i<len;i++) {
-		if(ar[i]>f) {
-			f = ar[i];
+double max(double numbers[], int arrlen) {
+	double maxitem = numbers[0];
+	for(int i=1;i<arrlen;i++) {
+		if(numbers[i]>maxitem) {
+			maxitem = numbers[i];
 		}
 	}
-	return f;
+	return maxitem;
 }
 
 
@@ -143,12 +143,12 @@ double max(double ar[], int len) {
  * Returns the minimum item.
  */
 
-double min(double ar[], int len) {
-	double f = ar[0];
-	for(int i=1;i<len;i++) {
-		if(ar[i]<f) {
-			f = ar[i];
+double min(double numbers[], int arrlen) {
+	double minitem = numbers[0];
+	for(int i=1;i<arrlen;i++) {
+		if(numbers[i]<minitem) {
+			minitem = numbers[i];
 		}
 	}
-	return f;
+	return minitem;
 }
