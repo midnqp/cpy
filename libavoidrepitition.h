@@ -58,18 +58,7 @@
  * reads a file. 
  * Returns the contents of the file.
  */
-char* file_read(char* filename) {
-		FILE *file = fopen(filename, "r");
-		static char *fileContent;
-
-		char ch;
-		while (fscanf(file, "%c", &ch) == 1) {
-				strcat(fileContent, &ch);
-		}
-
-		fclose(file);
-		return fileContent;
-}
+char* file_read(char* filename);
 
 
 
@@ -78,11 +67,7 @@ char* file_read(char* filename) {
  * converts into string,
  * Returns the string.
  */
-char* int_str(int a) {
-	static char str[100000];
-	sprintf(str, "%d", a);
-	return str;
-}
+char* int_str(int a);
 
 
 
@@ -91,20 +76,7 @@ char* int_str(int a) {
  * searches the substring in the string
  * Returns up to what is matched.
  */
-char*  substr(char* string, char* substr) {		
-	static char matched[1000000];	
-	int i = 0;    // counter for substr
-	int j = 0;    // counter for string
-
-	for(j = 0; j < strlen(string); j++) {
-		if (substr[i] == string[j]) {
-			strcat(matched, &substr[i]);    //substr[i] matched!
-			i++; 
-		}
-		if (strcmp(matched, substr)==0) { break; }
-	}
-	return matched;
-}
+char*  substr(char* string, char* substr);
 
 
 
@@ -113,13 +85,7 @@ char*  substr(char* string, char* substr) {
  * determines the sum of the array
  * Returns the sum.
  */
-double sum(double numbers[], int arrlen) { 
-	double sum = 0;
-	for (int i=0; i < arrlen; i++) { 
-		sum += numbers[i];
-	} 
-	return sum;
-}
+double sum(double numbers[], int arrlen);
 
 
 
@@ -129,15 +95,7 @@ double sum(double numbers[], int arrlen) {
  * Returns the maximum item.
  */
 
-double max (double numbers[], int arrlen) {
-	double maxitem = numbers[0];
-	for(int i=1; i<arrlen; i++) {
-		if (numbers[i] > maxitem) {
-			maxitem = numbers[i];
-		}
-	}
-	return maxitem;
-}
+double max (double numbers[], int arrlen);
 
 
 
@@ -147,12 +105,4 @@ double max (double numbers[], int arrlen) {
  * Returns the minimum item.
  */
 
-double min(double numbers[], int arrlen) {
-	double minitem = numbers[0];
-	for(int i=1; i < arrlen; i++) {
-		if (numbers[i] < minitem) {
-			minitem = numbers[i];
-		}
-	}
-	return minitem;
-}
+double min(double numbers[], int arrlen);
