@@ -120,3 +120,35 @@ double sum(double numbers[], int arrlen) {
 	} 
 	return sum;
 }
+
+
+/* Given an array of numbers, and length of the array,
+ * determines the maximum value of the array
+ * Returns the maximum item.
+ */
+
+double max(double ar[], int len) {
+	double f = ar[0];
+	for(int i=1;i<len;i++) {
+		if(ar[i]>f) {
+			f = ar[i];
+		}
+	}
+	return f;
+}
+
+
+/* Given an array of numbers, and length of the array,
+ * determines the minimum value of the array
+ * Returns the minimum item.
+ */
+
+double min(double ar[], int len) {
+	double f = ar[0];
+	for(int i=1;i<len;i++) {
+		if(ar[i]<f) {
+			f = ar[i];
+		}
+	}
+	return f;
+}
