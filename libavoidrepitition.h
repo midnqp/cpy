@@ -122,20 +122,24 @@ double sum(double numbers[], int arrlen) {
 }
 
 
+
+
 /* Given an array of numbers, and length of the array,
  * determines the maximum value of the array
  * Returns the maximum item.
  */
 
-double max(double numbers[], int arrlen) {
+double max (double numbers[], int arrlen) {
 	double maxitem = numbers[0];
-	for(int i=1;i<arrlen;i++) {
-		if(numbers[i]>maxitem) {
+	for(int i=1; i<arrlen; i++) {
+		if (numbers[i] > maxitem) {
 			maxitem = numbers[i];
 		}
 	}
 	return maxitem;
 }
+
+
 
 
 /* Given an array of numbers, and length of the array,
@@ -145,8 +149,8 @@ double max(double numbers[], int arrlen) {
 
 double min(double numbers[], int arrlen) {
 	double minitem = numbers[0];
-	for(int i=1;i<arrlen;i++) {
-		if(numbers[i]<minitem) {
+	for(int i=1; i < arrlen; i++) {
+		if (numbers[i] < minitem) {
 			minitem = numbers[i];
 		}
 	}
