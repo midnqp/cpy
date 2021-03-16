@@ -13,9 +13,10 @@ Some implementations being simple & stupid is always acceptable, unless they _de
 
 #### ROAD-MAP
 ✅ Implemented  
-☐ Yet to implement
-: :  Return value
-[!] Needs to support multiple data type 
+☐ Yet to implement<br>
+: :  Return value<br>
+[ ! ] Needs to support multiple data type 
+
 ```C
 ✅ assert(expression)        :: True | False",
 ☐  getarg("c", "-o", "def")  :: Parses the cmdline<c> of a program & returns value against the option <-o>. If not found, default value is "def".
