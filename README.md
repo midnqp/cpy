@@ -1,4 +1,4 @@
-# 🇨libavoidrepitition 
+# 🇨libavoidrepetition 
 
 ##### Built-in methods of   <img src=https://emoji.gg/assets/emoji/1887_python.png height=15 width=16> implemented in 🇨 for reducing sophistication, and blazing-fast performance.
 <br>

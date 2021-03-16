@@ -10,14 +10,6 @@
 #include "../libavoidrepitition.h"
 #define H_LIBAR
 
-#include "test_assert.h"
-#include "test_max.h"
-#include "test_min.h"
-#include "test_substr.h"
-#include "test_sum.h"
-
-
-
 
 int main() {	
 	printf("----UNIT TESTING OF libavoidrepitition.h----\n\n");
