@@ -1,6 +1,6 @@
 # 🇨libavoidrepitition 
 
-##### Built-in methods of  ![python](https://emoji.gg/assets/emoji/1887_python.png=15x15) implemented in 🇨 for reducing sophistication, and blazing-fast performance.
+##### Built-in methods of   ![](https://emoji.gg/assets/emoji/1887_python.png =15x15) implemented in 🇨 for reducing sophistication, and blazing-fast performance.
 <br>
 
 #### GETTING INVOLVED
