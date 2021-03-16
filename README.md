@@ -12,11 +12,10 @@ Some implementations being simple & stupid is always acceptable, unless they _de
 <br>
 
 #### ROAD-MAP
-
-✅Implemented
-☐ Yet to implement<br>
-: : Return value<br>
-[!] Needs to support multiple data type 
+`✅` Implemented<br>
+`☐` Yet to implement<br>
+`::` Return value<br>
+`[!]` Needs to support multiple data type 
 
 ```C
 ✅ assert(expression)        :: True | False",
