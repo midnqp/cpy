@@ -1,30 +1,31 @@
----- libavoidrepitition.h ----
-This library aims to implement in C the builtin and/or most useful functions of the interpreted Python3 programming language, as Python3 is almost 30x slower compared to C. Mainly because Python3 source needs to run on a VM, rather than being compiled into CPU native binary.
+----libavoidrepitition.h----
+This library aims to implement the most useful functions of Python3.x in C.
 
 
 
+----GETTING INVOLVED----
+Some implementations being simple & stupid is always acceptable, unless they degrade performance severely.
 
----- GETTING INVOLVED ----
 To contribute code to the upstream:
   1. Fork this project.
   2. Make "polymorphic" implementations. See issue#4.
-  3. Do a pull request to this project.
+  3. Pull request.
   4. Code review + Merge!!
 
 
 
 
----- ROADMAP ----
+----ROADMAP----
 [n] Implemented
 [-] Yet to implement
 ::  Return value
-!   Polymorphism required
+[!] Polymorphism required
 
 - - - - - - - - - - - - - - - -
 char implemented[20][128]=
 {
 "[1] assert(expression)        :: True | False",
-"[5] substr(str, substr)       :: substr (up to matched)",
+"[5] substr(str, substr)       :: substring up to matched",
 "[6] sum(array, len(array))    :: Sum of the array of numbers",
 "[8] max(array, len(array))    :: Item with the maximum value",
 "[9] min(array, len(array))    :: Item with the minimum value",
@@ -32,9 +33,9 @@ char implemented[20][128]=
 - - - - - - - - - - - - - - - -
 
 
-[-] isequal(any, any, ...)    :: 0 | 1 Replacing strcmp() hassle[!]
-[-] fread(filename)           :: Quick-read & return file's content
-[-] typeof(variable name)     :: Integer corresponding to a type [!]
+[-] isequal(any, any, ...)    :: 0 | 1 [!]
+[-] file_read(filename)       :: File's content
+[-] type(variable name)       :: Integer corresponding to a type [!]
 [-] len(any)                  :: Length of anything [!]
 [-] str(any)                  :: Converts anything to str [!]
 [-] sort(array, len(array))   :: An array with the items sorted.
@@ -42,11 +43,10 @@ char implemented[20][128]=
 [-] print(any, anything, ...) :: Writes to stdout [!]
 [-] str_split(str, splitStr)  :: An array of strings, separated 
                                  by splitString.
-[-] sys_output("command")     :: Unlike os.system(), this function 
-                                 shall actually return the output 
-                                 to a var.
-[-] self_document(__FILE__)   :: Automatically self-documents your
-                                 code. [Format][Procrastinate]
+[-] sys_output("command")     :: Unlike os.system(), this returns 
+                                 the output.
+[-] self_document(__FILE__)   :: Automatically self-documents source
+                                 code, following a simple format.
 [-] getarg("c", "-o", "def")  :: Parses the cmdline<c> of a program
                                  & returns value against the option 
                                  <-o>. If not found, default value 
@@ -56,8 +56,6 @@ char implemented[20][128]=
 
 
 
----- SPECIAL GRATITUDE ----
+----SPECIAL GRATITUDE FOR CONTRIBUTION----
 - @ahmfuad []
-
-
-- @your-name-here [@your-organization-here]
+- @koreaneggroll
