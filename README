@@ -51,7 +51,7 @@ char implemented[20][128]=
                                  & returns value against the option 
                                  <-o>. If not found, default value 
                                  is "def".
-                                 Let C be a scripting language!
+                                 Let C behave like a scripting language!
 
 
 
