@@ -43,31 +43,6 @@
 
 
 
-/* Given an int,
- * converts into string,
- * because atoi() leads to undefined behaviour.
- * Returns the string.
- */
-char* str(void* data) {
-	int t = type(data);    //input type
-	
-	if (t == TYPE_INT) {
-		int val = *(int*)data;
-		char* string = (char*)malloc(100000);
-		sprintf(string, "%d", val);
-		return string;	
-	}
-	else if (t == TYPE_STR) {
-		char* val = (char*)data;
-		return val;
-	}
-	char* unt = (char*)malloc(20);
-	strcpy(unt, "UNKNOWN TYPE");
-	return unt;
-}
-
-
-
 
 /* Given an array,
  * Returns the len of the array.
