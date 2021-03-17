@@ -20,7 +20,7 @@ Some implementations being simple & stupid is always acceptable, unless they _de
 ```C
 ✅ assert(expression)        :: "True" | "False"
 ☐  getarg("c", "-o", "def")  :: Parses cmdline "c" of a program, and returns value against the option "-o". If not found, default value is "def"
-☐  file_read(filename)       :: File's content
+☐  file_read(filename)       :: Contents of the file (memory-safe)
 ☐  in(arr, item)             :: 0 | 1 [!]
 ☐  isequal(any, any, ...)    :: 0 | 1 [!]
 ☐  len(any)                  :: Length of any data type [!]  
@@ -37,7 +37,7 @@ Some implementations being simple & stupid is always acceptable, unless they _de
 ☐  type(variable name)       :: TYPE_INT | TYPE_CHAR | TYPE_DOUBLE | ... [!]
 
 
-//Let's make C behave like a scripting language!
+//Let us make C behave like a scripting language!
 //Unsophisticated to write, neat to read.
 ```
 <br>
