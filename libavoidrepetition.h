@@ -71,16 +71,18 @@
  * Returns the contents of the file.
  */
 char* file_read(char* filename) {
-		FILE *file = fopen(filename, "r");
-		static char *fileContent;
-
-		char ch;
-		while (fscanf(file, "%c", &ch) == 1) {
-				strcat(fileContent, &ch);
-		}
-
+	FILE *file = fopen(filename, "r");
+	char *buffer = 0;
+	long length;
+	if (file) {
+		fseek(file, 0, SEEK_END);
+		length = ftell(file);
+		fseek(file, 0, SEEK_SET);
+		buffer = (char*)malloc(length);
+		if (buffer) { fread(buffer, 1, length, file); }
 		fclose(file);
-		return fileContent;
+	}
+	return buffer;
 }
 
 

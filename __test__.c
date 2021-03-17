@@ -23,6 +23,18 @@ void test_assert() {
 
 
 
+void test_file_read() {
+	printf("--TESTING--\n");
+	char filename[100];
+	printf("Filename: "); scanf("%s", filename);
+	
+	printf("--RESULT--\n");
+	printf("%s", file_read(filename));
+}
+
+
+
+
 void test_max() {
 	printf("--TESTING--\n");
 	
@@ -52,8 +64,9 @@ void test_min() {
 void test_substr() {
 	printf("--TESTING substr()--\n");	
 	char* str = (char*)malloc(1024); 
+	*str = '\0';
 	printf("String: "); 
-	scanf("%[^\n]", str);
+	scanf("%s", str);
 	strcat(str, "\0");
 	
 	char* substring = (char*)malloc(1024); 
@@ -110,7 +123,8 @@ int main() {
 		"[5] substr(str, substr)       :: substr (up to matched)",
 		"[6] sum(array, len(array))    :: Sum of the array of numbers",
 		"[8] max(array, len(array))    :: Item with the maximum value",
-		"[9] min(array, len(array))    :: Item with the minimum value",	
+		"[9] min(array, len(array))    :: Item with the minimum value",
+		"[10] file_read(filename)      :: Contents of the file",
 	};
 
 	
@@ -136,6 +150,7 @@ int main() {
 		case 6: test_sum(); break;
 		case 8: test_max(); break;
 		case 9: test_min(); break;
+		case 10: test_file_read(); break;
 		default: printf("The unit against the integer is not implemented.\n");
 	}
 	

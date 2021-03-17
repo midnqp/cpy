@@ -18,10 +18,12 @@ Some implementations being simple & stupid is always acceptable, unless they _de
 `[!]`Needs to support multiple data type 
 
 ```C
-✅ assert(expression)        :: "True" | "False"
+✅ assert(expression)        :: 0 | 1
 ☐  getarg("c", "-o", "def")  :: Parses cmdline "c" of a program, and returns value against the option "-o". If not found, default value is "def"
-☐  file_read(filename)       :: Contents of the file (memory-safe)
-☐  in(arr, item)             :: 0 | 1 [!]
+✅ file_read(filename)       :: Contents of the file (memory-safe)
+☐  index(arr, item)          :: 0-based index. -1 if not found.
+☐  input(str)                :: String of input
+☐  int(any)                  :: An integer. [!]
 ☐  isequal(any, any, ...)    :: 0 | 1 [!]
 ☐  len(any)                  :: Length of any data type [!]  
 ✅ max(arr, len(arr))        :: Item with the maximum value
