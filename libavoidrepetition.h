@@ -27,13 +27,17 @@
 /* Given a variable name,
  * Returns the type.
  */
-#define TYPE_INT     1
 #define TYPE_CHAR    2
 #define TYPE_STR     3
+
+#define TYPE_INT     1
 #define TYPE_LONG    4
 #define TYPE_DOUBLE  5
 #define TYPE_FLOAT   6
+
 #define TYPE_UNKNOWN 0
+//add more data types at will when needed.
+//we're gonna use `TYPE_dataTypeName` anyway.
 
 #define type(var) _Generic(var, \
 	int: TYPE_INT, char: TYPE_CHAR, char*: TYPE_STR, \
