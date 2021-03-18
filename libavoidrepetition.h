@@ -158,3 +158,13 @@ double min(double numbers[], int arrlen) {
 	}
 	return minitem;
 }
+
+
+char *str_index(char *str, char item){
+    for(int i = 0; i < strlen(str); i++){
+        if(str[i] == item){
+            return "0";
+        }
+    }
+    return "-1";
+}
