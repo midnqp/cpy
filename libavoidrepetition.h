@@ -158,3 +158,43 @@ double min(double numbers[], int arrlen) {
 	}
 	return minitem;
 }
+
+
+char *input(char *str){
+    int bufsize = 100;
+    int position = 0;
+    char *buffer = malloc(sizeof(char) * bufsize);
+    int c;
+
+    if (!buffer) {
+        printf("\n\nERROR: ALLOCATION error\n\n");
+        exit(EXIT_FAILURE);
+    }
+
+    printf("%s", str);
+
+    while (1) {
+
+        c = getchar();
+
+        if (c == EOF || c == '\n') {
+            buffer[position] = '\0';
+            return buffer;
+        } else {
+            buffer[position] = c;
+        }
+
+        position++;
+
+        if (position >= bufsize) {
+            bufsize += 100;
+            buffer = realloc(buffer, bufsize);
+            if (!buffer) {
+                printf("\n\nError: REALLOCATION error\n\n");
+                exit(EXIT_FAILURE);
+            }
+        }
+    }
+
+    return buffer; 
+}
