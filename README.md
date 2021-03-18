@@ -5,13 +5,15 @@
 
 #### GETTING INVOLVED
 Some implementations being simple & stupid is always acceptable, unless they _degrade performance_ or _cause security issues_. To contribute code to the upstream:
-1. Fork this project.
-2. Make implementations that cover multiple data types.
-3. Pull request.
-4. Code review + Merge!!
+
+0. Fork
+1. Make implementations that cover multiple data types
+2. Pull Request
 <br>
 
 #### ROAD-MAP
+Feel free to open up an issue if you'd like to add something to the list!
+
 `✅`&nbsp;&nbsp;Implemented<br>
 `☐` &nbsp;&nbsp;Yet to implement<br>
 `::`&nbsp;Return value<br>
