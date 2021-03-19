@@ -42,25 +42,34 @@
 void ret_char(){printf("Char\n");}
 void ret_str() {printf("String\n");}
 void ret_short() {printf("Short\n");}
+void ret_short_arr() {printf("Short array\n");}
 void ret_int() {printf("Int\n");}
 void ret_int_arr() {printf("Integer array\n");}
 void ret_long() {printf("Long\n");}
+void ret_long_arr() {printf("Long array\n");}
 void ret_float() {printf("Float\n");}
+void ret_float_arr() {printf("Float array\n");}
 void ret_double() {printf("Double\n");}
+void ret_double_arr() {printf("Double array\n");}
 void ret_default() {printf("Unknown data type\n");}
 
 
 #define type(X) \
     _Generic ((X), \
-              char: ret_char,\
+              char: ret_char, \
               char*: ret_str, \
               short: ret_short, \
+              short*: ret_short_arr, \
               int: ret_int, \
               int*: ret_int_arr, \
               long: ret_long, \
+              long*: ret_long_arr, \
               float: ret_float, \
+              float*: ret_float_arr, \
               double: ret_double, \
+              double*: ret_double_arr, \
               default: ret_default) (X)
+
 
 
 
