@@ -220,12 +220,12 @@ size_t str_split(char ***array, char *str, const char *del) {
     char *token;
     size_t i = 0;
 
-    token = strtok(str, del);
+    token = strtok_r(str, del);
   
     while(token != NULL) {
         *array = realloc(*array, sizeof(char *) * (i + 1));
         (*array)[i++] = token;
-        token = strtok(NULL, del);
+        token = strtok_r(NULL, del);
     }
 
     return i;
@@ -248,12 +248,12 @@ char ***split(char ***array, char *str, const char *del){
     char *token;
     size_t i = 0;
 
-    token = strtok(str, del);
+    token = strtok_r(str, del);
   
     while(token != NULL) {
         *array = realloc(*array, sizeof(char *) * (i + 1));
         (*array)[i++] = token;
-        token = strtok(NULL, del);
+        token = strtok_r(NULL, del);
     }
 
     return array;
