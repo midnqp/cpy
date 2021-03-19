@@ -39,11 +39,36 @@
 //add more data types at will when needed.
 //we're gonna use `TYPE_dataTypeName` anyway.
 
-#define type(var) _Generic(var, \
-	int: TYPE_INT, char: TYPE_CHAR, char*: TYPE_STR, \
-	long: TYPE_LONG, double: TYPE_DOUBLE, float: TYPE_FLOAT,\
-	default: TYPE_UNKNOWN)
+void ret_char(){printf("Char\n");}
+void ret_str() {printf("String\n");}
+void ret_short() {printf("Short\n");}
+void ret_short_arr() {printf("Short array\n");}
+void ret_int() {printf("Int\n");}
+void ret_int_arr() {printf("Integer array\n");}
+void ret_long() {printf("Long\n");}
+void ret_long_arr() {printf("Long array\n");}
+void ret_float() {printf("Float\n");}
+void ret_float_arr() {printf("Float array\n");}
+void ret_double() {printf("Double\n");}
+void ret_double_arr() {printf("Double array\n");}
+void ret_default() {printf("Unknown data type\n");}
 
+
+#define type(X) \
+    _Generic ((X), \
+              char: ret_char, \
+              char*: ret_str, \
+              short: ret_short, \
+              short*: ret_short_arr, \
+              int: ret_int, \
+              int*: ret_int_arr, \
+              long: ret_long, \
+              long*: ret_long_arr, \
+              float: ret_float, \
+              float*: ret_float_arr, \
+              double: ret_double, \
+              double*: ret_double_arr, \
+              default: ret_default) (X)
 
 
 
@@ -56,7 +81,7 @@
 /* Given an array,
  * Returns the len of the array.
  */
-#define len(arr) sizeof(arr)/sizeof(arr[0])
+#define len(arr) sizeof(arr) / sizeof(arr[0]);
 
 
 
@@ -149,6 +174,30 @@ double max (double numbers[], int arrlen) {
 
 
 
+//If reading buffer character by character this is the only way I could think of
+char *input(char *str){
+
+    char *buffer = (char*)malloc(sizeof(char) * 256);
+
+    if(!buffer){
+        printf("\n\nERROR INPUT FUNCTION: Couldn't allocate memory\n\n");
+        exit(1);
+    }
+
+	//Waste variable
+	char c;
+	c = getc(stdin);
+
+    printf("%s", str);
+    fgets(buffer, 256, stdin);
+    
+
+    return buffer; 
+}
+
+
+
+
 /* Given an array of numbers, and length of the array,
  * determines the minimum value of the array
  * Returns the minimum item.
@@ -166,6 +215,52 @@ double min(double numbers[], int arrlen) {
 
 
 
+
+size_t str_split(char ***array, char *str, const char *del) {
+    char *token;
+    size_t i = 0;
+
+    token = strtok(str, del);
+  
+    while(token != NULL) {
+        *array = realloc(*array, sizeof(char *) * (i + 1));
+        (*array)[i++] = token;
+        token = strtok(NULL, del);
+    }
+
+    return i;
+} 
+
+
+void printSplit(char *str, const char *del){
+    char **split = NULL;
+    size_t count = str_split(&split, str, del);
+    
+    for(size_t i = 0; i < count; i++) {
+        printf("[%s], ", split[i]);
+    }
+    
+    free(split);
+}
+
+
+char ***split(char ***array, char *str, const char *del){
+    char *token;
+    size_t i = 0;
+
+    token = strtok(str, del);
+  
+    while(token != NULL) {
+        *array = realloc(*array, sizeof(char *) * (i + 1));
+        (*array)[i++] = token;
+        token = strtok(NULL, del);
+    }
+
+    return array;
+}
+
+
+
 int str_index(char *str, char item){
     for(int i = 0; i < strlen(str); i++){
         if(str[i] == item){
@@ -177,6 +272,10 @@ int str_index(char *str, char item){
 }
 
 
+const int RUN = 32;
+#define MAX(x, y) (((x) > (y)) ? (x) : (y))
+#define MIN(x, y) (((x) < (y)) ? (x) : (y))
+ 
 // This function sorts array from left index to
 // to right index which is of size atmost RUN
 void insertionSort(int arr[], int left, int right)
@@ -193,8 +292,7 @@ void insertionSort(int arr[], int left, int right)
         arr[j+1] = temp;
     }
 }
-
-
+ 
 // Merge function merges the sorted runs
 void merge(int arr[], int l, int m, int r)
 {
@@ -254,7 +352,7 @@ void timSort(int arr[], int n)
      
     // Sort individual subarrays of size RUN
     for (int i = 0; i < n; i+=RUN)
-        insertionSort(arr, i, min((i+RUN-1), 
+        insertionSort(arr, i, MIN((i+RUN-1), 
                                     (n-1)));
  
     // Start merging from size RUN (or 32). 
@@ -281,7 +379,7 @@ void timSort(int arr[], int n)
             // mid+1 is starting point 
             // of right sub array
             int mid = left + size - 1;
-            int right = min((left + 2*size - 1), 
+            int right = MIN((left + 2*size - 1), 
                                             (n-1));
  
             // merge sub array arr[left.....mid] &
@@ -291,8 +389,7 @@ void timSort(int arr[], int n)
         }
     }
 }
-
-
+ 
 
 void printArray(int arr[], int size) { 
     int i; 
