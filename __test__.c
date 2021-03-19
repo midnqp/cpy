@@ -1,3 +1,4 @@
+
 /* This script tests and proves implementations. 
  *
  * Usage: 
@@ -5,7 +6,7 @@
  *     - Inside main(), add test in the list & invokation case.
  */
 #include <stdio.h>
-#include "libavoidrepetition.h"
+#include "avoidrep.h"
 
 
 
@@ -109,12 +110,65 @@ void test_sum() {
 
 
 
+void test_sorted(){
+    int arr[] = {2, 7, 2, 8, 9, 15, 73, -14};
+    int n = sizeof(arr)/sizeof(*arr);
+
+    printf("--TESTING--\n\n");
+
+    sorted(arr, n);
+
+    printf("Sorted array: ");
+
+    printArray(arr, n);
+
+    printf("\n");
+}
 
 
+
+
+void test_input(){
+    printf("--TESTING--\n");
+
+    char *test = input("Test: ");
+
+    printf("\n%s\n", test);
+}
+
+
+
+void test_split(){
+    printf("--TESTING--\n");
+
+    char str[] = "this-is-cool";
+
+    printSplit(str, "-");
+}
+
+
+void test_index(){
+
+    char waste;
+    waste = getc(stdin);
+
+    printf("--TESTING--\n");
+
+    char string[] = "find a character here";
+
+    char c = getc(stdin);
+
+    if(str_index(string, c) == 0){
+        printf("\nFound '%c'\n", c);
+    }
+    else{
+        printf("\nDidn't find '%c'", c);
+    }
+}
 
 
 int main() {	
-	printf("----UNIT TESTING----\n\n");
+	printf("\n\n----UNIT TESTING----\n\n");
 
 	int u;			// unit number
 	char implemented[20][128]=
@@ -125,6 +179,11 @@ int main() {
 		"[8] max(array, len(array))    :: Item with the maximum value",
 		"[9] min(array, len(array))    :: Item with the minimum value",
 		"[10] file_read(filename)      :: Contents of the file",
+        "[11] Sorted                   :: Sorts an array using timsort",
+        "[12] Input                    :: Takes input",
+        "[13] Split                    :: Splits inputs into tokens and stores them in an array ",
+        "[14] Index                    :: 0 | 1"
+        ""
 	};
 
 	
@@ -151,6 +210,10 @@ int main() {
 		case 8: test_max(); break;
 		case 9: test_min(); break;
 		case 10: test_file_read(); break;
+        case 11: test_sorted(); break;
+        case 12: test_input(); break;
+        case 13: test_split(); break;
+        case 14: test_index(); break;
 		default: printf("The unit against the integer is not implemented.\n");
 	}
 	
