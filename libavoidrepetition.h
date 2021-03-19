@@ -39,10 +39,31 @@
 //add more data types at will when needed.
 //we're gonna use `TYPE_dataTypeName` anyway.
 
-#define type(var) _Generic(var, \
-	int: TYPE_INT, char: TYPE_CHAR, char*: TYPE_STR, \
-	long: TYPE_LONG, double: TYPE_DOUBLE, float: TYPE_FLOAT,\
-	default: TYPE_UNKNOWN)
+void ret_char(){printf("Char\n");}
+void ret_str() {printf("String\n");}
+void ret_short() {printf("Short\n");}
+void ret_int() {printf("Int\n");}
+void ret_int_arr() {printf("Integer array\n");}
+void ret_long() {printf("Long\n");}
+void ret_float() {printf("Float\n");}
+void ret_double() {printf("Double\n");}
+void ret_default() {printf("Unknown data type\n");}
+
+
+#define type(X) \
+    _Generic ((X), \
+              char: ret_char,\
+              char*: ret_str, \
+              short: ret_short, \
+              int: ret_int, \
+              int*: ret_int_arr, \
+              long: ret_long, \
+              float: ret_float, \
+              double: ret_double, \
+              default: ret_default) (X)
+
+
+
 
 
 
