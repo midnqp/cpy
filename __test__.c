@@ -6,7 +6,7 @@
  *     - Inside main(), add test in the list & invokation case.
  */
 #include <stdio.h>
-#include "libavoidrepetition-c.h"
+#include "libavoidrepetition.h"
 
 
 
