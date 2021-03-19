@@ -27,7 +27,7 @@ Feel free to open up an issue if you'd like to add something to the list!
 ☐  input(str)                :: String of input
 ☐  int(any)                  :: An integer. [!]
 ☐  isequal(any, any, ...)    :: 0 | 1 [!]
-☐  len(any)                  :: Length of any data type [!]  
+✅  len(any)                  :: Length of any data type [!]  
 ✅ max(arr, len(arr))        :: Item with the maximum value
 ✅ min(arr, len(arr))        :: Item with the minimum value
 ☐  print(any, any, ...)      :: Writes to stdout [!]
