@@ -38,7 +38,7 @@ Feel free to open up an issue if you'd like to add something to the list!
 ✅ substr(str, substr)       :: substring up to matched
 ✅ sum(arr, len(arr))        :: Sum of the array of numbers
 ☐  sys_out("command")        :: Unlike os.system(), this returns the output
-☐  type(variable name)       :: TYPE_INT | TYPE_CHAR | TYPE_DOUBLE | ... [!]
+✅ type(variable name)       :: TYPE_INT | TYPE_CHAR | TYPE_DOUBLE | ... [!]
 
 
 //Let us make C behave like a scripting language!
