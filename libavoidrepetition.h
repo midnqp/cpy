@@ -198,7 +198,7 @@ char ***split(char **array, char *str, const char *del){
     while(token != NULL) {
         *array = realloc(*array, sizeof(char *) * (i + 1));
         (*array)[i++] = token;
-        token = strtok(NULL, del);
+        token = strtok_r(NULL, del);
     }
 
     return array;
