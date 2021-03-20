@@ -4,45 +4,38 @@
 <br>
 
 #### GETTING INVOLVED
-Some implementations being simple & stupid is always acceptable, unless they _degrade performance_ or _cause security issues_. To contribute code to the upstream:
-
-0. Fork
-1. Make implementations that cover multiple data types
-2. Pull Request
-<br>
-
-#### ROAD-MAP
-Always feel free to open up an issue if you'd like to add something to the list!
-
-`✅`&nbsp;&nbsp;Implemented<br>
-`☐` &nbsp;&nbsp;Yet to implement<br>
-`::`&nbsp;Return value<br>
-`[!]`Needs to support multiple data type 
+Always feel free to open up an issue if you'd like to add something!
 
 ```C
-✅ assert(expression)        :: Return 1, if expression is True. Else 0.
-☐  getarg("c", "-o", "def")  :: Commandline parser.
-✅ file_read(filename)       :: Contents of the file (memory-safe)
-☐  index(arr, item)          :: 0-based index. -1 if not found.
-☐  input(str)                :: String of input
-☐  int(any)                  :: An integer. [!]
-☐  isequal(any, any, ...)    :: 0 | 1 [!]
-☐  len(any)                  :: Length of any data type [!]  
-✅ max(arr, len(arr))        :: Item with the maximum value
-✅ min(arr, len(arr))        :: Item with the minimum value
-☐  print(any, any, ...)      :: Writes to stdout [!]
-☐  self_document(__FILE__)   :: Self-documents source code, following a simple format
-☐  sorted(arr, len(arr))     :: An array with the items sorted
-☐  str(any)                  :: Converts any data type to str [!]
-☐  str_split(str, delim)     :: An array of strings, separated by delim.
-✅ substr(str, substr)       :: substring up to matched
-✅ sum(arr, len(arr))        :: Sum of the array of numbers
-☐  sys_out("command")        :: Unlike os.system(), this returns the output
-✅ type(variable name)       :: TYPE_INT | TYPE_CHAR | TYPE_DOUBLE | ... [!]
-
-
-//Let us make C behave like a scripting language!
-//Unsophisticated to write, neat to read.
+✅ assert       (expression)      
+✅ file_read    (filename)      
+☐  getarg       ("cmdline", "-option", "default")
+☐  input        (str)           
+☐  int          (str)                 
+☐  list         (str)
+☐  list_add     (destArr, itemToAdd)
+☐  list_count   (arr, item)
+☐  list_index   (arr, item)         
+☐  list_isequal (arr1, arr2)
+☐  list_join    (arr)
+☐  list_len     (arr)
+✅ list_max     (arr, len(arr)) 
+✅ list_min     (arr, len(arr))       
+☐  list_reverse (arr)
+☐  list_slice   (start, end)
+☐  list_sort    (arr, len(arr))    
+✅ list_sum     (arr, len(arr))       
+☐  print        (any, any, ...)  
+☐  self_document(__FILE__)
+☐  str          (int | float)                 
+☐  str_add      (dest, strToAdd)
+☐  str_count    (str, substr)
+☐  str_reverse  (str)
+☐  str_slice    (start, end)
+☐  str_split    (str, delim) 
+✅ str_substr   (str, substr)     
+☐  sys_out      ("command")       
+✅ type         (variable name)
 ```
 <br>
 
