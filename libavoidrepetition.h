@@ -88,6 +88,41 @@ char* file_read(char* filename) {
 
 
 
+/* Given an array of numbers, and length of the array,
+ * determines the maximum value of the array
+ * Returns the maximum item.
+ */
+
+double max (double numbers[], int arrlen) {
+	double maxitem = numbers[0];
+	for(int i=1; i<arrlen; i++) {
+		if (numbers[i] > maxitem) {
+			maxitem = numbers[i];
+		}
+	}
+	return maxitem;
+}
+
+
+
+
+/* Given an array of numbers, and length of the array,
+ * determines the minimum value of the array
+ * Returns the minimum item.
+ */
+
+double min(double numbers[], int arrlen) {
+	double minitem = numbers[0];
+	for(int i=1; i < arrlen; i++) {
+		if (numbers[i] < minitem) {
+			minitem = numbers[i];
+		}
+	}
+	return minitem;
+}
+
+
+
 
 /* Given a string, and a substring,
  * searches the substring in the string
@@ -126,35 +161,8 @@ double sum(double numbers[], int arrlen) {
 
 
 
-/* Given an array of numbers, and length of the array,
- * determines the maximum value of the array
- * Returns the maximum item.
- */
-
-double max (double numbers[], int arrlen) {
-	double maxitem = numbers[0];
-	for(int i=1; i<arrlen; i++) {
-		if (numbers[i] > maxitem) {
-			maxitem = numbers[i];
-		}
-	}
-	return maxitem;
-}
-
-
-
-
-/* Given an array of numbers, and length of the array,
- * determines the minimum value of the array
- * Returns the minimum item.
- */
-
-double min(double numbers[], int arrlen) {
-	double minitem = numbers[0];
-	for(int i=1; i < arrlen; i++) {
-		if (numbers[i] < minitem) {
-			minitem = numbers[i];
-		}
-	}
-	return minitem;
-}
+//char* sys_out(char* command) {
+//	FILE *cfp;
+//	char output
+//	return output;
+//}

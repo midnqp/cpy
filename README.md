@@ -12,7 +12,7 @@ Some implementations being simple & stupid is always acceptable, unless they _de
 <br>
 
 #### ROAD-MAP
-Feel free to open up an issue if you'd like to add something to the list!
+Always feel free to open up an issue if you'd like to add something to the list!
 
 `✅`&nbsp;&nbsp;Implemented<br>
 `☐` &nbsp;&nbsp;Yet to implement<br>
@@ -20,8 +20,8 @@ Feel free to open up an issue if you'd like to add something to the list!
 `[!]`Needs to support multiple data type 
 
 ```C
-✅ assert(expression)        :: 0 | 1
-☐  getarg("c", "-o", "def")  :: Parses cmdline "c" of a program, and returns value against the option "-o". If not found, default value is "def"
+✅ assert(expression)        :: Return 1, if expression is True. Else 0.
+☐  getarg("c", "-o", "def")  :: Commandline parser.
 ✅ file_read(filename)       :: Contents of the file (memory-safe)
 ☐  index(arr, item)          :: 0-based index. -1 if not found.
 ☐  input(str)                :: String of input
@@ -50,4 +50,4 @@ Feel free to open up an issue if you'd like to add something to the list!
 
 - @ahmfuad
 - @koreaneggroll
-- [r/coolgithubprojects](https://www.reddit.com/r/coolgithubprojects/)  &nbsp;(The subreddit with the most enthusiastic people!)
+- [r/coolgithubprojects](https://www.reddit.com/r/coolgithubprojects/)
