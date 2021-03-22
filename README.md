@@ -1,10 +1,10 @@
-# 🇨libavoidrepetition 
+# `libavoidrepetition.h`
 
-##### Built-in methods of   <img src=https://emoji.gg/assets/emoji/1887_python.png height=15 width=16> implemented in 🇨 for reducing sophistication, and blazing-fast performance.
+Built-in functions of <img src=https://emoji.gg/assets/emoji/1887_python.png height=15 width=16> Python3.x implemented in C for reducing sophistication, and blazing-fast performance.
 <br>
 
-#### GETTING INVOLVED
-Always feel free to open up an issue if you'd like to add something!
+## GETTING INVOLVED
+To contribute code to the upstream: fork this repository, make changes, and pull request! And always feel free to open up an issue if you'd like to add something to the list below.
 
 ```C
 ✅ assert       (expression)      
@@ -22,6 +22,7 @@ Always feel free to open up an issue if you'd like to add something!
 ✅ list_max     (arr, len(arr)) 
 ✅ list_min     (arr, len(arr))       
 ☐  list_reverse (arr)
+☐  list_remove  (arr, item, occurence)
 ☐  list_slice   (start, end)
 ☐  list_sort    (arr, len(arr))    
 ✅ list_sum     (arr, len(arr))       
@@ -30,6 +31,7 @@ Always feel free to open up an issue if you'd like to add something!
 ☐  str          (int | float)                 
 ☐  str_add      (dest, strToAdd)
 ☐  str_count    (str, substr)
+☐  str_replace  (str, substr, occurence)
 ☐  str_reverse  (str)
 ☐  str_slice    (start, end)
 ☐  str_split    (str, delim) 
@@ -39,7 +41,7 @@ Always feel free to open up an issue if you'd like to add something!
 ```
 <br>
 
-#### SPECIAL GRATITUDE
+## SPECIAL GRATITUDE
 
 - @ahmfuad
 - @koreaneggroll
