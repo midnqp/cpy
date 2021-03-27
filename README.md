@@ -10,12 +10,13 @@
 
 Built-in functions of <img src=https://emoji.gg/assets/emoji/1887_python.png height=15 width=16> Python3.x implemented in C for reducing sophistication, and blazing-fast performance.
 <br>
-
-## GETTING INVOLVED
+<br>
+# GETTING INVOLVED
 To contribute code to the upstream: fork this repository, make changes, and pull request! And always feel free to open up an issue if you'd like to add something to the list below.
 
 ```C
-✅ assert       (expression)      
+✅ assert       (expression)
+☐  double       (str representing type `double`)
 ✅ file_read    (filename)      
 ☐  getarg       ("cmdline", "-option", "default")
 ☐  input        (str)           
@@ -49,7 +50,7 @@ To contribute code to the upstream: fork this repository, make changes, and pull
 ```
 <br>
 
-## SPECIAL GRATITUDE
+# SPECIAL GRATITUDE
 
 - [@ahmfuad](https://github.com/ahmfuad)
 - [@koreaneggroll](https://github.com/koreaneggroll)
