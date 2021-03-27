@@ -1,4 +1,12 @@
-# `libavoidrepetition.h`
+<!--h1><code>lib-cpythonbuiltins</code></h1-->
+<pre>
+  _ _ _                                _   _                 _           _ _ _   _            
+ | (_) |__             ___ _ __  _   _| |_| |__   ___  _ __ | |__  _   _(_) | |_(_)_ __  ___  
+ | | | '_ \   _____   / __| '_ \| | | | __| '_ \ / _ \| '_ \| '_ \| | | | | | __| | '_ \/ __| 
+ | | | |_) | |_____| | (__| |_) | |_| | |_| | | | (_) | | | | |_) | |_| | | | |_| | | | \__ \ 
+ |_|_|_.__/           \___| .__/ \__, |\__|_| |_|\___/|_| |_|_.__/ \__,_|_|_|\__|_|_| |_|___/ 
+                          |_|    |___/                                                       
+</pre>
 
 Built-in functions of <img src=https://emoji.gg/assets/emoji/1887_python.png height=15 width=16> Python3.x implemented in C for reducing sophistication, and blazing-fast performance.
 <br>
@@ -43,6 +51,6 @@ To contribute code to the upstream: fork this repository, make changes, and pull
 
 ## SPECIAL GRATITUDE
 
-- @ahmfuad
-- @koreaneggroll
+- [@ahmfuad](https://github.com/ahmfuad)
+- [@koreaneggroll](https://github.com/koreaneggroll)
 - [r/coolgithubprojects](https://www.reddit.com/r/coolgithubprojects/)
