@@ -8,9 +8,7 @@
                           |_|    |___/                                                       
 </pre>
 
-Built-in functions of <img src=https://emoji.gg/assets/emoji/1887_python.png height=15 width=16> Python3.x implemented in C for reducing sophistication, and blazing-fast performance.
-<br>
-<br>
+
 # GETTING INVOLVED
 To contribute code to the upstream: fork this repository, make changes, and pull request! And always feel free to open up an issue if you'd like to add something to the list below.
 
