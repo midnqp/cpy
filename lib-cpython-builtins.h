@@ -69,8 +69,8 @@
  * reads a file. 
  * Returns the contents of the file.
  */
-char* file_read(const char* filename[]) {
-	FILE *file = read(;
+char* file_read(const char* filename) {
+	FILE *file = fopen(filename, "r");
 		
 	char *buffer = 0;
 	long length;
@@ -89,7 +89,7 @@ char* file_read(const char* filename[]) {
 
 /* Given a string
  * Converts to integer
- * Returns an integer.
+ * Returns the integer.
  */
 #define int(x) {(atoi(x); )}
 
@@ -132,6 +132,27 @@ double list_min(double numbers[], int arrlen) {
 
 
 
+double* list_remove(double numbers[], int arrlen, int tr, int occ) {
+	// tr = to remove, occ = occureneces
+	char *
+}
+
+
+
+
+/* Given an array of numbers, and len of the array,
+ * determines the sum of the array
+ * Returns the sum.
+ */
+double list_sum(double numbers[], int arrlen) { 
+	double sum = 0;
+	for (int i=0; i < arrlen; i++) { sum += numbers[i];	} 
+	return sum;
+}
+
+
+
+
 /* Given a string, and a substring,
  * searches the substring in the string
  * Returns up to what is matched.
@@ -164,21 +185,6 @@ int str_index(char* str, char* substr, int start) {
 	char *p = strstr(string, substr);
 	if (p) { return p - (string+start); }
 	return -1;
-}
-
-
-
-
-/* Given an array of numbers, and len of the array,
- * determines the sum of the array
- * Returns the sum.
- */
-double list_sum(double numbers[], int arrlen) { 
-	double sum = 0;
-	for (int i=0; i < arrlen; i++) { 
-		sum += numbers[i];
-	} 
-	return sum;
 }
 
 
