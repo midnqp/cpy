@@ -28,20 +28,17 @@
 
 
 
-/* Given a variable name,
- * Returns the type.
- */
 #define TYPE_CHAR    2
 #define TYPE_STR     3
-
 #define TYPE_INT     1
 #define TYPE_LONG    4
 #define TYPE_DOUBLE  5
 #define TYPE_FLOAT   6
-
 #define TYPE_UNKNOWN 0
 //add more
 
+// Given a variable name,
+// Returns the type.
 #define type(var) _Generic(var, \
 	int: TYPE_INT, char: TYPE_CHAR, char*: TYPE_STR, \
 	long: TYPE_LONG, double: TYPE_DOUBLE, float: TYPE_FLOAT,\
@@ -50,9 +47,8 @@
 
 
 
-/* Given an array,
- * Returns the len of the array.
- */
+// Given an array,
+// Returns the len of the array.
 #define list_len(arr) sizeof(arr)/sizeof(*arr)
 
 

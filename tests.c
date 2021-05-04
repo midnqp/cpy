@@ -1,21 +1,26 @@
 #include <stdio.h>
 #include "lib-cpython-builtins.h"
 
+const double numbers[] = {1, -1, 0.1, -0.1};
+
 
 void test_file_read() {printf("%s", file_read("README.md"));}
 
 
 
 
-void test_list_max() {
+void test_list_len() {
 }
-
-
-
-
-void test_list_min() {
+void test_list_max() {}
+void test_list_min() {}
+void test_list_remove() {}
+void test_list_reverse(){}
+void test_list_slice() {}
+void test_list_sort(){}
+void test_list_sum() {
+	double numbers[] = {1, -1, 0.1, -0.1};
+	printf("%lf", list_sum(numbers, 4));
 }
-
 
 
 
@@ -42,25 +47,12 @@ void test_str_substr() {
 
 
 
-void test_list_remove() {
-	
-
-void test_list_reverse(){}
-void test_list_slice() {}
-void test_list_sort(){}
-void test_list_sum() {
-	double numbers[] = {1, -1, 0.1, -0.1};
-	printf("%lf", list_sum(numbers, 4));
-}
-
-
-
 
 
 
 
 
 int main() {	
-	test_list_sum();
+	test_list_len();
 	return 0;
 }
