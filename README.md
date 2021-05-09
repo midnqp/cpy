@@ -25,7 +25,10 @@ To contribute code to the upstream: fork this repository, make changes, and pull
 - print        (any, any, ...)  
 - self_document(__FILE__)
 - str          (int | float)                 
-- str_add      (dest, strToAdd)
++ str_add      (dest, strToAdd)  :: returns the added strings.
++ str_addp     (dest, src)       :: *src is added to pointer *dest.
++ str_addpva   (dest, src, ...)  :: Add multiple strings to pointer *dest.
++ str_addva    (dest, src, ...)  :: returns the added strings.
 - str_count    (str, substr)
 - str_replace  (str, substr, occurence)
 - str_reverse  (str)
