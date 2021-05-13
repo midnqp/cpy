@@ -1,18 +1,37 @@
-#include <stdlib.h>
-#include <string.h>
-#include <stdio.h>
-#include <math.h>
-#include <unistd.h>
-#include <stdarg.h>
-
-
-
-
-/* ANSI 3-bit and 4-bit color with escaped sequences.
- * According to specification, it produces 8 colors.
- * Later terminals started supporting background(BG) colors.
+/*
+ * MIT License
+ *
+ * Copyright (c) 2021 Muhammad Bin Zafar <midnightquantumprogrammer@gmail.com>
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
  */
-#define R0     "\033[0;0m"
+
+
+#include <stdlib.h> //malloc, realloc, exit
+#include <string.h> //strcpy...
+#include <stdio.h>  // printf, FILE, perror
+#include <stdarg.h>  //va_list...
+#include <sys/stat.h>  //mkdir
+
+
+// ANSI 3-bit and 4-bit color with escaped sequences.
+#define R0     "\033[0;0m"   // COLOR RESET
 #define BLK    "\033[0;30m"
 #define RED    "\033[0;31m"
 #define GRN    "\033[0;32m"
@@ -27,8 +46,6 @@
 #define GRYBG  "\033[0;47m"
 
 
-
-
 #define TYPE_CHAR    2
 #define TYPE_STR     3
 #define TYPE_INT     1
@@ -36,11 +53,9 @@
 #define TYPE_DOUBLE  5
 #define TYPE_FLOAT   6
 #define TYPE_UNKNOWN 0
-//add more
 
-// Given a variable name,
-// Returns the type.
-#define type(var) _Generic(var, \
+
+#define type(variable) _Generic(variable, \
 	int: TYPE_INT, char: TYPE_CHAR, char*: TYPE_STR, \
 	long: TYPE_LONG, double: TYPE_DOUBLE, float: TYPE_FLOAT,\
 	default: TYPE_UNKNOWN)
@@ -48,30 +63,14 @@
 
 
 
-/* Given a C expression,
- * asserts it.
- */
-#include <assert.h>
-
-
-
-/* Given a filename,
- * reads a file. 
- * Returns the contents of the file.
- */
-//char file_read() {}
 char* file_read(const char* filename) {
 	FILE *file = fopen(filename, "r");
-		
-	//static char buffer[] = "";
-	long length;
 	if (file) {
 		fseek(file, 0, SEEK_END);
-		length = ftell(file);
-		char *buffer = (char*)malloc(length+1);
+		long length = ftell(file);
+		char *buffer = (char*)malloc(length);
 		fseek(file, 0, SEEK_SET);
 		if (buffer) { fread(buffer, 1, length, file); }
-		//fread(buffer, 1, length, file);
 		fclose(file);
 
 		return buffer;
@@ -79,36 +78,49 @@ char* file_read(const char* filename) {
 	else {perror("Error in reading file"); exit(1);}
 }
 
+
 long file_size(const char *filename) {
 	FILE *file = fopen(filename, "r");
 	if (file) { 
 		fseek(file, 0, SEEK_END);
-		return ftell(file);
+		long size =ftell(file);
+		fclose(file);
+		return size;
 	}
+	fclose(file);
 	return -1;
 }
 
 
+void file_write(const char* filename, const char* buffer) {
+	FILE* f = fopen(filename, "w");
+	if (f == NULL) {printf("Couldn't open file: %s\n", filename); exit(1);}
+	fprintf(f, "%s", buffer);   //Not adding EOF - or something is wrong.
+	//fwrite(buffer, 1, strlen(buffer), f);
+	fclose(f);
+}
 
-/* Given a string
- * Converts to integer
- * Returns the integer.
- */
+
+void file_append(const char* filename, const char* buffer) {
+	FILE* f = fopen(filename, "a");
+	if (f == NULL) {printf("Couldn't open file: %s\n", filename); exit(1);}
+	fprintf(f, "%s", buffer);
+	fclose(f);
+}
+
+
+
+
 #define int(x) {(atoi(x); )}
 
 
 
 
-// Given an array,
-// Returns the len of the array.
-#define list_len(arr) sizeof(arr)/sizeof(*arr)
+// Only works in the same scope.
+#define list_len(arr) (sizeof(arr)/sizeof(*arr))
 
 
 
-
-// Given an array of numbers, and length of the array,
-// determines the maximum value of the array
-// Returns the maximum item.
 
 double list_max (double numbers[], int arrlen) {
 	double maxitem = numbers[0];
@@ -123,11 +135,6 @@ double list_max (double numbers[], int arrlen) {
 
 
 
-/* Given an array of numbers, and length of the array,
- * determines the minimum value of the array
- * Returns the minimum item.
- */
-
 double list_min(double numbers[], int arrlen) {
 	double minitem = numbers[0];
 	for(int i=1; i < arrlen; i++) {
@@ -141,18 +148,14 @@ double list_min(double numbers[], int arrlen) {
 
 
 
-double* list_remove(double numbers[], int arrlen, int tr, int occ) {
+//double* list_remove(double numbers[], int arrlen, int tr, int occ) {
 	// tr = to remove, occ = occureneces
-	return numbers;
-}
+//	return numbers;
+//}
 
 
 
 
-/* Given an array of numbers, and len of the array,
- * determines the sum of the array
- * Returns the sum.
- */
 double list_sum(double numbers[], int arrlen) { 
 	double sum = 0;
 	for (int i=0; i < arrlen; i++) { sum += numbers[i];	} 
@@ -161,44 +164,44 @@ double list_sum(double numbers[], int arrlen) {
 
 
 
-typedef struct string {
+
+#define new(type, bytes) (type*)malloc(bytes)
+
+
+
+struct string {
 	char *str;
 	size_t len;
-	size_t lalloc; //last allocated size
-} string;
-void str_init(struct string string) {
-	// String formalities.
-	string.len = 0;
-	string.str = (char*)malloc(string.len);
-	string.str[0] = '\0';
+};
+
+void str_init(struct string *string) {
+	string->len = 0;
+	string->str = (char*)malloc(string->len + 1);
+	if (string->str == NULL) {printf("str_init() failed\n"); exit(1);}
+	strcpy(string->str, "");
 }
 
 
-
-//char *str_add(const char dest[], const char src[]) {
+// Returns a pointer with *dest and *src concatenated.
 char *str_add(const char *dest, const char *src) {
-	char *ret = (char*)malloc(strlen(dest) + strlen(src));
-//	ret = (char*)"";
-//	size_t totallen = 1 + strlen(dest) + strlen(src);
-//	static char ret[] = "";
+	size_t totalLen = strlen(dest) + strlen(src);
+	char *ret = (char*)malloc(totalLen);
 	
-	strncat(ret, dest, strlen(dest));
-	strncat(ret, src, strlen(src));
+	strcpy(ret, dest);
+	strcat(ret, src);
 	
-//	ret[totallen] = '\0';  //Not required for literals, but for arrays.
 	return ret;
 }
 
+// Realloc, and Concatenate to *dest.
 void str_addp(char *dest, const char *src) {
 	// Adds *src after the *dest pointer.
 	// Not returning.
-	size_t totalLen = strlen(dest) + strlen(src) + 1;
+	size_t totalLen = strlen(dest) + strlen(src);
 	dest = (char*)realloc(dest, totalLen);
-	strncat(dest, src, strlen(src)); 
-	dest[strlen(dest)] = '\0';
+	strcat(dest, src); 
 }
 
-char *_str_addva(const char *strings, ...);
 void _str_addpva(char *dest, const char *strings, ...) {
 	// Using va_args, adds multiple strings together.
 	// ...to the *dest pointer. 
@@ -208,20 +211,15 @@ void _str_addpva(char *dest, const char *strings, ...) {
 	va_start(all, strings);
 
 	char *parent = (char*)malloc(10000);
+	strcpy(parent, "");
 	char* tmp = (char*)malloc(1000);
-	//strcpy(tmp, strings);
-	tmp = (char*)strings;
-	str_addp(dest, "-From str_addpva: The same scope-");
-	int i =1;
+	strcpy(tmp, strings);
 	while (tmp != NULL) {
-		str_addp(parent, tmp);
-		printf("i: %-5d tmp: %-10s parent: %s\n", i, tmp, parent);
+		strcat(parent, tmp); 		
 		tmp = va_arg(all, char*);
-		i++;
 	}
 	str_addp(dest, parent);
 	va_end(all);
-	//free(&tmp);
 }
 #define str_addpva(...) _str_addpva(__VA_ARGS__, NULL)
 
@@ -235,8 +233,11 @@ char* _str_addva(const char *strings,... ) {
 	va_start(allstrings, strings);
 	
 	char *parent  = (char*)malloc(9000);
-	char *tmp = (char*)malloc(500);
-	tmp = (char*)strings;
+	strcpy(parent, "");
+	char *tmp = (char*)malloc(5000);
+	strcpy(tmp, "");
+	strcpy(tmp, strings);
+
 	while (tmp != NULL) {
 		str_addp(parent, tmp);
 		tmp = va_arg(allstrings, char*);
@@ -255,6 +256,7 @@ char* _str_addva(const char *strings,... ) {
  */
 char*  str_substr(char* string, char* substr) {		
 	char* matched = (char*)malloc(strlen(substr));	
+	strcpy(matched, "");
 	size_t i = 0;    // counter for substr
 	size_t j = 0;    // counter for string
 
@@ -272,10 +274,9 @@ char*  str_substr(char* string, char* substr) {
 
 
 /* Given a string, substring, and starting position,
- * finds the substring
  * Returns the position of the substring.
  */
-int str_index(char* str, char* substr, int start) {
+int str_index(const char* str, const char* substr, int start) {
 	char string[strlen(str)];
 	strncpy(string, str+start, strlen(str)-start);
 	char *p = strstr(string, substr);
@@ -285,23 +286,50 @@ int str_index(char* str, char* substr, int start) {
 
 
 
+char *str_replace(char *orig, const char *rep, const char *with) {
+	// Copied & pasted from StOF.
+  char *result; // the return string
+  char *ins;    // the next insert point
+  char *tmp;    // varies
+  int len_rep;  // length of rep (the string to remove)
+  int len_with; // length of with (the string to replace rep with)
+  int len_front; // distance between rep and end of last rep
+  int count;    // number of replacements
 
-/*double sum(double count, ...) {
-	va_list args;
-	va_start(args, count);
+  // sanity checks and initialization
+  if (!orig || !rep)
+      return NULL;
+  len_rep = strlen(rep);
+  if (len_rep == 0)
+      return NULL; // empty rep causes infinite loop during count
+  if (!with)
+      with = "";
+  len_with = strlen(with);
 
-	double sum=0;
-	for (double i=0; i < count; i++)
-		sum += va_arg(args, double);
-	
-	va_end(args);
-	return sum;
-}*/
+  // count the number of replacements needed
+  ins = orig;
+  for (count = 0; (tmp = strstr(ins, rep)); ++count) {
+      ins = tmp + len_rep;
+  }
 
+  tmp = result = (char*)malloc(strlen(orig) + (len_with - len_rep) * count + 1);
 
+  if (!result)
+      return NULL;
 
-//char* sys_out(char* command) {
-//	FILE *cfp;
-//	char output
-//	return output;
-//}
+  // first time through the loop, all the variable are set correctly
+  // from here on,
+  //    tmp points to the end of the result string
+  //    ins points to the next occurrence of rep in orig
+  //    orig points to the remainder of orig after "end of rep"
+  while (count--) {
+      strcpy(ins, strstr(orig, rep));
+      len_front = ins - orig;
+      tmp = strncpy(tmp, orig, len_front) + len_front;
+      tmp = strcpy(tmp, with) + len_with;
+      orig += len_front + len_rep; // move to next "end of rep"
+  }
+  strcpy(tmp, orig);
+  return result;
+}
+
