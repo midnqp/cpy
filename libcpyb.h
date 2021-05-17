@@ -31,6 +31,7 @@
 
 
 // ANSI 3-bit and 4-bit color with escaped sequences.
+/* Commented because: doesn't work with str_addva()
 #define R0     "\033[0;0m"   // COLOR RESET
 #define BLK    "\033[0;30m"
 #define RED    "\033[0;31m"
@@ -44,6 +45,22 @@
 #define GRNBG  "\033[0;42m"
 #define MGNBG  "\033[0;45m"
 #define GRYBG  "\033[0;47m"
+*/
+
+
+const char* R0=     "\033[0;0m";  // COLOR RESET
+const char* BLK=    "\033[0;30m";	
+const char* RED=    "\033[0;31m";
+const char* GRN=    "\033[0;32m";
+const char* YLW=    "\033[0;33m";
+const char* BLU =   "\033[0;34m";
+const char* MGN =   "\033[0;35m";
+const char* CYN=    "\033[0;36m";
+const char* GRY =   "\033[0;37m";
+const char* REDBG=  "\033[0;41m";
+const char* GRNBG=  "\033[0;42m";
+const char* MGNBG=  "\033[0;45m";
+const char* GRYBG=  "\033[0;47m";
 
 
 #define TYPE_CHAR    2
@@ -63,19 +80,34 @@
 
 
 
+#define new(type, bytes) ({ \
+	char* __tempNew__ = (type)malloc(bytes); \
+	strcpy(__tempNew__, ""); \
+	__tempNew__; \
+})
+//#define new(type, bytes) (type)malloc(bytes);
+
+
+
+
 char* file_read(const char* filename) {
 	FILE *file = fopen(filename, "r");
 	if (file) {
 		fseek(file, 0, SEEK_END);
 		long length = ftell(file);
+		rewind(file);   
+		//not using rewind was terrbile.
+		// It kept reading weird characters after the file.
+		// Not always, sometimes -- actual Undefined Behavior.
 		char *buffer = (char*)malloc(length);
 		fseek(file, 0, SEEK_SET);
 		if (buffer) { fread(buffer, 1, length, file); }
+		buffer[length] = '\0'; //fread doesn't automatically set that
 		fclose(file);
 
 		return buffer;
 	}
-	else {perror("Error in reading file"); exit(1);}
+	else {printf("Error in reading file: %s\n", filename); exit(1);}
 }
 
 
@@ -111,7 +143,17 @@ void file_append(const char* filename, const char* buffer) {
 
 
 
-#define int(x) {(atoi(x); )}
+//#define int(x) {(atoi(x); )}
+
+
+char* input() {
+	char* tmp = new(char*, 10000); //10 KB
+	fgets(tmp, 10000, stdin);
+	size_t len =strlen(tmp);
+	tmp = (char*)realloc(tmp, len);
+	tmp[len-1] = '\0';  //fgets adds a newline, while reading from stdin.
+	return tmp;
+}
 
 
 
@@ -165,7 +207,6 @@ double list_sum(double numbers[], int arrlen) {
 
 
 
-#define new(type, bytes) (type*)malloc(bytes)
 
 
 
@@ -194,15 +235,15 @@ char *str_add(const char *dest, const char *src) {
 }
 
 // Realloc, and Concatenate to *dest.
-void str_addp(char *dest, const char *src) {
+/*void str_addp(char *dest, const char *src) {
 	// Adds *src after the *dest pointer.
 	// Not returning.
 	size_t totalLen = strlen(dest) + strlen(src);
 	dest = (char*)realloc(dest, totalLen);
 	strcat(dest, src); 
-}
+}*/
 
-void _str_addpva(char *dest, const char *strings, ...) {
+/*void _str_addpva(char *dest, const char *strings, ...) {
 	// Using va_args, adds multiple strings together.
 	// ...to the *dest pointer. 
 	// Doesn't return anything.
@@ -222,6 +263,7 @@ void _str_addpva(char *dest, const char *strings, ...) {
 	va_end(all);
 }
 #define str_addpva(...) _str_addpva(__VA_ARGS__, NULL)
+*/
 
 
 
@@ -239,13 +281,23 @@ char* _str_addva(const char *strings,... ) {
 	strcpy(tmp, strings);
 
 	while (tmp != NULL) {
-		str_addp(parent, tmp);
+		//str_addp(parent, tmp);
+		strcat(parent, tmp);
+		// strcat used. Because, str_addp() was causing "corrupted size vs prev_size"
 		tmp = va_arg(allstrings, char*);
 	}
 	va_end(allstrings);
 	return parent;
 }
 #define str_addva(...) _str_addva(__VA_ARGS__, NULL)
+
+
+
+
+int str_eq(const char* a, const char* b) {
+	if (strcmp(a, b)==0) return 1;
+	else return 0;
+}
 
 
 
@@ -262,10 +314,10 @@ char*  str_substr(char* string, char* substr) {
 
 	for(j = 0; j < strlen(string); j++) {
 		if (substr[i] == string[j]) {
-			strcat(matched, &substr[i]);    //substr[i] matched!
+			strncat(matched, &substr[i], 1);    //substr[i] matched!
 			i++; 
 		}
-		if (strcmp(matched, substr)==0) break;
+		if (str_eq(matched, substr)) break;
 	}
 	return matched;
 }
@@ -273,63 +325,58 @@ char*  str_substr(char* string, char* substr) {
 
 
 
-/* Given a string, substring, and starting position,
- * Returns the position of the substring.
- */
-int str_index(const char* str, const char* substr, int start) {
-	char string[strlen(str)];
-	strncpy(string, str+start, strlen(str)-start);
-	char *p = strstr(string, substr);
-	if (p) { return p - (string+start); }
-	return -1;
+int str_index(const char* str, const char* substr, int headstart) {
+	char* string = (char*)malloc( 100);  // temporary
+	strncpy(string, str + headstart, strlen(str) - headstart);  //makes perfect sense
+	char* p = strstr(string, substr);
+	long int loc = (p - string)+headstart;
+	if ((size_t)loc < strlen(str)) return loc;
+	else return -1;
 }
 
 
 
-char *str_replace(char *orig, const char *rep, const char *with) {
-	// Copied & pasted from StOF.
-  char *result; // the return string
-  char *ins;    // the next insert point
-  char *tmp;    // varies
-  int len_rep;  // length of rep (the string to remove)
-  int len_with; // length of with (the string to replace rep with)
-  int len_front; // distance between rep and end of last rep
-  int count;    // number of replacements
 
-  // sanity checks and initialization
-  if (!orig || !rep)
-      return NULL;
-  len_rep = strlen(rep);
-  if (len_rep == 0)
-      return NULL; // empty rep causes infinite loop during count
-  if (!with)
-      with = "";
-  len_with = strlen(with);
 
-  // count the number of replacements needed
-  ins = orig;
-  for (count = 0; (tmp = strstr(ins, rep)); ++count) {
-      ins = tmp + len_rep;
-  }
+int str_count(const char* str, const char* substr, int headstart) {
+	int i; 
+	int count = 0;
+	i = str_index(str, substr, headstart);
+	while (i != -1) {
+		count++;
+		printf("%d\n", i);
+		i = str_index(str, substr, i);
+	}
+	return count;
+}
 
-  tmp = result = (char*)malloc(strlen(orig) + (len_with - len_rep) * count + 1);
 
-  if (!result)
-      return NULL;
 
-  // first time through the loop, all the variable are set correctly
-  // from here on,
-  //    tmp points to the end of the result string
-  //    ins points to the next occurrence of rep in orig
-  //    orig points to the remainder of orig after "end of rep"
-  while (count--) {
-      strcpy(ins, strstr(orig, rep));
-      len_front = ins - orig;
-      tmp = strncpy(tmp, orig, len_front) + len_front;
-      tmp = strcpy(tmp, with) + len_with;
-      orig += len_front + len_rep; // move to next "end of rep"
-  }
-  strcpy(tmp, orig);
-  return result;
+
+char* str_replace(const char* main, const char* repl, const char* with) {
+	char* Result = new(char*, 1);
+	int i = 0;
+	int whereRepl = str_index(main, repl, 0);
+	while (main[i] != '\0') {
+		if (i >= whereRepl && whereRepl != -1) {
+			// If 'i' is size_t, and 'whereRepl' is int,
+			// then, although i > whereRepl, this condition is false!!!
+			for (size_t j=0; j<strlen(with); j++)
+				strncat(Result, &with[j], 1);
+			whereRepl = str_index(main, repl, i+strlen(repl));
+			i = i + strlen(repl);  //else block: main[i]
+			//i = i + strlen(with);
+			//printf("i == %d == whereRepl == %d\n", i, whereRepl);
+		}
+		else {
+			strncat(Result, &main[i], 1);
+			//printf("else: i++ is %d  whereRepl: %d\n", i, whereRepl);
+			i++;
+		}
+		//printf("%s\n", Result);
+		//printf("i: %zu  whereRepl: %d  string: %s\n", i, whereRepl, Result);
+	}
+	//printf("--%s--\n", Result);
+	return Result;
 }
 
