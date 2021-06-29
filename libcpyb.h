@@ -68,7 +68,7 @@
 
 
 #define new(type, bytes) ({ \
-	type __tempNew__ = (type)malloc(bytes); \
+	type __tempNew__ = (type)malloc(bytes + 1); \
 	__tempNew__; \
 })
 
@@ -195,6 +195,11 @@ double list_min(double numbers[], int arrlen) {
 
 
 
+// TODO
+// double** list_sort(double** list);  qsort() from stdlib
+// list_reverse(list)
+// list_remove(list, x)
+
 
 double list_sum(double numbers[], int arrlen) { 
 	double sum = 0;
@@ -270,6 +275,19 @@ char* _str_addva(const char *strings,... ) {
 int str_eq(const char* a, const char* b) {
 	if (strcmp(a, b)==0) return 1;
 	else return 0;
+}
+
+
+
+
+char* str_reverse(const char* string) {
+	int len = strlen(string);
+	char* tmp = new(char*, len);
+	strcpy(tmp, "");
+	for (int i = len; i >= 0; i--) {
+		strncat(tmp, &string[i], 1);
+	}
+	return tmp;
 }
 
 
@@ -370,7 +388,7 @@ char* str_slice(const char* string, int start, int step, int end) {
 	for (int i = start; i < end; i += step) {
 		//tmp[j] = string[i];
 		strncat(tmp, &string[i], 1);
-		printf("str_slice --- i: %d --- tmp: %s\n", i, tmp);
+		//printf("str_slice --- i: %d --- tmp: %s\n", i, tmp);
 	}
 	return tmp;
 }
