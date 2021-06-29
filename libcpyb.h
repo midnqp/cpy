@@ -21,46 +21,31 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
+// File: Builtin functions of Python implemented in C
+// Repository --> https://github.com/midnqp/lib-cpython-builtins
 
 
-#include <stdlib.h> //malloc, realloc, exit
-#include <string.h> //strcpy...
-#include <stdio.h>  // printf, FILE, perror
-#include <stdarg.h>  //va_list...
-#include <sys/stat.h>  //mkdir
+/* Changes made to this file for terminal.chatnet:
+ * wherever new() is used, in the next line: strcpy(string, "") 
+ * inside input, realloc is active.
+ * str_split()
+ */
 
 
-// ANSI 3-bit and 4-bit color with escaped sequences.
-/* Commented because: doesn't work with str_addva()
-#define R0     "\033[0;0m"   // COLOR RESET
-#define BLK    "\033[0;30m"
-#define RED    "\033[0;31m"
-#define GRN    "\033[0;32m"
-#define YLW    "\033[0;33m"
-#define BLU    "\033[0;34m"
-#define MGN    "\033[0;35m"
-#define CYN    "\033[0;36m"
-#define GRY    "\033[0;37m"
-#define REDBG  "\033[0;41m"
-#define GRNBG  "\033[0;42m"
-#define MGNBG  "\033[0;45m"
-#define GRYBG  "\033[0;47m"
-*/
+#include <stdlib.h> 		//malloc, realloc, exit
+#include <string.h> 		//strcpy...
+#include <stdio.h>  		//printf, FILE, perror
+#include <stdarg.h>  		//va_list...
+#include <sys/stat.h>  	    //mkdir
+#include <dirent.h>         //dir_exists
+
+#ifdef _WIN32
+#include <Windows.h>
+#else
+#include <unistd.h>        //sleep
+#endif
 
 
-const char* R0=     "\033[0;0m";  // COLOR RESET
-const char* BLK=    "\033[0;30m";	
-const char* RED=    "\033[0;31m";
-const char* GRN=    "\033[0;32m";
-const char* YLW=    "\033[0;33m";
-const char* BLU =   "\033[0;34m";
-const char* MGN =   "\033[0;35m";
-const char* CYN=    "\033[0;36m";
-const char* GRY =   "\033[0;37m";
-const char* REDBG=  "\033[0;41m";
-const char* GRNBG=  "\033[0;42m";
-const char* MGNBG=  "\033[0;45m";
-const char* GRYBG=  "\033[0;47m";
 
 
 #define TYPE_CHAR    2
@@ -72,6 +57,8 @@ const char* GRYBG=  "\033[0;47m";
 #define TYPE_UNKNOWN 0
 
 
+
+
 #define type(variable) _Generic(variable, \
 	int: TYPE_INT, char: TYPE_CHAR, char*: TYPE_STR, \
 	long: TYPE_LONG, double: TYPE_DOUBLE, float: TYPE_FLOAT,\
@@ -81,25 +68,21 @@ const char* GRYBG=  "\033[0;47m";
 
 
 #define new(type, bytes) ({ \
-	char* __tempNew__ = (type)malloc(bytes); \
-	strcpy(__tempNew__, ""); \
+	type __tempNew__ = (type)malloc(bytes); \
 	__tempNew__; \
 })
-//#define new(type, bytes) (type)malloc(bytes);
 
 
 
 
 char* file_read(const char* filename) {
 	FILE *file = fopen(filename, "r");
-	if (file) {
+	if (file != NULL) {
 		fseek(file, 0, SEEK_END);
 		long length = ftell(file);
 		rewind(file);   
-		//not using rewind was terrbile.
-		// It kept reading weird characters after the file.
-		// Not always, sometimes -- actual Undefined Behavior.
 		char *buffer = (char*)malloc(length);
+		strcpy(buffer, "");
 		fseek(file, 0, SEEK_SET);
 		if (buffer) { fread(buffer, 1, length, file); }
 		buffer[length] = '\0'; //fread doesn't automatically set that
@@ -109,6 +92,8 @@ char* file_read(const char* filename) {
 	}
 	else {printf("Error in reading file: %s\n", filename); exit(1);}
 }
+
+
 
 
 long file_size(const char *filename) {
@@ -124,13 +109,16 @@ long file_size(const char *filename) {
 }
 
 
+
+
 void file_write(const char* filename, const char* buffer) {
 	FILE* f = fopen(filename, "w");
 	if (f == NULL) {printf("Couldn't open file: %s\n", filename); exit(1);}
-	fprintf(f, "%s", buffer);   //Not adding EOF - or something is wrong.
-	//fwrite(buffer, 1, strlen(buffer), f);
+	fprintf(f, "%s", buffer);   
 	fclose(f);
 }
+
+
 
 
 void file_append(const char* filename, const char* buffer) {
@@ -143,14 +131,32 @@ void file_append(const char* filename, const char* buffer) {
 
 
 
-//#define int(x) {(atoi(x); )}
+int file_exists(const char* fn) {
+	FILE* file = fopen(fn, "r");
+	if (file) return 1;
+	else return 0;
+}
 
 
-char* input() {
+
+
+int dir_exists(const char* dirName) {
+	DIR* dir = opendir(dirName);
+	if (dir) return 1;
+	else return 0;
+}
+
+
+
+
+
+
+char* input(const char* any) {
 	char* tmp = new(char*, 10000); //10 KB
-	fgets(tmp, 10000, stdin);
+	strcpy(tmp, "");
+	printf("%s", any); fgets(tmp, 10000, stdin);
 	size_t len =strlen(tmp);
-	tmp = (char*)realloc(tmp, len);
+	tmp = (char*)realloc(tmp, len);  // if allocation > input, resizing and saving space!
 	tmp[len-1] = '\0';  //fgets adds a newline, while reading from stdin.
 	return tmp;
 }
@@ -190,14 +196,6 @@ double list_min(double numbers[], int arrlen) {
 
 
 
-//double* list_remove(double numbers[], int arrlen, int tr, int occ) {
-	// tr = to remove, occ = occureneces
-//	return numbers;
-//}
-
-
-
-
 double list_sum(double numbers[], int arrlen) { 
 	double sum = 0;
 	for (int i=0; i < arrlen; i++) { sum += numbers[i];	} 
@@ -209,18 +207,25 @@ double list_sum(double numbers[], int arrlen) {
 
 
 
+// For unknown reason, inside str_addva(), although I'm doing `free(tmp)`, a memory leak error is shown by gcc: "Direct Memory leak"
+const char* __asan_default_options() { return "detect_leaks=0"; }
+
+
+
+
 
 struct string {
 	char *str;
 	size_t len;
 };
-
 void str_init(struct string *string) {
 	string->len = 0;
-	string->str = (char*)malloc(string->len + 1);
+	string->str = new(char*, 1);
 	if (string->str == NULL) {printf("str_init() failed\n"); exit(1);}
 	strcpy(string->str, "");
 }
+
+
 
 
 // Returns a pointer with *dest and *src concatenated.
@@ -233,37 +238,6 @@ char *str_add(const char *dest, const char *src) {
 	
 	return ret;
 }
-
-// Realloc, and Concatenate to *dest.
-/*void str_addp(char *dest, const char *src) {
-	// Adds *src after the *dest pointer.
-	// Not returning.
-	size_t totalLen = strlen(dest) + strlen(src);
-	dest = (char*)realloc(dest, totalLen);
-	strcat(dest, src); 
-}*/
-
-/*void _str_addpva(char *dest, const char *strings, ...) {
-	// Using va_args, adds multiple strings together.
-	// ...to the *dest pointer. 
-	// Doesn't return anything.
-
-	va_list all;
-	va_start(all, strings);
-
-	char *parent = (char*)malloc(10000);
-	strcpy(parent, "");
-	char* tmp = (char*)malloc(1000);
-	strcpy(tmp, strings);
-	while (tmp != NULL) {
-		strcat(parent, tmp); 		
-		tmp = va_arg(all, char*);
-	}
-	str_addp(dest, parent);
-	va_end(all);
-}
-#define str_addpva(...) _str_addpva(__VA_ARGS__, NULL)
-*/
 
 
 
@@ -281,12 +255,11 @@ char* _str_addva(const char *strings,... ) {
 	strcpy(tmp, strings);
 
 	while (tmp != NULL) {
-		//str_addp(parent, tmp);
 		strcat(parent, tmp);
-		// strcat used. Because, str_addp() was causing "corrupted size vs prev_size"
 		tmp = va_arg(allstrings, char*);
 	}
 	va_end(allstrings);
+	free(tmp);
 	return parent;
 }
 #define str_addva(...) _str_addva(__VA_ARGS__, NULL)
@@ -302,10 +275,8 @@ int str_eq(const char* a, const char* b) {
 
 
 
-/* Given a string, and a substring,
- * searches the substring in the string
- * Returns up to what is matched.
- */
+// Basically checks if substr is in string.
+// Returns up to what is matched.
 char*  str_substr(char* string, char* substr) {		
 	char* matched = (char*)malloc(strlen(substr));	
 	strcpy(matched, "");
@@ -325,12 +296,26 @@ char*  str_substr(char* string, char* substr) {
 
 
 
-int str_index(const char* str, const char* substr, int headstart) {
-	char* string = (char*)malloc( 100);  // temporary
-	strncpy(string, str + headstart, strlen(str) - headstart);  //makes perfect sense
-	char* p = strstr(string, substr);
-	long int loc = (p - string)+headstart;
-	if ((size_t)loc < strlen(str)) return loc;
+//char* str_nsubstr(char* string, char* substr, int start, int end) {}
+
+
+
+
+int str_index(const char* str, const char* substr, int start, int end) {
+	int size = strlen(str)+1;
+	char* string = new(char*, size);   // temporary
+	strcpy(string, str + start);  //makes perfect sense
+	
+	char* p = new(char*, strlen(str)+1);
+	strcpy(p, "");
+	p = strstr(string, substr);
+	if (!p) return -1;
+	
+	int loc = (p - string)+start;
+	//if ((size_t)loc < strlen(str)) return loc; 
+	if (loc < end) return loc; 
+	// the location is absolute in respect to the *str.
+	// str_index("abcdefghij", h, 4) --> doesn't output 3, rather 7
 	else return -1;
 }
 
@@ -338,45 +323,141 @@ int str_index(const char* str, const char* substr, int headstart) {
 
 
 
-int str_count(const char* str, const char* substr, int headstart) {
+int str_count(const char* string, const char* substr, int headstart) {
 	int i; 
 	int count = 0;
-	i = str_index(str, substr, headstart);
+	int len_string = strlen(string);
+	i = str_index(string, substr, headstart, len_string);
 	while (i != -1) {
 		count++;
-		printf("%d\n", i);
-		i = str_index(str, substr, i);
+		i = str_index(string, substr, i+1, len_string);
 	}
 	return count;
 }
 
 
 
-
+// Replaces all occurences.
 char* str_replace(const char* main, const char* repl, const char* with) {
-	char* Result = new(char*, 1);
+	int len_main = strlen(main);
+	int occ = str_count(main, repl, 0);   // occurences
+	size_t size = (strlen(main) - occ*strlen(repl)) + occ*strlen(with);
+	char* Result = new(char*, size);
+	strcpy(Result, "");
 	int i = 0;
-	int whereRepl = str_index(main, repl, 0);
+	int whereRepl = str_index(main, repl, 0, len_main);
 	while (main[i] != '\0') {
 		if (i >= whereRepl && whereRepl != -1) {
-			// If 'i' is size_t, and 'whereRepl' is int,
-			// then, although i > whereRepl, this condition is false!!!
 			for (size_t j=0; j<strlen(with); j++)
 				strncat(Result, &with[j], 1);
-			whereRepl = str_index(main, repl, i+strlen(repl));
+			whereRepl = str_index(main, repl, i+strlen(repl), len_main);
 			i = i + strlen(repl);  //else block: main[i]
-			//i = i + strlen(with);
-			//printf("i == %d == whereRepl == %d\n", i, whereRepl);
 		}
 		else {
 			strncat(Result, &main[i], 1);
-			//printf("else: i++ is %d  whereRepl: %d\n", i, whereRepl);
 			i++;
 		}
-		//printf("%s\n", Result);
-		//printf("i: %zu  whereRepl: %d  string: %s\n", i, whereRepl, Result);
 	}
-	//printf("--%s--\n", Result);
 	return Result;
 }
 
+
+
+
+char* str_slice(const char* string, int start, int step, int end) {
+	char* tmp = new(char*, strlen(string));
+	strcpy(tmp, "");
+	for (int i = start; i < end; i += step) {
+		//tmp[j] = string[i];
+		strncat(tmp, &string[i], 1);
+		printf("str_slice --- i: %d --- tmp: %s\n", i, tmp);
+	}
+	return tmp;
+}
+
+
+
+
+char** str_split(char* a_str, const char a_delim) {
+    char** result    = 0;
+    size_t count     = 0;
+    char* tmp        = a_str;
+    char* last_comma = 0;
+    char delim[2];
+    delim[0] = a_delim;
+    delim[1] = 0;
+
+    /* Count how many elements will be extracted. */
+    while (*tmp)
+    {
+        if (a_delim == *tmp)
+        {
+            count++;
+            last_comma = tmp;
+        }
+        tmp++;
+    }
+
+    /* Add space for trailing token. */
+    count += last_comma < (a_str + strlen(a_str) - 1);
+
+    /* Add space for terminating null string so caller
+       knows where the list of returned strings ends. */
+    count++;
+
+    result = (char**)malloc(sizeof(char*) * count);
+
+    if (result)
+    {
+        size_t idx  = 0;
+        char* token = strtok(a_str, delim);
+
+        while (token)
+        {
+            //assert(idx < count);
+            *(result + idx++) = strdup(token);
+            token = strtok(0, delim);
+        }
+        //assert(idx == count - 1);
+        *(result + idx) = 0;
+    }
+
+    return result;
+}
+
+
+
+
+#define _R0  "\033[0;0m"
+#define _BLK "\033[30m"
+#define _RED "\033[31m"
+#define _GRN "\033[32m"
+#define _YLW "\033[33m"
+#define _BLU "\033[34m"
+#define _MGN "\033[35m"
+#define _CYN "\033[36m"
+#define _GRY "\033[37m"
+
+#define _REDBG "\033[41m"
+#define _GRNBG "\033[42m"
+#define _BLUBG "\033[44m"
+#define _MGNBG "\033[45m"
+#define _GRYBG "\033[47m"
+
+#define TBSP "    "
+
+const char* R0  = _R0;
+const char* BLK = _BLK;	
+const char* RED = _RED;
+const char* GRN = _GRN;
+const char* YLW = _YLW;
+const char* BLU = _BLU;
+const char* MGN = _MGN;
+const char* CYN = _CYN;
+const char* GRY = _GRY;
+
+const char* REDBG = _REDBG;
+const char* GRNBG = _GRNBG;
+const char* BLUBG = _BLUBG;
+const char* MGNBG = _MGNBG;
+const char* GRYBG = _GRYBG;
