@@ -13,7 +13,7 @@ The library contains widely-used functions - **simplified** for scripting & gene
 - list_add     
 - list_count   
 - list_index   
-- list_isequal 
+- list_eq
 - list_join    
 - list_len     
 + list_max     
@@ -24,7 +24,7 @@ The library contains widely-used functions - **simplified** for scripting & gene
 - list_sort    
 + list_sum     
 + new
-- print
++ print
 - str          
 + str_add      
 + str_count    
