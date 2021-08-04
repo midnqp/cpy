@@ -1,14 +1,6 @@
 ##### [`#include <cpy.h>`]()
-The library contains widely-used functions for general-purpose programming in C/C++.
+The library contains widely-used functions - **simplified** for scripting & general-purpose programming in C/C++.
 
-<br>
-
-```
-#include <cpy.h>
-int main() {
-    print
-}
-```
 
 ```
 + Standard headers
