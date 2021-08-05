@@ -62,6 +62,8 @@ The library contains `+` and aims to implement `-`:
 ```
 <br><br><br><br><br>
 
+
+
 Words of caution from the Author, for aspiring programmers:
 >Look, I know you're used to `print(str.reverse("1234567"))`. But in C/C++, you need to allocate and deallocate memory like a good & responsible programmer. So, you need to do
 ```
@@ -72,7 +74,12 @@ free(rev);
 
 >C/C++ gives you control and performance and power. Never misuse your power. Always deallocate the memory you've been using gracefully.
 
-It may sound tedious. But don't worry, I've two tricks up my sleeve:
+It may sound tedious. But don't worry, I've got two tricks up my sleeve.
+<br><br><br><br><br>
+
+
+
+
 ### 1. Memory allocation and deallocation by Task
 ```c
 // Allocate memory as you need under task name "user's introduction"
@@ -87,8 +94,26 @@ char* website = new("A Task", char*, 10);
 // for task named "user's information"
 new("A Task", void*, 0);
 ```
-<br>
-<br>
 
-### 2. Pointer-based operations
-Returning a pointer after
+### 2. Address-based operations
+Returning a pointer after operation, causes the programmer to initialize new variables. Alternatively, address-based operations are like:
+```c
+// new() is still kept return-based 
+// because they're better this way.
+
+char* username = new("info", char*, 20);     
+input(username, "Your name? ");
+// The string from stdin is appended to the var pointer `username`
+...
+...
+
+str_reverse(username, username);
+// The string at `username` is reversed and...
+// put in the place of itself.
+// Hence not requiring to use another variable.
+
+// And, we can integrate free-by-task
+new("info", void*, 0);
+```
+
+The address-based implementations of the methods/functions will be available at https://github.com/MidnQP/python-functions-in-c.
