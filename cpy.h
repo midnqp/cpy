@@ -66,6 +66,7 @@ enum types {
 	double : t_double, \
 	float  : t_float,  \
 	default: t_unknown)
+//More stuffs could be added. It's now almost a draft.
 
 
 
