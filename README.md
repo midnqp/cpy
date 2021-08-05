@@ -85,7 +85,7 @@ It may sound tedious. But don't worry, I've got two tricks up my sleeve.
 ```c
 // Allocate memory as you need under task name "user's introduction"
 char* username = new("user's information", char*, 20);
-char* website = new("A Task", char*, 10);
+char* website = new("Another Task", char*, 10);
 ...
 ...
 // do whatever you wanted with the variables
@@ -93,7 +93,7 @@ char* website = new("A Task", char*, 10);
 
 // When you're done, empty all allocations 
 // for task named "user's information"
-new("A Task", void*, 0);
+new("user's information", void*, 0);
 ```
 
 ### 2. Address-based operations
