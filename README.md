@@ -27,6 +27,7 @@ The library contains `+` and aims to implement `-`:
 ```
 + Standard headers
 + ANSI escape sequences
+- dict
 + file_append  
 + file_read    
 + file_write   
