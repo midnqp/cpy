@@ -1,10 +1,10 @@
 ##### [`#include <cpy.h>`]()
-The library contains widely-used functions - **simplified** for scripting & general-purpose programming in C/C++.
+The library contains widely-used functions - **simplified** for scripting & general-purpose programming in C.
 
-- Intended to help people have a easy life at C/C++
+- Intended to help people have a easy life at C
 - Intended mostly for beginners at programming
 - Or those coming from more high-level, interpreted languages like Python - wishing performance
-- Or anyone enthusiastic about C/C++
+- Or anyone enthusiastic about C
 
 An incredible script using `cpy.h` looks as nice as:
 ```C
@@ -66,7 +66,7 @@ The library contains `+` and aims to implement `-`:
 
 
 Words of caution from the Author, for aspiring programmers:
->Look, I know you're used to `print(str.reverse("1234567"))`. But in C/C++, you need to allocate and deallocate memory like a good & responsible programmer. So, you need to do
+>Maybe you're used to `print(str.reverse("1234567"))`. But in C/C++, you need to allocate and deallocate memory like a good & responsible programmer. So, you need to do
 ```c
 char* rev = str_reverse("123"); 
 print(rev); 
