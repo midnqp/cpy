@@ -1,20 +1,16 @@
-##### [`#include <cpy.h>`]()
-The library contains widely-used functions - **simplified** for scripting & general-purpose programming in C.
+`#include <cpy.h>`
 
-- Intended to help people have a easy life at C
-- Intended mostly for beginners at programming
-- Or those coming from more high-level, interpreted languages like Python - wishing performance
-- Or anyone enthusiastic about C
+<br>
 
 An incredible script using `cpy.h` looks as nice as:
 ```C
 #include <cpy.h>
 int main () {
 
-    char* username = input("Can I have your name? 👨🏻‍💻 ");
-    print("Your name is: ", username);
+    char* name = input("👨🏻‍💻 Your Name? ");
+    print("Reversed: ", str_reverse(name));
 
-    print("Reversed ⚙️🛠️: ", str_reverse(username));
+    print(str_split(name, "-"));
     
 }
 ```
@@ -26,7 +22,7 @@ int main () {
 The library contains `+` and aims to implement `-`:
 ```
 + Standard headers
-+ ANSI escape sequences
++ ANSI colors
 - dict
 + file_append  
 + file_read    
@@ -52,7 +48,8 @@ The library contains `+` and aims to implement `-`:
 + str_add      
 + str_count    
 + str_eq       
-+ str_index    
++ str_index   
++ str_isalpha 
 + str_replace  
 + str_reverse  
 + str_slice    
