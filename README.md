@@ -67,7 +67,7 @@ The library contains `+` and aims to implement `-`:
 
 Words of caution from the Author, for aspiring programmers:
 >Look, I know you're used to `print(str.reverse("1234567"))`. But in C/C++, you need to allocate and deallocate memory like a good & responsible programmer. So, you need to do
-```
+```c
 char* rev = str_reverse("123"); 
 print(rev); 
 free(rev);
