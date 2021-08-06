@@ -44,7 +44,7 @@ The library contains `+` and aims to implement `-`:
 - list_reverse 
 - list_remove  
 - list_slice   
-- list_sort    
++ list_sort    
 + list_sum     
 + new
 + print
@@ -61,6 +61,7 @@ The library contains `+` and aims to implement `-`:
 - sys_out      
 + type         
 ```
+The implementations for list, can easily be done having ideas from the string counterparts. Work In Progress.
 <br><br><br><br><br>
 
 
