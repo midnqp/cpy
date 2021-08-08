@@ -50,6 +50,7 @@ The library contains `+` and aims to implement `-`:
 + str_eq       
 + str_index   
 + str_isalpha 
++ str_len
 + str_replace  
 + str_reverse  
 + str_slice    

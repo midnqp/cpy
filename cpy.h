@@ -90,6 +90,7 @@ double list_sum(double numbers[], int arrlen);
 
 
 #define str_add(...) _str_addva(__VA_ARGS__, NULL)
+#define str_len(pointer) strlen(pointer);
 int str_count(const char* string, const char* substr, int start, int end);
 int str_eq(const char* a, const char* b);
 int str_index(const char* str, const char* substr, int start, int end);
