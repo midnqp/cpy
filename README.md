@@ -116,4 +116,4 @@ str_reverse(username, username);
 new("info", void*, 0);
 ```
 
-The address-based implementations of the methods/functions will be available at https://github.com/MidnQP/python-functions-in-c.
+The address-based implementations of the methods/functions will be available at the [address-based](http://github.com/MidnQP/cpy/tree/address-based) branch.
