@@ -21,20 +21,28 @@ int main () {
 
 The library contains `+` and aims to implement `-`:
 ```
-+ Standard headers
-+ ANSI colors
++ Most useful Standard headers
++ true
++ false
++ ANSI colors for Terminal/Command-Prompt
+    + 8 foreground
+	+ 8 background
+
++ dir_exists
 - dict
 + file_append  
++ file_exists
 + file_read    
-+ file_write   
++ file_remove
 + file_size    
++ file_write   
 + input        
 - list_add     
 - list_count   
 - list_index   
 - list_eq
 - list_join    
-- list_len     
++ list_len     
 + list_max     
 + list_min     
 - list_reverse 
@@ -44,7 +52,7 @@ The library contains `+` and aims to implement `-`:
 + list_sum     
 + new
 + print
-- str          
+- str
 + str_add      
 + str_count    
 + str_eq       
@@ -57,7 +65,7 @@ The library contains `+` and aims to implement `-`:
 + str_split    
 + str_substr   
 - sys_out      
-+ type         
++ type
 ```
 The implementations for list, can easily be done having ideas from the string counterparts. Work In Progress.
 <br><br><br><br><br>

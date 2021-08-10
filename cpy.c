@@ -347,23 +347,18 @@ char* str_slice(const char* string, int start, int step, int end) {
 
 
 
-char** str_split(const char* a_str, char a_delim) {
+char** str_split(const char* a_str, const char* a_delim) {
 	char** result = 0;
 	size_t count = 0;
 	char* tmp = new(char*, strlen(a_str)); strcpy(tmp, a_str);
 	char* last_comma = 0;
-	char delim[2];
-	delim[0] = a_delim;
-	delim[1] = 0;
+	//char delim[2];
+	//delim[0] = a_delim;
+	//delim[1] = 0;
 
 	// Count how many elements will be extracted
-	while (*tmp) {
-		if (a_delim == *tmp) {
-			count++;
-			last_comma = tmp;
-		}
-		tmp++;
-	}
+	count = str_count(tmp, a_delim, 0, strlen(a_delim));
+
 
 	// Add space for trailing token
 	count += last_comma < (a_str + strlen(a_str) - 1);
@@ -375,7 +370,7 @@ char** str_split(const char* a_str, char a_delim) {
 
 	if (result) {
 		size_t idx = 0;
-		char* token = strtok(a_str, delim);
+		char* token = strtok(tmp, a_delim);
 
 		while (token) {
 			#ifdef _WIN32
@@ -383,7 +378,7 @@ char** str_split(const char* a_str, char a_delim) {
 			#else
 			*(result + idx++) = strdup(token);
 			#endif
-			token = strtok(0, delim);
+			token = strtok(0, a_delim);
 		}
 		*(result + idx) = 0;
 	}
@@ -394,4 +389,4 @@ char** str_split(const char* a_str, char a_delim) {
 
 
 
-#define COLOR(_COLOR, string...) ESC _COLOR string R0 //do not use this.
+#define COLOR(_COLOR, string, ...) ESC _COLOR string R0 //do not use this.
