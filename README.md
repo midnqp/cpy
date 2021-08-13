@@ -13,11 +13,13 @@ int main () {
     print(str_split(name, "-"));
     
 }
+```
 
 To link this library to your code:
 ```bash
 # For GCC or MinGW
 gcc cpy.c main.c
+```
 ```batch
 :: For Microsoft Visual Studio C++
 :: The print implementation needs to be ported. Other than, it's all good.
