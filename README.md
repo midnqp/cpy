@@ -13,6 +13,19 @@ int main () {
     print(str_split(name, "-"));
     
 }
+
+To link this library to your code:
+```bash
+# For GCC or MinGW
+gcc cpy.c main.c
+```batch
+:: For Microsoft Visual Studio C++
+:: The print implementation needs to be ported. Other than, it's all good.
+
+cl.exe /EHsc /c cpy.c
+lib.exe cpy.obj
+
+cl.exe /EHsc main.c /link cpy.lib
 ```
 <br><br><br><br><br>
 
@@ -56,7 +69,7 @@ The library contains `+` and aims to implement `-`:
 + str_slice    
 + str_split    
 + str_substr   
-- sys_out      
+- subprocess_getoutput
 + type         
 ```
 The implementations for list, can easily be done having ideas from the string counterparts. Work In Progress.
