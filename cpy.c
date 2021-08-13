@@ -11,6 +11,7 @@
 
 
 
+
 char* file_read(const char* filename) {
 	FILE* file = fopen(filename, "r");
 	if (file != NULL) {
@@ -347,51 +348,196 @@ char* str_slice(const char* string, int start, int step, int end) {
 
 
 
-char** str_split(const char* a_str, char a_delim) {
-	char** result = 0;
+char** str_split(const char* a_str, const char* a_delim) {
+	char** result;
 	size_t count = 0;
-	char* tmp = new(char*, strlen(a_str)); strcpy(tmp, a_str);
-	char* last_comma = 0;
-	char delim[2];
-	delim[0] = a_delim;
-	delim[1] = 0;
+	
+	char* string = new(char*, strlen(a_str));
+	strcpy(string, a_str);
+	char* delim = new(char*, strlen(a_delim));
+	strcpy(delim, a_delim);
+
+
+	char* tmp = new(char*, strlen(a_str)); 
+	strcpy(tmp, a_str);
+	//char delim[2];
+	//delim[0] = a_delim;
+	//delim[1] = 0;
 
 	// Count how many elements will be extracted
+	/*char* last_comma = 0;
+	
 	while (*tmp) {
-		if (a_delim == *tmp) {
+		if (str_eq(a_delim, tmp)) {
 			count++;
 			last_comma = tmp;
 		}
 		tmp++;
 	}
+	*/
+	count = str_count(a_str, a_delim, 0, str_len(a_str));
 
 	// Add space for trailing token
-	count += last_comma < (a_str + strlen(a_str) - 1);
+	//count += last_comma < (a_str + strlen(a_str) - 1);
+	count++;
 
 	// Add space for terminating null string so caller
 	// knows where the list of returned strings ends
 	count++;
-	result = (char**)malloc(sizeof(char*) * count);
 
-	if (result) {
-		size_t idx = 0;
-		char* token = strtok(a_str, delim);
+	//count + 1 to avoid heap-overflow - check if done before
+	result = (char**)malloc(sizeof(char*) * (count + 0)); 
 
-		while (token) {
-			#ifdef _WIN32
-			* (result + idx++) = _strdup(token);
-			#else
-			*(result + idx++) = strdup(token);
-			#endif
-			token = strtok(0, delim);
-		}
-		*(result + idx) = 0;
+	size_t idx = 0;
+	char* token = strtok(string, a_delim);
+
+	while (token) {
+		#ifdef _WIN32
+		//*(result + idx++) = _strdup(token);
+		*(result + idx++) = token;
+		#else
+		//*(result + idx++) = strdup(token);
+		//*(result + idx++) = token;
+		//strcat(result[idx++], "asdf");
+		result[idx++] = token;
+		#endif
+		
+		token = strtok(0, a_delim);
 	}
+	*(result + idx) = 0;
 	free(tmp);
+	//free(string);
+	free(delim);
 	return result;
 }
 
 
 
 
-#define COLOR(_COLOR, string...) ESC _COLOR string R0 //do not use this.
+#define COLOR(_COLOR, string, ...) ESC _COLOR string R0
+
+
+
+
+/*
+ * Generic Print
+ * Copyright 2021 Exebook
+ * Licensed under the MIT License
+ */
+
+
+
+
+int __print_enable_color = 1;
+int __print_color_normal = -1; // -1 means default terminal foreground color
+int __print_color_number = 4;
+int __print_color_string = 1;
+int __print_color_hex = 2;
+int __print_color_float = 5;
+
+
+void __print_color(FILE* fd, int a) {
+	if (!__print_enable_color) return;
+	if (a == -1) fprintf(fd, "\033(B\033[m");
+	else fprintf(fd, "\033[38;5;%im", a);
+}
+
+
+void __print_setup_colors(int normal, int number, int string, int hex, int fractional) {
+	__print_color_string = string;
+	__print_color_number = number;
+	__print_color_hex = hex;
+	__print_color_normal = normal;
+	__print_color_float = fractional;
+}
+void __print_func (FILE *fd, int count, unsigned short types[], ...) {
+	va_list v;
+	va_start(v, types);
+	#ifdef __print_DEBUG
+	fprintf(fd, "args[%i]: ", count);
+	for (int i = 0; i < count; i++) {
+		char type = types[i] & 0x1F;
+		char size = types[i] >> 5;
+		if (i > 0) fprintf(fd, " ");
+		fprintf(fd, "%i[%i]", type, size);
+	}
+	fprintf(fd, "\n");
+	#endif // __print_DEBUG
+
+	for (int i = 0; i < count; i++) {
+		if (i > 0) fprintf(fd, " ");
+		char type = types[i] & 0x1F;
+		char size = types[i] >> 5;
+		if (type == 1) {
+			__print_color(fd, __print_color_float);
+			double d = va_arg(v, double);
+			fprintf(fd, "%'G", d);
+		}
+		else if (type == 2) {
+			__print_color(fd, __print_color_string);
+			char c = va_arg(v, int);
+			fprintf(fd, "'%c'", c); __print_color(fd, __print_color_number);
+			fprintf(fd, "%i", (int)c);
+		}
+		else if (type == 3) {
+			__print_color(fd, __print_color_number);
+			char c = va_arg(v, int);
+			fprintf(fd, "%i", (unsigned char)c);
+			__print_color(fd, __print_color_normal);
+			fprintf(fd, "<");
+			__print_color(fd, __print_color_hex);
+			fprintf(fd, "0x%X", (unsigned char)c);
+			__print_color(fd, __print_color_normal);
+			fprintf(fd, ">");
+		}
+		else if (type == 4) {
+			__print_color(fd, __print_color_number);
+			fprintf(fd, "%'i", va_arg(v, int));
+		}
+		else if (type == 5) {
+			__print_color(fd, __print_color_number);
+			fprintf(fd, "%'u", va_arg(v, int));
+		}
+		else if (type == 6) {
+			__print_color(fd, __print_color_number);
+			fprintf(fd, "%'li", va_arg(v, unsigned long));
+		}
+		else if (type == 7) {
+			__print_color(fd, __print_color_number);
+			fprintf(fd, "%'lu", va_arg(v, long));
+		}
+		else if (type == 8) {
+			__print_color(fd, __print_color_string);
+			fprintf(fd, "\"%s\"", va_arg(v, char*));
+		}
+		else if (type == 9) {
+			__print_color(fd, __print_color_normal);
+			fprintf(fd, "%s", va_arg(v, char*));
+		}
+		else if (type == 10) {
+			__print_color(fd, __print_color_hex);
+			fprintf(fd, "%p", va_arg(v, void*));
+		}
+		else if (type == 11) {
+			__print_array(fd, int, "%i", __print_color_number);
+		}
+		else if (type == 12) {
+			__print_array(fd, unsigned int, "%u", __print_color_number);
+		}
+		else if (type == 13) {
+			__print_array(fd, short, "%i", __print_color_number);
+		}
+		else if (type == 14) {
+			__print_array(fd, unsigned short, "%i", __print_color_number);
+		}
+		else if (type == 15) {
+			__print_array(fd, char*, "\"%s\"", __print_color_string);
+		}
+		else {
+			fprintf(fd, "print: unsupported type (of size %i)\n", size); break;
+		}
+	}
+	va_end(v);
+	__print_color(fd, -1);
+	fprintf(fd, "\n");
+}
