@@ -14,6 +14,7 @@
 #include <string.h>
 #include <sys/stat.h>
 #include <ctype.h>
+#include <stdbool.h>
 
 #ifdef _WIN32
     #include <Windows.h>
@@ -39,8 +40,6 @@
  */
 
 
-#define true 1
-#define false 0
 
 
 #define new(_type, _bytes) (_type)malloc(_bytes + 1)
