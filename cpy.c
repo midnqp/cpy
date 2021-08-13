@@ -354,51 +354,26 @@ char** str_split(const char* a_str, const char* a_delim) {
 	
 	char* string = new(char*, strlen(a_str));
 	strcpy(string, a_str);
-	char* delim = new(char*, strlen(a_delim));
-	strcpy(delim, a_delim);
 
 
 	char* tmp = new(char*, strlen(a_str)); 
 	strcpy(tmp, a_str);
-	//char delim[2];
-	//delim[0] = a_delim;
-	//delim[1] = 0;
-
-	// Count how many elements will be extracted
-	/*char* last_comma = 0;
-	
-	while (*tmp) {
-		if (str_eq(a_delim, tmp)) {
-			count++;
-			last_comma = tmp;
-		}
-		tmp++;
-	}
-	*/
 	count = str_count(a_str, a_delim, 0, str_len(a_str));
 
 	// Add space for trailing token
-	//count += last_comma < (a_str + strlen(a_str) - 1);
+	count++;
+	// Add space for NULL termination
 	count++;
 
-	// Add space for terminating null string so caller
-	// knows where the list of returned strings ends
-	count++;
-
-	//count + 1 to avoid heap-overflow - check if done before
-	result = (char**)malloc(sizeof(char*) * (count + 0)); 
+	result = (char**)malloc(sizeof(char*) * count); 
 
 	size_t idx = 0;
 	char* token = strtok(string, a_delim);
 
 	while (token) {
 		#ifdef _WIN32
-		//*(result + idx++) = _strdup(token);
 		*(result + idx++) = token;
 		#else
-		//*(result + idx++) = strdup(token);
-		//*(result + idx++) = token;
-		//strcat(result[idx++], "asdf");
 		result[idx++] = token;
 		#endif
 		
@@ -407,7 +382,6 @@ char** str_split(const char* a_str, const char* a_delim) {
 	*(result + idx) = 0;
 	free(tmp);
 	//free(string);
-	free(delim);
 	return result;
 }
 

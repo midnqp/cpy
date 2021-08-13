@@ -150,13 +150,6 @@ void __print_color(FILE* fd, int a);
 
 
 
-/*
-int __print_color_normal = -1; // -1 means default terminal foreground color
-int __print_color_number = 4;
-int __print_color_string = 1;
-int __print_color_hex = 2;
-int __print_color_float = 5;
-*/
 extern int __print_color_normal; // -1 means default terminal foreground color
 extern int __print_color_number;
 extern int __print_color_string;
