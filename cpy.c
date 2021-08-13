@@ -400,20 +400,18 @@ char** str_split(const char* a_str, const char* a_delim) {
  */
 
 
-
-
 int __print_enable_color = 1;
+
 int __print_color_normal = -1; // -1 means default terminal foreground color
 int __print_color_number = 4;
 int __print_color_string = 1;
 int __print_color_hex = 2;
 int __print_color_float = 5;
 
-
 void __print_color(FILE* fd, int a) {
 	if (!__print_enable_color) return;
-	if (a == -1) fprintf(fd, "\033(B\033[m");
-	else fprintf(fd, "\033[38;5;%im", a);
+	if (a == -1) fprintf(fd, "\x1b(B\x1b[m");
+	else fprintf(fd, "\x1b[38;5;%im", a);
 }
 
 
@@ -424,6 +422,7 @@ void __print_setup_colors(int normal, int number, int string, int hex, int fract
 	__print_color_normal = normal;
 	__print_color_float = fractional;
 }
+
 void __print_func (FILE *fd, int count, unsigned short types[], ...) {
 	va_list v;
 	va_start(v, types);
@@ -493,7 +492,7 @@ void __print_func (FILE *fd, int count, unsigned short types[], ...) {
 			fprintf(fd, "%p", va_arg(v, void*));
 		}
 		else if (type == 11) {
-			__print_array(fd, int, "%i", __print_color_number);
+			__print_array(fd, double, "%.2lf", __print_color_number);
 		}
 		else if (type == 12) {
 			__print_array(fd, unsigned int, "%u", __print_color_number);
@@ -515,3 +514,4 @@ void __print_func (FILE *fd, int count, unsigned short types[], ...) {
 	__print_color(fd, -1);
 	fprintf(fd, "\n");
 }
+
