@@ -1,5 +1,9 @@
 `#include <cpy.h>`
 
+**WHOM THIS LIBRARY IS FOR?** 
+- For people new to C/C++ programming. This library contains simple & understandable implementations for basic & intermediate operations with data types.
+- The Python programming language is loved for being easy to use and fast to learn. But when we'd like it to be fast - it fails. In this case, this library will help.
+
 <br>
 
 An incredible script using `cpy.h` looks as nice as:
