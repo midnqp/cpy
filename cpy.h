@@ -7,7 +7,9 @@
  * Licensed under MIT License
  ************************************************/
 
-#pragma once
+#ifndef CPY_H
+#define CPY_H
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdarg.h>
@@ -88,13 +90,14 @@ double list_min(double numbers[], int arrlen);
 double list_sum(double numbers[], int arrlen);
 
 
-#define str_add(...) _str_addva(__VA_ARGS__, NULL)
+char* __str_add_va__(const char* strings, ...);
+#define str_add(...) __str_add_va__(__VA_ARGS__, NULL)
 #define str_len(pointer) strlen(pointer)
 int str_count(const char* string, const char* substr, int start, int end);
 int str_eq(const char* a, const char* b);
 int str_index(const char* str, const char* substr, int start, int end);
 int str_isalpha(const char* string);
-void str_put(char* variable, const char* value);
+char* str_put(char* variable, char* value);
 char* str_replace(const char* main, const char* repl, const char* with, int start, int end);
 char* str_reverse(const char* string);
 char* str_slice(const char* string, int start, int step, int end);
@@ -206,3 +209,4 @@ void __print_func (FILE *fd, int count, unsigned short types[], ...);
 
 #define print(a...) fprint(stdout, a)
 
+#endif ////// CPY_H

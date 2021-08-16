@@ -191,7 +191,7 @@ double list_sum(double numbers[], int arrlen) {
 
 
 
-char* _str_addva(const char* strings, ...) {
+char* __str_add_va__(const char* strings, ...) {
 	va_list allstrings;
 	va_start(allstrings, strings);
 
@@ -224,7 +224,10 @@ int str_eq(const char* a, const char* b) {
 
 
 
-void str_put(char* variable, const char* value) {
+char* str_put(char* variable, char* value) {
+	// Example: 
+	// line = str_put(line, str_add(line, " -- that was line"))
+
 	/* A little thing to notice in this case.
 	 * If you do str_put(variable, "Hello, World!"),
 	 * and then free(variable);
@@ -239,7 +242,7 @@ void str_put(char* variable, const char* value) {
 	//char* temp = new(char*, len);
 	//free((char*)value);
 	free(variable);
-	strcpy(variable, value);
+	return value;
 	//variable = (char*)value;
 }
 
