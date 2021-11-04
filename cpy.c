@@ -225,25 +225,8 @@ int str_eq(const char* a, const char* b) {
 
 
 char* str_put(char* variable, char* value) {
-	// Example: 
-	// line = str_put(line, str_add(line, " -- that was line"))
-
-	/* A little thing to notice in this case.
-	 * If you do str_put(variable, "Hello, World!"),
-	 * and then free(variable);
-	 *
-	 * ... isn't it for the granted that, it's gonna:
-	 * munmap_chunk(): invalid pointer
-	 * Aborted (core dumped)
-	 *
-	 * So, don't be dumb.
-	 */
-	//size_t len = str_len(value);
-	//char* temp = new(char*, len);
-	//free((char*)value);
 	free(variable);
 	return value;
-	//variable = (char*)value;
 }
 
 
