@@ -232,6 +232,18 @@ char* str_put(char* variable, char* value) {
 
 
 
+void strPut(char* variable, char* value) {
+	if (type(value) == t_str) {
+		printf("We've got a string.\n");
+	}
+	else {printf("No idea what that was.\n");}
+	strcpy(variable, value);
+	free(value);
+}
+
+
+
+
 char* str_reverse(const char* string) {
 	int len = strlen(string);
 	char* tmp = new(char*, len);
@@ -394,6 +406,22 @@ char** str_split(const char* a_str, const char* a_delim) {
 }
 
 
+void* var(int t_type, int bytes){
+	if (t_type == t_str) {
+		char* tmp = new(char*, bytes + 1);
+		tmp[bytes + 1] = '\0';
+		return tmp;
+	}
+	else if (t_type == t_numlist) {
+		double* numlist = new(double*, bytes + 1);
+		for (int i=0; i < bytes/sizeof(double); i++) {
+			numlist[i] = DBL_MAX;
+		}
+		return numlist;
+	}
+}
+
+
 
 
 #define COLOR(_COLOR, string, ...) ESC _COLOR string R0
@@ -401,7 +429,7 @@ char** str_split(const char* a_str, const char* a_delim) {
 
 
 
-/*
+/**
  * Generic Print
  * Copyright 2021 Exebook
  * Licensed under the MIT License
@@ -431,6 +459,7 @@ void __print_setup_colors(int normal, int number, int string, int hex, int fract
 	__print_color_float = fractional;
 }
 
+#define __print_DEBUG
 void __print_func (FILE *fd, int count, unsigned short types[], ...) {
 	va_list v;
 	va_start(v, types);
@@ -440,7 +469,7 @@ void __print_func (FILE *fd, int count, unsigned short types[], ...) {
 		char type = types[i] & 0x1F;
 		char size = types[i] >> 5;
 		if (i > 0) fprintf(fd, " ");
-		fprintf(fd, "%i[%i]", type, size);
+		fprintf(fd, "type: %i size: %i", type, size);
 	}
 	fprintf(fd, "\n");
 	#endif // __print_DEBUG
@@ -451,7 +480,20 @@ void __print_func (FILE *fd, int count, unsigned short types[], ...) {
 		char type = types[i] & 0x1F;
 		char size = types[i] >> 5;
 		
-		if (type == 1) {
+		if (type == 16) {
+			double* list = va_arg(v, double*);
+			fprintf(fd, "[");
+			__print_color(fd, __print_color_number);
+			int j=0;
+			while (list[j] != FLT_MAX) {
+				if (j>0) fprintf(fd, " ");
+				fprintf(fd, "%.2lf", list[j]);
+				j++;
+			}
+			__print_color(fd, __print_color_normal);
+			fprintf(fd, "]");
+		}
+		else if (type == 1) {
 			__print_color(fd, __print_color_float);
 			double d = va_arg(v, double);
 			fprintf(fd, "%'G", d);
