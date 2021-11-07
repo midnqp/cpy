@@ -36,13 +36,17 @@ def plog(string):
 
 def script(argList):
     global strs, dirs
-    scriptPath = argList[0]
+    scriptPath = argList[1]
+    ret=0
     mkdirs()
 
     if os.path.exists(dirs['so']+'/libcpy.so') == False:
         perror('CPY shared object not found')
+
     plog('Compiling script to binary executable.')
-    os.system("{} -L {} -o {} {} -lcpy".format(strs['cmd'], dirs['so'], dirs['out'], scriptPath))
+    ret = os.system("{} -L {} -o {}/a.out {} -lcpy".format(strs['cmd'], dirs['so'], dirs['out'], scriptPath))
+    if (ret != 0):
+        perror(strs['err'], True)
 
 def build(argList):
     global strs, files
