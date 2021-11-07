@@ -224,26 +224,6 @@ int str_eq(const char* a, const char* b) {
 
 
 
-char* str_put(char* variable, char* value) {
-	free(variable);
-	return value;
-}
-
-
-
-
-void strPut(char* variable, char* value) {
-	if (type(value) == t_str) {
-		printf("We've got a string.\n");
-	}
-	else {printf("No idea what that was.\n");}
-	strcpy(variable, value);
-	free(value);
-}
-
-
-
-
 char* str_reverse(const char* string) {
 	int len = strlen(string);
 	char* tmp = new(char*, len);
@@ -406,34 +386,6 @@ char** str_split(const char* a_str, const char* a_delim) {
 }
 
 
-/**
- * Unlike new(), var() takes semantic 
- * number of elements.
- *
- * @example
- * var(t_intlist, 10) - means 10 int in
- * the list.
- *
- * var(t_str, 100) - means a string
- * with length 10.
- */
-void* var(int t_type, int n_items){
-	if (t_type == t_str) {
-		char* tmp = new(char*, n_items + 1);
-		tmp[n_items + 1] = '\0';
-		return tmp;
-	}
-	else if (t_type == t_numlist) {
-		size_t alloc = sizeof(double) * n_items;
-		double* numlist = new(double*, alloc);
-		for (int i=0; i < n_items; i++) {
-			numlist[i] = DBL_MAX;
-		}
-		return numlist;
-	}
-}
-
-
 
 
 #define COLOR(_COLOR, string, ...) ESC _COLOR string R0
@@ -441,7 +393,7 @@ void* var(int t_type, int n_items){
 
 
 
-/**
+/*
  * Generic Print
  * Copyright 2021 Exebook
  * Licensed under the MIT License
@@ -452,7 +404,7 @@ int __print_enable_color = 1;
 
 int __print_color_normal = -1; // -1 means default terminal foreground color
 int __print_color_number = 4;
-int __print_color_string = 3;
+int __print_color_string = 1;
 int __print_color_hex = 2;
 int __print_color_float = 5;
 
@@ -471,7 +423,6 @@ void __print_setup_colors(int normal, int number, int string, int hex, int fract
 	__print_color_float = fractional;
 }
 
-#define __print_DEBUG
 void __print_func (FILE *fd, int count, unsigned short types[], ...) {
 	va_list v;
 	va_start(v, types);
@@ -481,31 +432,16 @@ void __print_func (FILE *fd, int count, unsigned short types[], ...) {
 		char type = types[i] & 0x1F;
 		char size = types[i] >> 5;
 		if (i > 0) fprintf(fd, " ");
-		fprintf(fd, "type: %i size: %i", type, size);
+		fprintf(fd, "%i[%i]", type, size);
 	}
 	fprintf(fd, "\n");
 	#endif // __print_DEBUG
 
 	for (int i = 0; i < count; i++) {
 		if (i > 0) fprintf(fd, " ");
-
 		char type = types[i] & 0x1F;
 		char size = types[i] >> 5;
-		
-		if (type == 16) {
-			double* list = va_arg(v, double*);
-			fprintf(fd, "[");
-			__print_color(fd, __print_color_number);
-			int j=0;
-			while (list[j] != DBL_MAX) {
-				if (j>0) fprintf(fd, " ");
-				fprintf(fd, "%.2lf", list[j]);
-				j++;
-			}
-			__print_color(fd, __print_color_normal);
-			fprintf(fd, "]");
-		}
-		else if (type == 1) {
+		if (type == 1) {
 			__print_color(fd, __print_color_float);
 			double d = va_arg(v, double);
 			fprintf(fd, "%'G", d);
@@ -545,8 +481,7 @@ void __print_func (FILE *fd, int count, unsigned short types[], ...) {
 		}
 		else if (type == 8) {
 			__print_color(fd, __print_color_string);
-			fprintf(fd, "%s", va_arg(v, char*));
-			//fprintf(fd, "\"%s\"", va_arg(v, char*));
+			fprintf(fd, "\"%s\"", va_arg(v, char*));
 		}
 		else if (type == 9) {
 			__print_color(fd, __print_color_normal);
