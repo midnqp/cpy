@@ -10,12 +10,13 @@ function compile {
 			glue="$glue $i"
 		fi
 	done
-	gcc -Wall -Wextra -g -fsanitize=address $glue
+	gcc -Wall -Wextra -g -fsanitize=address  -fcompare-debug-second -I . ./cpy.c $programName
 	if [ "$?" != "0" ]; then
 		echo -e "$err Program not compiled"
 		exit 1
+	else
+		echo "$ok Program compiled"
 	fi
-	exit 0
 }
 
 
@@ -26,9 +27,8 @@ if [ "$programName" = "" ]; then
 fi
 
 
-compile -fcompare-debug-second -I . ./cpy.c $programName
+compile
 if [ "$?" = "0" ]; then
-	echo "$ok Program compiled"
 	echo "$ok Executing binary"
 	./a.out
 fi
