@@ -63,7 +63,7 @@ enum types {
 
 
 // Needs explicit type cast.
-void* var(int t_type, int bytes); 
+void* var(int t_type, int n_items); 
 
 
 #define type(variable) _Generic(variable, \

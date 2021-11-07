@@ -406,15 +406,27 @@ char** str_split(const char* a_str, const char* a_delim) {
 }
 
 
-void* var(int t_type, int bytes){
+/**
+ * Unlike new(), var() takes semantic 
+ * number of elements.
+ *
+ * @example
+ * var(t_intlist, 10) - means 10 int in
+ * the list.
+ *
+ * var(t_str, 100) - means a string
+ * with length 10.
+ */
+void* var(int t_type, int n_items){
 	if (t_type == t_str) {
-		char* tmp = new(char*, bytes + 1);
-		tmp[bytes + 1] = '\0';
+		char* tmp = new(char*, n_items + 1);
+		tmp[n_items + 1] = '\0';
 		return tmp;
 	}
 	else if (t_type == t_numlist) {
-		double* numlist = new(double*, bytes + 1);
-		for (int i=0; i < bytes/sizeof(double); i++) {
+		size_t alloc = sizeof(double) * n_items;
+		double* numlist = new(double*, alloc);
+		for (int i=0; i < n_items; i++) {
 			numlist[i] = DBL_MAX;
 		}
 		return numlist;
@@ -485,7 +497,7 @@ void __print_func (FILE *fd, int count, unsigned short types[], ...) {
 			fprintf(fd, "[");
 			__print_color(fd, __print_color_number);
 			int j=0;
-			while (list[j] != FLT_MAX) {
+			while (list[j] != DBL_MAX) {
 				if (j>0) fprintf(fd, " ");
 				fprintf(fd, "%.2lf", list[j]);
 				j++;
