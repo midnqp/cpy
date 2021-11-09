@@ -41,10 +41,6 @@ char* str_put(char* variable, char* value) {
 
 
 void strPut(char* variable, char* value) {
-	if (type(value) == t_str) {
-		printf("We've got a string.\n");
-	}
-	else {printf("No idea what that was.\n");}
 	strcpy(variable, value);
 	free(value);
 }

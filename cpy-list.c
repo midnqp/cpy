@@ -49,6 +49,6 @@ double list_sum(double numbers[], int arrlen) {
 
 
 
-//void listAdd(double* list, double item) {
-//	
-//}
+void listAdd(double* list, double item) {
+	
+}

@@ -34,7 +34,7 @@ extern int __print_color_float;
 void __print_setup_colors(int normal, int number, int string, int hex, int fractional);
 void __print_func (FILE *fd, int count, unsigned short types[], ...);
 
-// double* is matabori.
+// double* is for CPY.
 #define __print_typeid(a) \
 	__builtin_choose_expr(__print_is_type(a, double*), 16, \
 	__builtin_choose_expr(__print_is_type(a, float), 1, \

@@ -1,12 +1,3 @@
-/************************************************
- * cpyb.h
- * Python builtins implemented in C
- * Source: github.com/midnqp/cpyb
- *
- * Copyright (C) 2021 Muhammad <midnqp@gmail.com>
- * Licensed under MIT License
- ************************************************/
-
 #ifndef CPY_H
 #define CPY_H
 
@@ -18,8 +9,8 @@
 #include <ctype.h>
 #include <stdbool.h>
 #include <cpy-print.h>
+#include <cpy-colors.h>
 #include <float.h>
-
 #ifdef _WIN32
     #include <Windows.h>
     #include <io.h>
@@ -29,24 +20,9 @@
 #endif
 
 
-/* stdarg   :: va_list ...
- * stdio    :: printf FILE perror ...
- * stdlib   :: malloc realloc exit ...
- * string   :: strcat strcpy ...
- * sys/stat :: mkdir ...
- * ctype    :: isalpha ...
- * float    :: FLT_MAX ...
- *
- * unistd   :: sleep
- * dirent   :: dir_exists
- *
- * Windows  :: Win32 everything ...
- * io       :: _read
- */
-
-
-#define new(_type, _bytes) (_type)malloc(_bytes + 1)
-
+//////////////////////////
+// CPY CORE INITIATIONS //
+//////////////////////////
 
 enum types {
     t_double,
@@ -61,10 +37,17 @@ enum types {
 	// You can add more.
 };
 
+#define new(_type, _bytes) (_type)malloc(_bytes + 1)
 
-// Needs explicit type cast.
 void* var(int t_type, int n_items); 
 
+#define vargc(args...) __print_count(args) //count 
+
+#define typeOf(a) ({\
+	unsigned short stack[1], *_p = stack + 1;\
+	__print_types(a);\
+	_p[0] & 0x1F; \
+})
 
 #define type(variable) _Generic(variable, \
     int    : t_int,    \
@@ -74,29 +57,36 @@ void* var(int t_type, int n_items);
     double : t_double, \
     float  : t_float,  \
     default: t_unknown)
-//More stuffs could be added. For now these.
+// You can add more.
 
+
+////////////////////////
+// CPY FILE FUNCTIONS //
+////////////////////////
 
 char* file_read(const char* filename);
-long file_size(const char* filename);
 void file_write(const char* filename, const char* buffer);
-void file_append(const char* filename, const char* buffer);
-int file_exists(const char* fn);
 int file_remove(const char* fn);
-
+void file_append(const char* filename, const char* buffer);
+long file_size(const char* filename);
+int file_exists(const char* fn);
 int dir_exists(const char* dirName);
 char* input(const char* prompt);
 
 
-/* Only works if in the same scope.
- * double arr[] = {1, 2};
- * print(list_len(arr));
- */
+////////////////////////
+// CPY LIST FUNCTIONS //
+////////////////////////
+
 #define list_len(arr) (sizeof(arr)/sizeof(*arr))
 double list_max(double numbers[], int arrlen);
 double list_min(double numbers[], int arrlen);
 double list_sum(double numbers[], int arrlen);
 
+
+//////////////////////////
+// CPY STRING FUNCTIONS //
+//////////////////////////
 
 char* __str_add_va__(const char* strings, ...);
 #define str_add(...) __str_add_va__(__VA_ARGS__, NULL)
@@ -117,28 +107,5 @@ char* str_slice(const char* string, int start, int step, int end);
 char** str_split(const char* a_str, const char* a_delim);
 char* str_substr(const char* string, const char* substr);
 
-
-#define TBSP "    "
-#define ESC "\033["
-#define R00 ESC "0;0m" //resets all attributes
-#define R0 ESC "0m"    // resets color attributes
-#define BLK(string, ...) COLOR("30m", string)
-#define RED(string, ...) COLOR("31m", string)
-#define GRN(string, ...) COLOR("32m",string)
-#define YLW(string, ...) COLOR("33m",string)
-#define BLU(string, ...) COLOR("34m",string)
-#define MGN(string, ...) COLOR("35m",string)
-#define CYN(string, ...) COLOR("36m",string)
-#define GRY(string, ...) COLOR("37m",string)
-
-
-#define BLKBG(string, ...) COLOR("40m", string)
-#define REDBG(string, ...) COLOR("41m", string)
-#define GRNBG(string, ...) COLOR("42m", string)
-#define YLWBG(string, ...) COLOR("43m", string)
-#define BLUBG(string, ...) COLOR("44m", string)
-#define MGNBG(string, ...) COLOR("45m", string)
-#define CYNBG(string, ...) COLOR("46m", string)
-#define GRYBG(string, ...) COLOR("47m", string)
-#endif ////// CPY_H
+#endif // CPY_H
 

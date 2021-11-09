@@ -1,15 +1,9 @@
 #include <cpy.h>
-#define COLOR(_COLOR, string, ...) ESC _COLOR string R0
-
-
-
-
 /**
  * Generic Print
  * Copyright 2021 Exebook
  * Licensed under the MIT License
  */
-
 
 int __print_enable_color = 1;
 
@@ -34,7 +28,6 @@ void __print_setup_colors(int normal, int number, int string, int hex, int fract
 	__print_color_float = fractional;
 }
 
-#define __print_DEBUG
 void __print_func (FILE *fd, int count, unsigned short types[], ...) {
 	va_list v;
 	va_start(v, types);
