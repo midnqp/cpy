@@ -36,19 +36,13 @@ enum types {
 	t_unknown
 	// You can add more.
 };
-
-#define new(_type, _bytes) (_type)malloc(_bytes + 1)
-
-void* var(int t_type, int n_items); 
-
 #define vargc(args...) __print_count(args) //count 
-
+#define new(_type, _bytes) (_type)malloc(_bytes + 1)
 #define typeOf(a) ({\
 	unsigned short stack[1], *_p = stack + 1;\
 	__print_types(a);\
 	_p[0] & 0x1F; \
 })
-
 #define type(variable) _Generic(variable, \
     int    : t_int,    \
     char   : t_char,   \
@@ -57,7 +51,8 @@ void* var(int t_type, int n_items);
     double : t_double, \
     float  : t_float,  \
     default: t_unknown)
-// You can add more.
+	// You can add more.
+void* var(int t_type, int n_items); 
 
 
 ////////////////////////
@@ -78,10 +73,21 @@ char* input(const char* prompt);
 // CPY LIST FUNCTIONS //
 ////////////////////////
 
-#define list_len(arr) (sizeof(arr)/sizeof(*arr))
+// TODO
+// Make list support all data types.
+typedef struct __list__ {
+	double* listp;
+	int len;
+} List;
+double list_get(List list, int index);
+double list_includes(List list, double item);
+void list_push(List list, double item);
+double list_splice(List list, int start, int deleteCount);
+//#define list_len(arr) (sizeof(arr)/sizeof(*arr))
 double list_max(double numbers[], int arrlen);
 double list_min(double numbers[], int arrlen);
 double list_sum(double numbers[], int arrlen);
+double list_sort(double* numbers, int len);
 
 
 //////////////////////////
