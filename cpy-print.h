@@ -1,10 +1,8 @@
-#include <cpy.h>
 /*
  * Generic Print
  * Copyright (C) 2021 Exebook
  * Licensed under the MIT License
  */
-
 
 extern int __print_enable_color;
 
@@ -34,8 +32,9 @@ extern int __print_color_float;
 void __print_setup_colors(int normal, int number, int string, int hex, int fractional);
 void __print_func (FILE *fd, int count, unsigned short types[], ...);
 
-// double* is for CPY.
 #define __print_typeid(a) \
+	__builtin_choose_expr(__print_is_type(a, bool), 17, \
+	__builtin_choose_expr(__print_is_type(a, double), 1, \
 	__builtin_choose_expr(__print_is_type(a, double*), 16, \
 	__builtin_choose_expr(__print_is_type(a, float), 1, \
 	__builtin_choose_expr(__print_is_type(a, char), 2, \
@@ -55,7 +54,7 @@ void __print_func (FILE *fd, int count, unsigned short types[], ...);
 	__builtin_choose_expr(__print_is_type(a, char*[]), 15, \
 	__builtin_choose_expr(sizeof(a) == 1, 2, \
 	__builtin_choose_expr(sizeof(a) == 2, 4, \
-	(0)  )))))))))))))))))))
+	(0)  )))))))))))))))))))))
 
 #define __print_push(c,size,cont) (cont, *--_p = c | (size << 5))
 #define __builtin_choose_expr __builtin_choose_expr
@@ -69,12 +68,12 @@ void __print_func (FILE *fd, int count, unsigned short types[], ...);
 
 #define __print_types(a...) __print_types_int(a, (void)0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1)
 
-#define fprint(fd, a...) ({ \
+// If you remove the ({}), then reclaration error appears!
+#define fprint(fd, a...) ({\
 	int count = __print_count(a); \
 	unsigned short stack[count], *_p = stack + count; \
 	__print_types(a); \
-	__print_func(fd, count, _p, a); \
+	__print_func(fd, count, _p, a);\
 })
-
 #define print(a...) fprint(stdout, a)
 

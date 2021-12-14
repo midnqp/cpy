@@ -1,4 +1,5 @@
 #include <cpy.h>
+#include <stdio.h>
 /**
  * Generic Print
  * Copyright 2021 Exebook
@@ -60,6 +61,11 @@ void __print_func (FILE *fd, int count, unsigned short types[], ...) {
 			}
 			__print_color(fd, __print_color_normal);
 			fprintf(fd, "]");
+		}
+		else if (type == 17) {
+			bool d = va_arg(v, int);
+			if (d == 0) fprintf(fd, "false");
+			else fprintf(fd, "true");
 		}
 		else if (type == 1) {
 			__print_color(fd, __print_color_float);
