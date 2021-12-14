@@ -224,31 +224,6 @@ int str_eq(const char* a, const char* b) {
 
 
 
-char* str_put(char* variable, char* value) {
-	// Example: 
-	// line = str_put(line, str_add(line, " -- that was line"))
-
-	/* A little thing to notice in this case.
-	 * If you do str_put(variable, "Hello, World!"),
-	 * and then free(variable);
-	 *
-	 * ... isn't it for the granted that, it's gonna:
-	 * munmap_chunk(): invalid pointer
-	 * Aborted (core dumped)
-	 *
-	 * So, don't be dumb.
-	 */
-	//size_t len = str_len(value);
-	//char* temp = new(char*, len);
-	//free((char*)value);
-	free(variable);
-	return value;
-	//variable = (char*)value;
-}
-
-
-
-
 char* str_reverse(const char* string) {
 	int len = strlen(string);
 	char* tmp = new(char*, len);
@@ -429,7 +404,7 @@ int __print_enable_color = 1;
 
 int __print_color_normal = -1; // -1 means default terminal foreground color
 int __print_color_number = 4;
-int __print_color_string = 3;
+int __print_color_string = 1;
 int __print_color_hex = 2;
 int __print_color_float = 5;
 
@@ -464,10 +439,8 @@ void __print_func (FILE *fd, int count, unsigned short types[], ...) {
 
 	for (int i = 0; i < count; i++) {
 		if (i > 0) fprintf(fd, " ");
-
 		char type = types[i] & 0x1F;
 		char size = types[i] >> 5;
-		
 		if (type == 1) {
 			__print_color(fd, __print_color_float);
 			double d = va_arg(v, double);
@@ -508,8 +481,7 @@ void __print_func (FILE *fd, int count, unsigned short types[], ...) {
 		}
 		else if (type == 8) {
 			__print_color(fd, __print_color_string);
-			fprintf(fd, "%s", va_arg(v, char*));
-			//fprintf(fd, "\"%s\"", va_arg(v, char*));
+			fprintf(fd, "\"%s\"", va_arg(v, char*));
 		}
 		else if (type == 9) {
 			__print_color(fd, __print_color_normal);
