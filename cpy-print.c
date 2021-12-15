@@ -7,7 +7,6 @@
 #include "cpy.h"
 
 int __print_enable_color = 1;
-
 int __print_color_normal = -1; // -1 means default terminal foreground color
 int __print_color_number = 4;
 int __print_color_string = 3;
@@ -45,11 +44,10 @@ void __print_func (FILE *fd, int count, unsigned short types[], ...) {
 
 	for (int i = 0; i < count; i++) {
 		if (i > 0) fprintf(fd, " ");
-
 		char type = types[i] & 0x1F;
 		char size = types[i] >> 5;
 		
-		if (type == 16) {
+		if (type == DoubleList_t) {
 			double* list = va_arg(v, double*);
 			fprintf(fd, "[");
 			__print_color(fd, __print_color_number);
@@ -69,11 +67,17 @@ void __print_func (FILE *fd, int count, unsigned short types[], ...) {
 		}
 		else if (type == List_t) {
 			List l = va_arg(v, List);
-			int i=0;
-			if (l.types[i] == Double_t)
-				fprintf(fd, "%.2lf", ((double*)l.value)[i]);
-			else if (l.types[i] == Int_t)
-				fprintf(fd, "%d", ((int*)l.value)[i]);
+			printf("...list...list.type[0]: %d\n", l.type[0]);
+			for (int i=0; l.type[i] != INT_MAX; i++) {
+				int t = l.type[i];
+				if (t == Str_t) {
+					fprintf(fd, "String: %s\n", l.string[i]);
+				}
+				else if (t == Double_t) {
+					fprintf(fd, "Number: %G\n", l.num[i]);
+				}
+				else fprintf(fd, "...Don't know...\n");
+			}
 		}
 		else if (type == Double_t) {
 			__print_color(fd, __print_color_float);
