@@ -1,5 +1,5 @@
-#include <cpy.h>
-char* file_read(const char* filename) {
+#include "cpy.h"
+/*char* file_read(const char* filename) {
 	FILE* file = fopen(filename, "r");
 	if (file != NULL) {
 		fseek(file, 0, SEEK_END);
@@ -95,4 +95,4 @@ bool dir_exists(const char* dirName) {
 	#endif
 
 	return false;
-}
+}*/

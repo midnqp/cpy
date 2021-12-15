@@ -1,5 +1,5 @@
 #include "cpy.h"
-
+/*
 
 char* input(const char* prompt) {
 	char* tmp = new(char*, 10000); //10 KB
@@ -11,4 +11,4 @@ char* input(const char* prompt) {
 	tmp = (char*)realloc(tmp, len);  
 	tmp[len - 1] = '\0';  
 	return tmp;
-}
+}*/

@@ -1,4 +1,5 @@
-#include <cpy.h>
+#include "cpy.h"
+/*
 char* __str_add_va__(const char* strings, ...) {
 	va_list allstrings;
 	va_start(allstrings, strings);
@@ -207,4 +208,4 @@ char** str_split(const char* a_str, const char* a_delim) {
 	free(tmp);
 	//free(string);
 	return result;
-}
+}*/

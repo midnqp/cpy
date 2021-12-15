@@ -1,10 +1,6 @@
-#define TBSP "    "
-#define ESC "\033["
-#define R00 ESC "0;0m" //resets all attributes
-#define R0 ESC "0m"    // resets only color attributes
+#define COLOR(_COLOR, string, ...) "\033[" _COLOR string "\033[0m"
 
-#define COLOR(_COLOR, string, ...) ESC _COLOR string R0
-
+// Use the following.
 #define BLK(string, ...) COLOR("30m", string)
 #define RED(string, ...) COLOR("31m", string)
 #define GRN(string, ...) COLOR("32m", string)
@@ -13,7 +9,6 @@
 #define MGN(string, ...) COLOR("35m", string)
 #define CYN(string, ...) COLOR("36m", string)
 #define GRY(string, ...) COLOR("37m", string)
-
 
 #define BLKBG(string, ...) COLOR("40m", string)
 #define REDBG(string, ...) COLOR("41m", string)

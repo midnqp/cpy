@@ -2,7 +2,7 @@
 import os, sys
 
 strs = {}
-#strs['cmd'] = "gcc -Wall -Wextra -Wno-unused-value -g -fsanitize=address  -fcompare-debug-second -I ."
+#strs['cmd'] = "gcc  -Wl,-v -Wall -Wextra -Wno-unused-value -g -fsanitize=address  -fcompare-debug-second -I ."
 strs['cmd'] = "gcc -Wall -Wextra -Wno-unused-value -g  -fcompare-debug-second -I ."
 strs['err'] = "Compilation error"
 strs['compilation_script'] = "\033[94mCompilation Script\033[0m 📃"
@@ -25,15 +25,15 @@ def mkdirs():
     
 
 def perror(string, exit=False):
-    print('\033[31m[error]\033[0m ' + string)
+    print('\033[31mERROR\033[0m ' + string)
     if (exit == True):
         sys.exit()
 
 def pokay(string):
-    print('\033[32m[okay]\033[0m ' + string)
+    print('\033[32mOKAY\033[0m ' + string)
 
 def plog(string):
-    print('\033[32m[log]\033[0m ' + string)
+    print('\033[32mLOG\033[0m ' + string)
 
 def check(rval, exit=False):
     # Rval from os.system.
@@ -48,19 +48,26 @@ def script(argList):
     ret=0
     mkdirs()
 
-    plog('Compiling script to binary executable.')
+    plog('Linking script to binary executable')
     if linkType == 'shared':
-        if os.path.exists(dirs['so']+'/libcpy.so') == False:
-            perror('CPY shared object not found', True)
-        ret = os.system("{} -L {} -o {}/a.out {} -lcpy".format(strs['cmd'], dirs['so'], dirs['out'], gccArgsList))
-        check(ret)
+        # if os.path.exists(dirs['so']+'/libcpy.so') == False:
+        # perror('CPY shared object not found')
+        plog('Compiling libcpy from source')
+        build(['shared'])
+        ret = os.system("{} -L {} -o {}/a.out {} -lcpy ".format(strs['cmd'], dirs['so'], dirs['out'], gccArgsList))
+        check(ret, True)
     elif linkType == 'static':
-        if os.path.exists(dirs['so']+'/libcpy.a') == False:
-            perror('CPY static archive not found', True)
-        print("[advice] Use 'libtool' or 'pkg-config' to determine all libraries to link.")
-        print("[advice] Then provide those as arguments: ./compile.py script main.c static -lfoo -lbar")
+        # if os.path.exists(dirs['so']+'/libcpy.a') == False:
+        # perror('CPY static archive not found')
+        plog('Compiling libcpy from source')
+        build(['static'])
+        print("ADVICE Use 'libtool' or 'pkg-config' to determine all libraries to link.")
+        print("ADVICE Then provide those as arguments: ./compile.py script main.c static -lfoo -lbar")
         ret = os.system("{} -static -L {} -o {}/a.out {} -lcpy".format(strs['cmd'], dirs['so'], dirs['out'], gccArgsList))
+        check(ret, True)
     else: perror('Unknown link type.', True)
+
+    pokay("Script compiled")
 
 def build(argList):
     global strs, files
@@ -77,7 +84,7 @@ def build(argList):
 
     if (buildType == 'shared'):
         plog("Creating shared library")
-        ret = os.system("{} -shared -o {}/libcpy.so {}/*".format(strs['cmd'], dirs['so'], dirs['obj']))
+        ret = os.system("{} -shared -o {}/libcpy.so  {}/*.o ".format(strs['cmd'], dirs['so'], dirs['obj']))
         check(ret, True)
 
     elif (buildType == 'static'):
@@ -91,7 +98,7 @@ def startup():
 ---------------------------
 |                         |
 |   {}                 |
-------{}
+--------{}
 """.format(strs['cpy'], strs['compilation_script']))
 
 def help(argList):
