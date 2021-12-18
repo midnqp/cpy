@@ -1,5 +1,5 @@
-#include <cpy.h>
-char* file_read(const char* filename) {
+#include "cpy.h"
+/*char* file_read(const char* filename) {
 	FILE* file = fopen(filename, "r");
 	if (file != NULL) {
 		fseek(file, 0, SEEK_END);
@@ -59,49 +59,40 @@ void file_append(const char* filename, const char* buffer) {
 
 
 
-int file_exists(const char* fn) {
+bool file_exists(const char* fn) {
 	FILE* file = fopen(fn, "r");
 	if (file) {
 		fclose(file);
-		return 1;
+		return true;
 	}
-	else {
-		return 0;
-	}
+	return false;
 }
 
 
 
 
-int file_remove(const char* fn) {
-	return remove(fn);
+void file_remove(const char* fn) {
+	remove(fn);
 }
 
 
 
 
-int dir_exists(const char* dirName) {
+bool dir_exists(const char* dirName) {
 	#ifdef _WIN32
-	// dirName needs to absolute path?
-	
 	if (_access(dirName, 0) == 0) {
 		struct stat status;
 		stat(dirName, &status);
-
 		return (status.st_mode & S_IFDIR) != 0;
 	}
-	return false;
-
-
 	#else
 	DIR* dir = opendir(dirName);
 	if (dir) {
 		closedir(dir);
-		return 1;
+		return true;
 	}
-	else {
-		closedir(dir);
-		return 0;
-	}
+	else closedir(dir);
 	#endif
-}
+
+	return false;
+}*/

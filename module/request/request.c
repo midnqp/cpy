@@ -37,7 +37,8 @@ void str_init(struct string* string) {
 	string->len = 0;
 	string->str = new(char*, 1);
 	if (string->str == NULL) { 
-		printf("request.h :: str_init() failed - malloc\n"); exit(1); 
+		printf("request.h :: str_init() :: Couldn't allocate.\n"); 
+		exit(1); 
 	}
 	strcpy(string->str, "");
 }
