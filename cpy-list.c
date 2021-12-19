@@ -37,6 +37,16 @@ int list_len(List* list) {
 })
 
 
+#define _list_add_num(list, T) ({\
+	T d = va_arg(v, T);\
+	realloc_check(list->num, sizeof(double)*(i+1));\
+	list->num[i] = (double)d;\
+	realloc_check(list->type, sizeof(int)*(i+1));\
+	list->type[i] = Double_t;\
+	list->numc++;\
+})
+
+
 void _list_add(List* list, int argc, unsigned short argv[], ...) {
 	va_list v;
 	va_start(v, argv);
@@ -45,7 +55,6 @@ void _list_add(List* list, int argc, unsigned short argv[], ...) {
 	for (int j=0; j < argc; j++) {
 		char type = va_type(argv[j]);
 		int i = list_len(list);
-		print("list_len(list): ", i);
 		if (type == CharArray_t) {
 			const char* str = va_arg(v, char*);
 
@@ -63,19 +72,8 @@ void _list_add(List* list, int argc, unsigned short argv[], ...) {
 
 			list->stringc++;
 		}
-		else if (type == Num_t) {
-			double d = va_arg(v, double);
-
-			// Realloc to store the number.
-			realloc_check(list->num, sizeof(double) * (i + 1));
-			list->num[i] = d;
-
-			// Storing index.
-			realloc_check(list->type, sizeof(int)*(i+1));
-			list->type[i] = Num_t;
-
-			list->numc++;
-		}
+		else if (type == Double_t) _list_add_num(list, double);
+		else if (type == Int_t) _list_add_num(list, int);
 	}
 	va_end(v);
 }
