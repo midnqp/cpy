@@ -3,7 +3,7 @@ import os, sys
 
 strs = {}
 #strs['cmd'] = "gcc  -Wl,-v -Wall -Wextra -Wno-unused-value -g -fsanitize=address  -fcompare-debug-second -I ."
-strs['cmd'] = "gcc -Wall -Wextra -Wno-unused-value -g  -fcompare-debug-second -I ."
+strs['cmd'] = "gcc -Wall -Wextra -Wno-unused-value -g   -fcompare-debug-second -I ."
 strs['err'] = "Compilation error"
 strs['compilation_script'] = "\033[94mCompilation Script\033[0m 📃"
 strs['cpy'] = "🚀\033[32mCPY\033[0m"
@@ -54,7 +54,7 @@ def script(argList):
         # perror('CPY shared object not found')
         plog('Compiling libcpy from source')
         build(['shared'])
-        ret = os.system("{} -L {} -o {}/a.out {} -lcpy ".format(strs['cmd'], dirs['so'], dirs['out'], gccArgsList))
+        ret = os.system("{} -fsanitize=address -L {} -o {}/a.out {} -lcpy ".format(strs['cmd'], dirs['so'], dirs['out'], gccArgsList))
         check(ret, True)
     elif linkType == 'static':
         # if os.path.exists(dirs['so']+'/libcpy.a') == False:
@@ -84,7 +84,7 @@ def build(argList):
 
     if (buildType == 'shared'):
         plog("Creating shared library")
-        ret = os.system("{} -shared -o {}/libcpy.so  {}/*.o ".format(strs['cmd'], dirs['so'], dirs['obj']))
+        ret = os.system("{}  -shared -o {}/libcpy.so  {}/*.o ".format(strs['cmd'], dirs['so'], dirs['obj']))
         check(ret, True)
 
     elif (buildType == 'static'):

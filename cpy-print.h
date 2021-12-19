@@ -35,7 +35,7 @@ void __print_setup_colors(int normal, int number, int string, int hex, int fract
 void __print_func (FILE *fd, int count, unsigned short types[], ...);
 
 #define __print_typeid(a) \
-	__builtin_choose_expr(__print_is_type(a, List), List_t, \
+	__builtin_choose_expr(__print_is_type(a, List*), List_t, \
 	__builtin_choose_expr(__print_is_type(a, bool), Bool_t, \
 	__builtin_choose_expr(__print_is_type(a, double), Double_t, \
 	__builtin_choose_expr(__print_is_type(a, double*), DoubleList_t, \
@@ -78,6 +78,6 @@ void __print_func (FILE *fd, int count, unsigned short types[], ...);
 	__print_types(a); \
 	__print_func(fd, count, _p, a);\
 })
-#define print(a...) fprint(stdout, a)
+#define print(a...) fprint(stdout, a);
 
 #endif

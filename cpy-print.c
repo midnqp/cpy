@@ -4,7 +4,9 @@
  * Copyright 2021 Exebook
  * MIT License 
  */
+#include "cpy-core.h"
 #include "cpy.h"
+#include <stdio.h>
 
 int __print_enable_color = 1;
 int __print_color_normal = -1; // -1 means default terminal foreground color
@@ -66,18 +68,25 @@ void __print_func (FILE *fd, int count, unsigned short types[], ...) {
 			else fprintf(fd, "true");
 		}
 		else if (type == List_t) {
-			List l = va_arg(v, List);
-			printf("...list...list.type[0]: %d\n", l.type[0]);
-			for (int i=0; l.type[i] != INT_MAX; i++) {
-				int t = l.type[i];
-				if (t == Str_t) {
-					fprintf(fd, "String: %s\n", l.string[i]);
+			List* list = va_arg(v, List*);
+			fprintf(fd, "[ ");
+
+			for (int i=0; i < list_len(list); i++) {
+				int t = list->type[i];
+				switch (t) {
+					case Str_t:
+						if (i > 0) fprintf(fd, ", ");
+						fprintf(fd, "%s", list->string[i]);
+						break;
+					case Num_t:
+						if (i > 0) fprintf(fd, ", ");
+						fprintf(fd, "%G", list->num[i]);
+						break;
+					default:
+						printf("print: list: unknown type: %d", t);
 				}
-				else if (t == Double_t) {
-					fprintf(fd, "Number: %G\n", l.num[i]);
-				}
-				else fprintf(fd, "...Don't know...\n");
 			}
+			fprintf(fd, " ]");
 		}
 		else if (type == Double_t) {
 			__print_color(fd, __print_color_float);
