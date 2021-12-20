@@ -1,5 +1,9 @@
+#include <stdbool.h>
 #ifndef CPY_CORE_H
 #define CPY_CORE_H
+
+
+// Data type definition.
 
 enum TYPE {
 	Void_t   = 10,   Float_t = 1,
@@ -23,51 +27,50 @@ enum TYPE {
 	Unknown_t    = 0,
 };
 
+typedef struct {
+	int* type;
 
-typedef struct __list__ {
-	void* value;
-	int alloc;
-	int* types;
+	char**  string;
+	int stringc;
+
+	double* num;
+	int numc;
 } List;
 
 
-#define type(variable) \
-_Generic(variable,     \
-    int    : Int_t,    \
-    char   : Char_t,   \
-    long   : Long_t,   \
-    double : Double_t, \
-    float  : Float_t,  \
-    char*  : Str_t,    \
-	double*: DoubleArray_t,\
-	float* : FloatArray_t, \
-	void*  : Void_t,       \
-    default: Unknown_t)
+// Data type initializers.
+
+#define create_List_t() ({                     \
+	List list;                                 \
+	list.string = malloc(sizeof(char*) * 1);   \
+	list.stringc = 0;                          \
+	list.num = malloc(sizeof(double) * 1);     \
+	list.numc = 0;                             \
+	list.type = malloc(sizeof(int)*1);         \
+	&list;                                      \
+})
 
 
-#define vargc(args...) __print_count(args)
+// Helper utilities.
 
+void cpy_error(const char* e_msg, bool crash);
+#define new(TYPE) create_##TYPE();
 
-#define typeOf(a) ({\
+#define type(a) ({                         \
 	unsigned short stack[1], *_p = stack + 1;\
+	__print_types(a);                        \
+	_p[0] & 0x1F;                            \
+})
+
+#define va_argc(a...) __print_count(a)
+
+// Overload a function.
+#define va_argv(function, a...) ({\
+	int count = va_argc(a);\
+	unsigned short stack[count], *_p = stack + count;\
 	__print_types(a);\
-	_p[0] & 0x1F; \
+	function(count, _p, a);\
 })
-
-
-#define new(t) ({ \
-	new_##t(); \
-})
-
-
-#define new_List_t() ({\
-	List list; \
-	list.alloc = 8*1024; \
-	list.value = malloc(list.alloc); \
-	list.types = (int*)malloc(8*1024); \
-	for (int i=0; i < 1024;i++) \
-		list.types[i] = INT_MAX;\
-	list; \
-})
+#define va_type(variable) (variable & 0x1F)
 
 #endif

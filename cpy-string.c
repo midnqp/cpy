@@ -24,12 +24,12 @@ char* __str_add_va__(const char* strings, ...) {
 
 
 
-
+*/
 int str_eq(const char* a, const char* b) {
 	if (strcmp(a, b) == 0) return 1;
 	else return 0;
 }
-
+/*
 
 
 
