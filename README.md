@@ -1,138 +1,32 @@
-`#include <cpy.h>`
+![cpy](https://user-images.githubusercontent.com/90899789/147235026-dfaca003-9b46-4fea-b602-e34edc8c7c87.png)
 
-**WHOM THIS LIBRARY IS FOR?** 
-- For people new to C/C++ programming. This library contains simple & understandable implementations for basic & intermediate operations with data types.
-- The Python programming language is loved for being easy to use and fast to learn. But when we'd like it to be fast - it fails. In this case, this library will help.
-
-<br>
-
-An incredible script using `cpy.h` looks as nice as:
-```C
-#include <cpy.h>
-int main () {
-
-    char* name = input("👨🏻‍💻 Your Name? ");
-    print("Reversed: ", str_reverse(name));
-
-    print(str_split(name, "-"));
-    
-}
-```
-
-To link this library to your code:
-```bash
-# For GCC or MinGW
-gcc cpy.c main.c
-```
-```batch
-:: For Microsoft Visual Studio C++
-:: The print implementation needs to be ported. Other than, it's all good.
-
-cl.exe /EHsc /c cpy.c
-lib.exe cpy.obj
-
-cl.exe /EHsc main.c /link cpy.lib
-```
-<br><br><br><br><br>
+`libcpy` is a cross-platform library written in C, that implements convenient functions of Python and Javascript. This library intends to simplify writing code in C.
 
 
+## Build
+- To build libcpy from source, run: `make build`
+- To compile a simple script written using libcpy, run: `make script file=./path/to/file.c link=<static|shared>`
 
 
-The library contains `+` and aims to implement `-`:
-```
-+ Standard headers
-+ ANSI colors
-- dict
-+ file_append  
-+ file_read    
-+ file_write   
-+ file_size    
-+ input        
-- list_add     
-- list_count   
-- list_index   
-- list_eq
-- list_join    
-- list_len     
-+ list_max     
-+ list_min     
-- list_reverse 
-- list_remove  
-- list_slice   
-+ list_sort    
-+ list_sum     
-+ new
-+ print
-- str          
-+ str_add      
-+ str_count    
-+ str_eq       
-+ str_index   
-+ str_isalpha 
-+ str_len
-+ str_replace  
-+ str_reverse  
-+ str_slice    
-+ str_split    
-+ str_substr   
-- subprocess_getoutput
-+ type         
-```
-The implementations for list, can easily be done having ideas from the string counterparts. Work In Progress.
-<br><br><br><br><br>
+## API
+
+##### Modules & data types
+- `json` Encode and decode json.
+- `request` Make simple requests.
+- `List` Data type.
+
+##### Core helpers
+- Enumerated types: `Str_t` `List_t` `Num_t` ...
+- Initialize a type: `new(type_t)` e.g. `List* list = new(List_t);`
+- Get type of a variable: `type(variable)`
+- Count number of variadic args: `va_argc(args...)`
+- Overload a function: `va_argv(func, args...)`
+- (Optional, potentially deprecable) Colorful terminal: `printf(RED("Text in red")  GRN("Text in green"));`
 
 
+##### List functions
 
-Words of caution from the Author, for aspiring programmers:
->Maybe you're used to `print(str.reverse("1234567"))`. But in C/C++, you need to allocate and deallocate memory like a good & responsible programmer. So, you need to do
-```c
-char* rev = str_reverse("123"); 
-print(rev); 
-free(rev);
-```
+Initialize first: `List* list = new(List_t);`. Now use these functions for operations with the `List` type.
 
->C/C++ gives you control and performance and power. Never misuse your power. Always deallocate the memory you've been using gracefully.
-
-It may sound tedious. But don't worry, I've got two tricks up my sleeve.
-<br><br><br><br><br>
-
-
-
-
-### 1. Memory allocation and deallocation by Task
-```c
-// Allocate memory as you need under task name "user's introduction"
-char* username = new("user's information", char*, 20);
-char* website = new("Another Task", char*, 10);
-...
-...
-// do whatever you wanted with the variables
-...
-
-// When you're done, empty all allocations 
-// for task named "user's information"
-new("user's information", void*, 0);
-```
-
-### 2. Address-based operations
-Returning a pointer after operation, causes the programmer to initialize new variables. Alternatively, address-based operations are like:
-```c
-// new() is still kept return-based 
-// because they're better this way.
-
-char* username = new("info", char*, 20);     
-input(username, "Your name? ");
-// The string from stdin is appended to the var pointer `username`
-...
-...
-
-str_reverse(username, username);
-// The string at `username` is reversed and...
-// put in the place of itself.
-// Hence not requiring to use another variable.
-
-// And, we can integrate free-by-task
-new("info", void*, 0);
-```
-
-The address-based implementations of the methods/functions will be available at the [address-based](http://github.com/MidnQP/cpy/tree/address-based) branch.
+- Append items, e.g. many at once: `listAdd(list, "any", -0.1, "data type");`
+- Free after use: `list_free(list);`
