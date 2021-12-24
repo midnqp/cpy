@@ -10,49 +10,49 @@
 
 ## API :: Core
 
-- Enumerated types: `List_t` `Str_t` `Num_t` ... and more.
-- Initialize a variable:  `new(type_t)` 
+| Description | Signature |
+| :--         | :--       |
+| Enumerated types| `List_t` `Str_t` `Num_t` ...
+| Initialize a variable | `new(type_t)` 
+| Print | `print(<any>, ...)`
+| Input | `void input(char* name, const char*);`
+| Count variadic args | `va_argc(args...)`
+| Overload a function | `va_argv(func, args...)`  
+| Colorful texts (Optional) | See `cpy-colors.h`
+
+
 ```c
-List* list = new(List_t);
-char* name = new(Str_t);
+#include <cpy.h>
+int main() {
+
+
+    char* name = new(Str_t);
+    input(name, "You are: ");
+    
+    List* ls = new(List_t);
+    listAdd(ls, 1.2, -3.4, name);
+
+    print("anything", name, { 1.2, -3.4 }, -5.6, ls, type(ls) == List_t);
+}
 ```
 
-- Print: `print(<any>, ...)`
 ```c
-List* ls = new(List_t);
-listAdd(ls, 1.2, "string");
-
-print("print anything", { 1.2, -3 }, -9.1, ls);
-```
-
-- Input: `void input(char* name, const char*);`
-```c
-char* name = new(Str_t);
-input(name, "Your name: ");
-```
-
-- Type: `type(variable);`
-```c
-List* list = new(List_t); 
-char* name = new(Str_t);
-
-type(list);   // returns List_t
-type(name);   // returns Str_t
-```
-
-- Count number of variadic args: `va_argc(args...)`
-```c
-int _index(int count, unsigned short argv[], ...);
+// Count variadic args
 #define function(args...) ({       \
-  int count = va_argc(args);     \
-  print("Count: ", count);       \
+    int count = va_argc(args);     \
+    print("Count: ", count);       \
 })
+// Define an overloadable function
+void _add(List* list, int argc, unsigned short argv[], ...); 
+#define add(list, args...) ({ va_argv(_add, args); })
 
-function(0, 1, 2, 3);
-// Count: 4
+
+function(0, 1, 2, 3); // Count: 4
+print(RED("text in red")  GRN("text in green"));
 ```
-| Overload a function | | `int _index(int count, unsigned short argv[], ...);`  <br><br>  `#define Index(list, a...) ({ va_argv(_index, args...); })` |
-| Colorful terminal (Optional) | See `cpy-colors.h` | `printf(RED("Text in red")  GRN("Text in green"));` |
+
+
+
 
 
 ##### List functions
