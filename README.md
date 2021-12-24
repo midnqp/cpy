@@ -29,13 +29,22 @@
 Initialize first: `List* list = new(List_t);`. Now use these functions for operations with the `List` type.
 
 - Append items, e.g. many at once: `listAdd(list, "any", -0.1, "data type");`
-- Find/Index an item: `int listIndex(List* list, <any> item, int start, int end);`
-
-Yes, second argument `item` can be of any type. `start` and `end` are optional arguments. Default value `start` is 0, and `end` is length of list.
+- Find/Index an item: `int listIndex(List* list, <any> item, int start, int end);` Yes, second argument `item` can be of any type. `start` and `end` are optional arguments. Default value `start` is 0, and `end` is length of list.
+- List Includes? `bool listIncludes(List* list);`
 - Length of list: `listLen(list);`
-- Sort a list: `listSort(list);`
+- Copy & return a list: `listDup(list);`
 - Free after use: `listFree(list);`
 - Minimum item from numbers: `listMin(list)`;
 - Maximum item from numbers: `listMax(list);`
-- Copy & return a list: `listDup(list);`
+- Sort a list: `listSort(list);`
 - Sum of number items: `listSum(list);`
+- Remove an item: `listRemove(List* list, <any> item);`
+
+##### String functions
+
+Initialize: `Str* name = new(Str_t);`.
+
+- Append items, e.g. many at once: `strAdd(name, "Muhammad");`
+- Check if strings are equal: `strEq("abc", "abcd");`
+- Reverse: `strReverse(name)`
+- Substr: `bool strSub(name, "Muh");`
