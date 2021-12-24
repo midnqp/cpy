@@ -16,12 +16,20 @@
 - `List` Data type.
 
 #### Core helpers
-- Enumerated types
+- Enumerated types: `List_t` `Str_t` `Num_t` ... and more.
+- Initialize a variable with a type:  `new(type_t)` 
 ```c
-Str_t` `List_t` `Num_tInt_t
+List* list = new(List_t);
+char* name = new(Str_t);
 ```
-| Initialize a variable with a type | `new(type_t)` | `List* list = new(List_t);` |
-| Print                             | `print(<any>, ...)` | `print("print", "anything.", { 1.2, -3 }, -9.1, list);` |
+- Print: `print(<any>, ...)`
+```c
+List* ls = new(List_t);
+listAdd(ls, 1.2, "string");
+print("print anything", { 1.2, -3 }, -9.1, ls);
+```
+
+
 | Input                             | `void input(char* name, const char*);` | `char* name = new(Str_t);` `input(name, "Your name: ");`|
 | Type of a variable                | `type(variable);` | `int a; type(a);` `// returns Int_t` |
 | Count number of variadic args     | `va_argc(args...)` | `#define vafunc(args...) ({ ...; int count = va_argc(args); })`
