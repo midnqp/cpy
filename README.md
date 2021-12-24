@@ -18,6 +18,8 @@
 ##### Core helpers
 - Enumerated types: `Str_t` `List_t` `Num_t` ...
 - Initialize a type: `new(type_t)` e.g. `List* list = new(List_t);`
+- Print: `print("You can print anything", {1, 2, 3}, -9.1, list);`
+- Input: `input(string, "Input like Python: ");`
 - Get type of a variable: `type(variable)`
 - Count number of variadic args: `va_argc(args...)`
 - Overload a function: `va_argv(func, args...)`
