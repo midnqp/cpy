@@ -10,30 +10,34 @@
 
 ## API
 
-##### Modules & data types
+#### Modules & data types
 - `json` Encode and decode json.
 - `request` Make simple requests.
 - `List` Data type.
 
-##### Core helpers
-| Description           | Signature                 |             Example       |
-| :---                  |    :----                  | :---                      |
-| Enumerated types      | `Str_t` `List_t` `Num_t` `Int_t` ... ||
+#### Core helpers
+- Enumerated types
+```c
+Str_t` `List_t` `Num_tInt_t
+```
 | Initialize a variable with a type | `new(type_t)` | `List* list = new(List_t);` |
-| Print | `print(<any>, ...)` | `print("print", "anything.", { 1.2, -3 }, -9.1, list);` |
-| Input | `void input(char* name, const char*);` | `char* name = new(Str_t);` `input(name, "Your name: ");`|
-| Type of a variable | `type(variable);` | `int a; type(a);` `// returns Int_t` |
-| Count number of variadic args |  | `va_argc(args...)` |
-| Overload a function | | `int list_index(int count, unsigned short argv[], ...);` `#define listIndex(list, a...) ({ va_argv(list_index, args...); })` |
-| Colorful terminal (Optional, potentially deprecable) | See `cpy-color.h` | `printf(RED("Text in red")  GRN("Text in green"));` |
+| Print                             | `print(<any>, ...)` | `print("print", "anything.", { 1.2, -3 }, -9.1, list);` |
+| Input                             | `void input(char* name, const char*);` | `char* name = new(Str_t);` `input(name, "Your name: ");`|
+| Type of a variable                | `type(variable);` | `int a; type(a);` `// returns Int_t` |
+| Count number of variadic args     | `va_argc(args...)` | `#define vafunc(args...) ({ ...; int count = va_argc(args); })`
+| Overload a function | | `int _index(int count, unsigned short argv[], ...);`  <br><br>  `#define Index(list, a...) ({ va_argv(_index, args...); })` |
+| Colorful terminal (Optional) | See `cpy-colors.h` | `printf(RED("Text in red")  GRN("Text in green"));` |
 
 
 ##### List functions
 
 Initialize first: `List* list = new(List_t);`. Now use these functions for operations with the `List` type.
 
-- Append items, e.g. many at once: `listAdd(list, "any", -0.1, "data type")`
-- Find/Index an item: `int listIndex(List* list, <any> item, int start, int end);` Yes, second argument `item` can be of any type. `start` and `end` are optional arguments. Default value `start` is 0, and `end` is length of list.
+| Description           | Signature                 |             Example       |
+| :---                  |    :----                  | :---                      |
+| Append items, many at once | `void listAdd(List* list, ...)` | `listAdd(list, "any", -0.1, "data type")`
+| Find/Index an item | `int listIndex(List* list, <any> item, int start, int end);` | `listIndex(list, "any")` Yes, second argument `item` can be of any type. `start` and `end` are optional arguments. Default value `start` is 0, and `end` is length of list.
+
 - List Includes? `bool listIncludes(List* list);`
 - List slice (Javascript) `List* listSlice(List* list, int from, int end);`
 - Length of list: `listLen(list)`
