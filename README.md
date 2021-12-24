@@ -16,14 +16,16 @@
 - `List` Data type.
 
 ##### Core helpers
-- Enumerated types: `Str_t` `List_t` `Num_t` ...
-- Initialize a type: `new(type_t)` e.g. `List* list = new(List_t);`
-- Print: `print("You can print anything", {1, 2, 3}, -9.1, list);`
-- Input: `input(string, "Input like Python: ");`
-- Get type of a variable: `type(variable)`
-- Count number of variadic args: `va_argc(args...)`
-- Overload a function: `va_argv(func, args...)`
-- (Optional, potentially deprecable) Colorful terminal: `printf(RED("Text in red")  GRN("Text in green"));`
+| Description           | Signature                 |             Example       |
+| :---                  |    :----                  | :---                      |
+| Enumerated types      | `Str_t` `List_t` `Num_t` `Int_t` ... ||
+| Initialize a variable with a type | `new(type_t)` | `List* list = new(List_t);` |
+| Print | `print(<any>, ...)` | `print("print", "anything.", { 1.2, -3 }, -9.1, list);` |
+| Input | `void input(char* name, const char*);` | `char* name = new(Str_t);` `input(name, "Your name: ");`|
+| Type of a variable | `type(variable);` | `int a; type(a);` `// returns Int_t` |
+| Count number of variadic args |  | `va_argc(args...)` |
+| Overload a function | | `int list_index(int count, unsigned short argv[], ...);` `#define listIndex(list, a...) ({ va_argv(list_index, args...); })` |
+| Colorful terminal (Optional, potentially deprecable) | See `cpy-color.h` | `printf(RED("Text in red")  GRN("Text in green"));` |
 
 
 ##### List functions
