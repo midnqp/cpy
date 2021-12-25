@@ -1,9 +1,22 @@
 ![cpy](https://user-images.githubusercontent.com/90899789/147235026-dfaca003-9b46-4fea-b602-e34edc8c7c87.png)
 
-`libcpy` is a library intending to simplify writing code in C.
-- Implements the convenient functions of Python and Javascript
-- Simplifies operations with data types
-- Optional modules
+<p align="left">
+<a href="https://opensource.org/licenses/MIT">
+    <img src="https://img.shields.io/badge/License-MIT-brightgreen.svg?style=for-the-badge">
+</a>
+    &emsp;
+    <img src="https://img.shields.io/github/languages/code-size/midnqp/cpy?style=for-the-badge">
+    &emsp;
+    <img src="https://img.shields.io/tokei/lines/github.com/midnqp/cpy?style=for-the-badge">
+</p>
+
+
+
+`libcpy` is a library written in C, that:
+- implements commonly-used data-type operations
+- brings the best/relevant from `libnica` `c-utils` `sc` `libstb` `awesome-c` ...
+- modules: `json`, `request`, ...
+- attempts to simplify general-purpose scripting in C
 
 
 ## Build
@@ -32,7 +45,7 @@
 int main() {
 
     char* name = new(Str_t);
-    input(name, "You are: ");
+    input(name, "👨🏻‍💻 Username: ");
     
     List* ls = new(List_t);
     listAdd(ls, 1.2, -3.4, name);
@@ -40,7 +53,7 @@ int main() {
     double arr[] = { 1.2, -3.4 };
     bool t = type(ls) == List_t;  // true
     print(ls, name);
-    print("anything", -5.6, t, arr);
+    print("🔥 anything", -5.6, t, arr);
 }
 ```
 
