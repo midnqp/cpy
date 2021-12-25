@@ -1,138 +1,143 @@
-`#include <cpy.h>`
+![cpy](https://user-images.githubusercontent.com/90899789/147235026-dfaca003-9b46-4fea-b602-e34edc8c7c87.png)
 
-**WHOM THIS LIBRARY IS FOR?** 
-- For people new to C/C++ programming. This library contains simple & understandable implementations for basic & intermediate operations with data types.
-- The Python programming language is loved for being easy to use and fast to learn. But when we'd like it to be fast - it fails. In this case, this library will help.
+<p align="left">
+<a href="https://opensource.org/licenses/MIT">
+    <img src="https://img.shields.io/badge/License-MIT-brightgreen.svg?style=for-the-badge">
+</a>
+    &emsp;
+    <img src="https://img.shields.io/github/languages/code-size/midnqp/cpy?style=for-the-badge">
+    &emsp;
+    <img src="https://img.shields.io/tokei/lines/github.com/midnqp/cpy?style=for-the-badge">
+</p>
 
-<br>
 
-An incredible script using `cpy.h` looks as nice as:
-```C
+
+`libcpy` is a library written in C, that:
+- implements commonly-used data-type operations
+- brings the best/relevant from `libnica` `c-utils` `sc` `libstb` `awesome-c` ...
+- modules: `json`, `request`, ...
+- attempts to simplify general-purpose scripting in C
+
+
+## Build
+- To build libcpy from source, run: `make build`
+- To compile a simple script written using libcpy, run: `make script file=./path/to/script.c link=<static|shared>`
+
+
+
+
+## API :: Core
+
+| Description | Signature |
+| :--         | :--       |
+| Enumerated types| `List_t` `Str_t` `Num_t` ...
+| Initialize a variable | `new(type_t);` 
+| Print | `print(<any>, ...);`
+| Input | `void input(char* name, const char* prompt);`
+| Type | `type(variable);`
+| Count variadic args | `va_argc(args...);`
+| Overload a function | `va_argv(func, args...);`
+| Colorful texts (Optional) | See `cpy-colors.h`
+
+
+```c
 #include <cpy.h>
-int main () {
+int main() {
 
-    char* name = input("👨🏻‍💻 Your Name? ");
-    print("Reversed: ", str_reverse(name));
-
-    print(str_split(name, "-"));
+    char* name = new(Str_t);
+    input(name, "👨🏻‍💻 Username: ");
     
+    List* ls = new(List_t);
+    listAdd(ls, 1.2, -3.4, name);
+
+    double arr[] = { 1.2, -3.4 };
+    bool t = type(ls) == List_t;  // true
+    print(ls, name);
+    print("🔥 anything", -5.6, t, arr);
 }
 ```
 
-To link this library to your code:
-```bash
-# For GCC or MinGW
-gcc cpy.c main.c
-```
-```batch
-:: For Microsoft Visual Studio C++
-:: The print implementation needs to be ported. Other than, it's all good.
-
-cl.exe /EHsc /c cpy.c
-lib.exe cpy.obj
-
-cl.exe /EHsc main.c /link cpy.lib
-```
-<br><br><br><br><br>
-
-
-
-
-The library contains `+` and aims to implement `-`:
-```
-+ Standard headers
-+ ANSI colors
-- dict
-+ file_append  
-+ file_read    
-+ file_write   
-+ file_size    
-+ input        
-- list_add     
-- list_count   
-- list_index   
-- list_eq
-- list_join    
-- list_len     
-+ list_max     
-+ list_min     
-- list_reverse 
-- list_remove  
-- list_slice   
-+ list_sort    
-+ list_sum     
-+ new
-+ print
-- str          
-+ str_add      
-+ str_count    
-+ str_eq       
-+ str_index   
-+ str_isalpha 
-+ str_len
-+ str_replace  
-+ str_reverse  
-+ str_slice    
-+ str_split    
-+ str_substr   
-- subprocess_getoutput
-+ type         
-```
-The implementations for list, can easily be done having ideas from the string counterparts. Work In Progress.
-<br><br><br><br><br>
-
-
-
-Words of caution from the Author, for aspiring programmers:
->Maybe you're used to `print(str.reverse("1234567"))`. But in C/C++, you need to allocate and deallocate memory like a good & responsible programmer. So, you need to do
 ```c
-char* rev = str_reverse("123"); 
-print(rev); 
-free(rev);
+// Count variadic args
+#define function(args...) ({       \
+    int count = va_argc(args);     \
+    print("Count: ", count);       \
+})
+function(0, 1, 2, 3); // Count: 4
 ```
 
->C/C++ gives you control and performance and power. Never misuse your power. Always deallocate the memory you've been using gracefully.
-
-It may sound tedious. But don't worry, I've got two tricks up my sleeve.
-<br><br><br><br><br>
-
-
-
-
-### 1. Memory allocation and deallocation by Task
 ```c
-// Allocate memory as you need under task name "user's introduction"
-char* username = new("user's information", char*, 20);
-char* website = new("Another Task", char*, 10);
-...
-...
-// do whatever you wanted with the variables
-...
-
-// When you're done, empty all allocations 
-// for task named "user's information"
-new("user's information", void*, 0);
+// Overload a function
+void _add(int argc, unsigned short argv[], ...); 
+#define Add(args...) ({ va_argv(_add, args); })
+Add(1, 2, 3, 4, 5);
 ```
 
-### 2. Address-based operations
-Returning a pointer after operation, causes the programmer to initialize new variables. Alternatively, address-based operations are like:
-```c
-// new() is still kept return-based 
-// because they're better this way.
 
-char* username = new("info", char*, 20);     
-input(username, "Your name? ");
-// The string from stdin is appended to the var pointer `username`
-...
-...
 
-str_reverse(username, username);
-// The string at `username` is reversed and...
-// put in the place of itself.
-// Hence not requiring to use another variable.
 
-// And, we can integrate free-by-task
-new("info", void*, 0);
-```
 
-The address-based implementations of the methods/functions will be available at the [address-based](http://github.com/MidnQP/cpy/tree/address-based) branch.
+## API :: List
+
+- Initialize: `List* ls = new(List_t);`
+- Arguments with `<any>` tag can be of any type.
+- Arguments with `<optional>` tag can be omitted. They have a default value.
+
+
+| Description           | Signature                 |
+| :---                  | :----                     |
+| Append items | `void listAdd(List* ls, ...);`
+| Find/Index an item | `int listIndex(List* ls, <any> item, int start <optional>, int end <optional>)`;
+| Remove an item | `void listRemove(List* ls, <any> item);`
+| Count items | `int listLen(List* ls);`
+| [Includes](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/includes) | `bool listIncludes(List* ls, <any> item);`
+| Slice | `List* listSlice(List* ls, int start <optional>, int end <optional>);`
+| [Splice](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/splice)  | `void listSplice(List* ls, int index <optional>, int count <optional>);`
+| Copy & return a list | `List* listDup(List* ls);`
+| Min item among numbers | `double listMin(List* ls);`
+| Max item among numbers | `double listMax(List* ls);`
+| Sum of numbers | `double listSum(List* ls);`
+| Sort & return a list | `List* listSort(List* ls);`
+| Free | `void listFree(List* ls);`
+
+
+
+
+## API :: String
+
+- Initialize: `char* name = new(Str_t);`.
+- Arguments with `<optional>` tag can be omitted. They have a default value.
+
+| Description           | Signature                 |
+| :---                  | :----                     |
+| Append strings | `void strAdd(char* str, const char* items, ...);`
+| Strings equal? |  `bool strEq(const char* foo, const char* bar);`
+| Reverse | `char* strReverse(const char* str);`
+| Substring exists? |  `bool strSub(const char* str, const char* sub);` 
+| Index/Find a string | `int strIndex(const char* str, const char* sub);`
+| Count occurencences of a string | `int strCount(const char* str, const char* sub);`
+| Alphanumeric? | `bool strAlnum(const char* str);`
+| Replace | `void strReplace(const char* str, const char* a, const char* b);`
+| Slice | `char* strSlice(const char* str, int start <optional>, int end <optional>);`
+| Split | `List* strSplit(const char* str, const char* delimiter);`
+| Free | `void strFree(const char* string);`
+
+
+
+
+## API :: File
+
+- Initialize: `<none>`
+- The following are for overly simple operations, and can be made better/powerful.
+
+| Description         | Signature           |
+|:---                 | :---                |
+| File exists? | `bool fileExists(const char* filepath);`
+| Directory/Folder exists? | `bool dirExists(const char* path); `
+| Read a file | `bool fileRead(const char* filepath, char* content);`
+| Write to a file | `bool fileWrite(const char* filepath, const char* content);`
+| Append to a file | `bool fileWrite(const char* filepath, const char* content);`
+| Remove a file | `bool fileRemove(const char* filepath);`
+| File size | `int fileSize(const char* filepath);`
+| Remove a directory/folder | `bool dirRemove(const char* path, bool recursive);`
+| `TODO` Asynchronously read/write a huge file | `void fileReadAsync(...);` `void fileWriteAsync(...);`
