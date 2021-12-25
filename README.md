@@ -24,15 +24,16 @@
 ```c
 #include <cpy.h>
 int main() {
-
-
     char* name = new(Str_t);
     input(name, "You are: ");
     
     List* ls = new(List_t);
     listAdd(ls, 1.2, -3.4, name);
 
-    print("anything", name, { 1.2, -3.4 }, -5.6, ls, type(ls) == List_t);
+    double arr[] = { 1.2, -3.4 };
+    bool ls_type = type(ls) == List_t;  // true
+    print(ls, name);
+    print("anything", -5.6, ls_type, false, arr);
 }
 ```
 
@@ -42,13 +43,13 @@ int main() {
     int count = va_argc(args);     \
     print("Count: ", count);       \
 })
-// Define an overloadable function
-void _add(List* list, int argc, unsigned short argv[], ...); 
-#define add(list, args...) ({ va_argv(_add, args); })
-
-
 function(0, 1, 2, 3); // Count: 4
-print(RED("text in red")  GRN("text in green"));
+
+
+// Overload a function
+void _add(int argc, unsigned short argv[], ...); 
+#define Add(args...) ({ va_argv(_add, args); })
+Add(1, 2, 3, 4, 5);
 ```
 
 
@@ -57,23 +58,36 @@ print(RED("text in red")  GRN("text in green"));
 
 ##### List functions
 
-Initialize first: `List* list = new(List_t);`. Now use these functions for operations with the `List` type.
+Initialize first: `List* ls = new(List_t);`. Now use these functions for operations with the `List` type.
+Arguments with `<optional>` tag can be omitted. They have a default value.
 
-| Description           | Signature                 |             Example       |
-| :---                  |    :----                  | :---                      |
-| Append items, many at once | `void listAdd(List* list, ...)` | `listAdd(list, "any", -0.1, "data type")`
-| Find/Index an item | `int listIndex(List* list, <any> item, int start, int end);` | `listIndex(list, "any")` Yes, second argument `item` can be of any type. `start` and `end` are optional arguments. Default value `start` is 0, and `end` is length of list.
 
-- List Includes? `bool listIncludes(List* list);`
-- List slice (Javascript) `List* listSlice(List* list, int from, int end);`
-- Length of list: `listLen(list)`
-- Copy & return a list: `listDup(list)`
-- Free after use: `listFree(list)`
-- Minimum item from numbers: `listMin(list)`
-- Maximum item from numbers: `listMax(list)`
-- Sort a list: `listSort(list)`
-- Sum of number items: `listSum(list)`
-- Remove an item: `void listRemove(List* list, <any> item);`
+| Description           | Signature                 |
+| :---                  | :----                     |
+| Append items | `void listAdd(List* ls, ...);`
+| Find/Index an item | `int listIndex(List* ls, <any> item, int start <optional>, int end <optional>)`;
+| List includes item? | `bool listIncludes(List* ls);`
+| Slice | `List* listSlice(List* ls, int from, int end);`
+| Count items | `int listLen(List* ls);`
+| Copy & return a list | `List* listDup(List* ls);`
+| Free after use | `void listFree(List* ls);`
+| Minimum item from numbers | `double listMin(List* ls);`
+| Maximum item from numbers | `double listMax(List* ls);`
+| Sort & return a list | `List* listSort(List* ls);`
+| Sum of number items | `double listSum(List* ls);`
+| Remove an item | `void listRemove(List* ls, <any> item);`
+| Splice | `void listSplice(List* ls, int index, int count);`
+
+```c
+listAdd(list, "any", -0.1, "data type");
+
+listIndex(list, "any");
+listIndex(list, 7);
+// Yes, second argument `item` can be of any type.
+// `start` and `end` are optional arguments.
+// Default of `start` is 0, and `end` is length of list.
+```
+
 
 ##### String functions
 
