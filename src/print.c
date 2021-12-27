@@ -4,9 +4,7 @@
  * Copyright 2021 Exebook
  * MIT License 
  */
-#include "cpy-core.h"
 #include "cpy.h"
-#include <stdio.h>
 
 int __print_enable_color = 1;
 int __print_color_normal = -1; // -1 means default terminal foreground color

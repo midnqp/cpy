@@ -3,18 +3,19 @@ import os, sys
 
 strs = {}
 #strs['cmd'] = "gcc  -Wl,-v -Wall -Wextra -Wno-unused-value -g -fsanitize=address  -fcompare-debug-second -I ."
-strs['cmd'] = "gcc -Wall -Wextra -Wno-unused-value -g   -fcompare-debug-second -I ."
+strs['cmd'] = "gcc -Wall -Wextra -Wno-unused-value -g   -fcompare-debug-second -I ./include"
 strs['err'] = "Compilation error"
 strs['compilation_script'] = "\033[94mCompilation Script\033[0m 📃"
 strs['cpy'] = "🚀\033[32mCPY\033[0m"
 
 files = {}
-files['cpy'] = [ 'cpy-core.c', 'cpy-file.c', 'cpy-list.c', 'cpy-print.c', 'cpy-string.c']
+files['cpy'] = [ 'core.c', 'file.c', 'list.c', 'print.c', 'string.c']
 
 dirs = {}
 dirs['out'] = './out'
 dirs['obj'] = dirs['out'] + '/objects'
 dirs['so'] = dirs['out']
+dirs['src'] = 'src'
 
 
 def mkdirs():
@@ -78,8 +79,9 @@ def build(argList):
 
     plog("Compiling with PIC to object")
     for i in range(len(cpyFiles)):
-        filename = os.path.splitext(cpyFiles[i])[0]
-        ret = os.system("{} -c -fpic -o {}/{}.o ./{}.c".format(strs['cmd'], dirs['obj'], filename, filename))
+        basefile = os.path.splitext(cpyFiles[i])[0]
+        srcfile = dirs['src'] + '/'+basefile
+        ret = os.system("{} -c -fpic -o {}/{}.o ./{}.c".format(strs['cmd'], dirs['obj'], basefile, srcfile))
         check(ret, True)
 
     if (buildType == 'shared'):

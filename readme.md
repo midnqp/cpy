@@ -20,7 +20,7 @@
 
 
 ## Build
-- To build libcpy from source, run: `make build`
+- To build libcpy from source, run: `make all`
 - To compile a simple script written using libcpy, run: `make script file=./path/to/script.c link=<static|shared>`
 
 
@@ -37,7 +37,6 @@
 | Type | `type(variable);`
 | Count variadic args | `va_argc(args...);`
 | Overload a function | `va_argv(func, args...);`
-| Colorful texts (Optional) | See `cpy-colors.h`
 
 
 ```c
