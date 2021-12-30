@@ -1,24 +1,52 @@
 #ifndef CPY_STRING_H
+#include "cpy_core.h"
 #define CPY_STRING_H
 
-
-char* __str_add_va__(const char* strings, ...);
-#define str_add(...) __str_add_va__(__VA_ARGS__, NULL)
-#define str_len(pointer) strlen(pointer)
-int str_count(const char* string, const char* substr, int start, int end);
-int str_eq(const char* a, const char* b);
-int str_index(const char* str, const char* substr, int start, int end);
-int str_isalpha(const char* string);
+char* str_add_va(const char* strings, ...);
 char* str_put(char* variable, char* value);
 void strPut(char* variable, char* value); 
-#define strAdd(variable, ...) {\
-	char* __strAddInternal = str_add(variable, __VA_ARGS__);\
-	strPut(variable, __strAddInternal);\
-}
-char* str_replace(const char* main, const char* repl, const char* with, int start, int end);
-char* str_reverse(const char* string);
-char* str_slice(const char* string, int start, int step, int end);
-char** str_split(const char* a_str, const char* a_delim);
-char* str_substr(const char* string, const char* substr);
+
+/**
+ * Checks if @string is alphanumeric.
+ * @returns {bool}
+ */
+bool strAlnum(const char* string);
+
+/**
+ * Counts the occurences of @substr in @str.
+ * 
+ * @param {const char*} str 
+ * @param {const char*} substr 
+ * @param {int} start Optional
+ * @param {int} end Optional
+ *
+ * @returns {int}
+ */
+int strCount(const char* str, const char* substr, int start, int end);
+
+/**
+ * Checks if the strings @foo and @bar are equal.
+ * 
+ * @param {const char*} foo
+ * @param {const char*} bar
+ * @param {bool} caseSensitive. Optional. Default: true.
+ *
+ * @returns {bool}
+ */
+bool strEq(const char* foo, const char* bar, bool caseSensitive);
+
+int strIndex(const char* str, const char* substr, int start, int end);
+void strReplace(const char* str, const char* a, const char* b);
+void strReverse(char* dest, const char* string);
+void strSlice(char* dest, const char* str, int start , int end );
+void strSplit(List* dest, const char* a_str, const char* a_delim);
+void strSub(char* dest, const char* string, const char* substr);
+
+#define str_add(...) str_add_va(__VA_ARGS__, NULL)
+#define strAdd(var, ...) ({\
+	char* tmp = str_add(var, __VA_ARGS__);\
+	strPut(var, tmp);\
+})
+#define str_len(pointer) strlen(pointer)
 
 #endif

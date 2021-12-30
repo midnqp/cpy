@@ -1,4 +1,4 @@
-#include "cpy.h"
+#include "../include/cpy.h"
 /*char* file_read(const char* filename) {
 	FILE* file = fopen(filename, "r");
 	if (file != NULL) {
