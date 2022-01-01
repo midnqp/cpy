@@ -71,7 +71,7 @@ void __print_func(FILE* fd, int count, unsigned short types[], ...) {
       List* list = va_arg(v, List*);
       fprintf(fd, "[ ");
 
-      for (int i = 0; i < list_len(list); i++) {
+      for (int i = 0; i < listLen(list); i++) {
         int t = list->type[i];
         switch (t) {
           case Str_t:

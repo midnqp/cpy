@@ -25,11 +25,11 @@ char* __str_add_va__(const char* strings, ...) {
 
 
 */
-int strEq(const char* a, const char* b) {
+bool strEq(const char* a, const char* b) {
   if (strcmp(a, b) == 0)
-    return 1;
+    return true;
   else
-    return 0;
+    return false;
 }
 /*
 

@@ -13,7 +13,7 @@ void strPut(char* variable, char* value);
 bool strAlnum(const char* string);
 
 /**
- * Counts the occurences of @substr in @str.
+ * Counts the occurrences of @substr in @str.
  * 
  * @param {const char*} str 
  * @param {const char*} substr 
@@ -33,7 +33,7 @@ int strCount(const char* str, const char* substr, int start, int end);
  *
  * @returns {bool}
  */
-bool strEq(const char* foo, const char* bar, bool caseSensitive);
+bool strEq(const char* foo, const char* bar);
 
 int strIndex(const char* str, const char* substr, int start, int end);
 void strReplace(const char* str, const char* a, const char* b);
@@ -42,11 +42,11 @@ void strSlice(char* dest, const char* str, int start , int end );
 void strSplit(List* dest, const char* a_str, const char* a_delim);
 void strSub(char* dest, const char* string, const char* substr);
 
-#define str_add(...) str_add_va(__VA_ARGS__, NULL)
+#define _str_add(...) str_add_va(__VA_ARGS__, NULL)
 #define strAdd(var, ...) ({\
-	char* tmp = str_add(var, __VA_ARGS__);\
+	char* tmp = _str_add(var, __VA_ARGS__);\
 	strPut(var, tmp);\
 })
-#define str_len(pointer) strlen(pointer)
+#define strLen(pointer) strlen(pointer)
 
 #endif

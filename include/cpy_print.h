@@ -7,6 +7,7 @@
 #ifndef CPY_PRINT_H
 #define CPY_PRINT_H
 
+
 extern int __print_enable_color;
 void __print_color(FILE *fd, int a);
 
@@ -79,9 +80,10 @@ void __print_func(FILE *fd, int count, unsigned short types[], ...);
   ({                                                  \
     int count = __print_count(a);                     \
     unsigned short stack[count], *_p = stack + count; \
-    __print_types(a);                                 \
-    __print_func(fd, count, _p, a);                   \
+    (void)__print_types(a);                                 \
+    (void)__print_func(fd, count, _p, a);                   \
   })
-#define print(a...) fprint(stdout, a);
+
+#define print(a...) (void)fprint(stdout, a);
 
 #endif
