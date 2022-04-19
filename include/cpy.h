@@ -18,11 +18,11 @@
     #include <dirent.h>
 #endif
 
-#include "cpy-core.h"
-#include "cpy-print.h"
-#include "cpy-colors.h"
-#include "cpy-file.h"
-#include "cpy-list.h"
-#include "cpy-string.h"
+
+#include "cpy_core.h"
+#include "cpy_print.h"
+#include "cpy_file.h"
+#include "cpy_list.h"
+#include "cpy_string.h"
 
 #endif

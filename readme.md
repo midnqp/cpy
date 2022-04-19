@@ -20,7 +20,7 @@
 
 
 ## Build
-- To build libcpy from source, run: `make build`
+- To build libcpy from source, run: `make all`
 - To compile a simple script written using libcpy, run: `make script file=./path/to/script.c link=<static|shared>`
 
 
@@ -37,7 +37,6 @@
 | Type | `type(variable);`
 | Count variadic args | `va_argc(args...);`
 | Overload a function | `va_argv(func, args...);`
-| Colorful texts (Optional) | See `cpy-colors.h`
 
 
 ```c
@@ -45,13 +44,13 @@
 int main() {
 
     char* name = new(Str_t);
-    input(name, "👨🏻‍💻 Username: ");
-    
     List* ls = new(List_t);
+    bool t = type(ls) == List_t;    //true
+    double arr[] = { 1.2, -3.4 };
+    
+    input(name, "👨🏻‍💻 Username: ");
     listAdd(ls, 1.2, -3.4, name);
 
-    double arr[] = { 1.2, -3.4 };
-    bool t = type(ls) == List_t;  // true
     print(ls, name);
     print("🔥 anything", -5.6, t, arr);
 }

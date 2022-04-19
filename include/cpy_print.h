@@ -2,38 +2,40 @@
  * File: Generic Print
  *
  * Copyright 2021 Exebook
- * MIT License 
+ * MIT License
  */
 #ifndef CPY_PRINT_H
 #define CPY_PRINT_H
 
 extern int __print_enable_color;
-void __print_color(FILE* fd, int a);
+void __print_color(FILE *fd, int a);
 
-#define __print_array(fd, T, qual, color) \
-	__print_color(fd, __print_color_normal); \
-	int max_len = 16; \
-	int n = size/sizeof(T); \
-	T *m = va_arg(v, T*); \
-	fprintf(fd, "["); \
-	__print_color(fd, color); \
-	for (int i = 0; i < (n < max_len ? n : max_len); i++) { \
-		if (i > 0) fprintf(fd, " "); \
-		fprintf(fd, qual, m[i]); \
-	} \
-	__print_color(fd, __print_color_normal); \
-	if (n > max_len) fprintf(fd, "..."); \
-	fprintf(fd, "]");
+#define __print_array(fd, T, qual, color)                 \
+  __print_color(fd, __print_color_normal);                \
+  int max_len = 16;                                       \
+  int n = size / sizeof(T);                               \
+  T *m = va_arg(v, T *);                                  \
+  fprintf(fd, "[");                                       \
+  __print_color(fd, color);                               \
+  for (int i = 0; i < (n < max_len ? n : max_len); i++) { \
+    if (i > 0) fprintf(fd, " ");                          \
+    fprintf(fd, qual, m[i]);                              \
+  }                                                       \
+  __print_color(fd, __print_color_normal);                \
+  if (n > max_len) fprintf(fd, "...");                    \
+  fprintf(fd, "]");
 
-extern int __print_color_normal; // -1 means default terminal foreground color
+extern int __print_color_normal;  // -1 means default terminal foreground color
 extern int __print_color_number;
 extern int __print_color_string;
 extern int __print_color_hex;
 extern int __print_color_float;
 
-void __print_setup_colors(int normal, int number, int string, int hex, int fractional);
-void __print_func (FILE *fd, int count, unsigned short types[], ...);
+void __print_setup_colors(int normal, int number, int string, int hex,
+                          int fractional);
+void __print_func(FILE *fd, int count, unsigned short types[], ...);
 
+// clang-format off
 #define __print_typeid(a) \
 	__builtin_choose_expr(__print_is_type(a, List*), List_t, \
 	__builtin_choose_expr(__print_is_type(a, bool), Bool_t, \
@@ -71,13 +73,15 @@ void __print_func (FILE *fd, int count, unsigned short types[], ...);
 
 #define __print_types(a...) __print_types_int(a, (void)0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1)
 
+// clang-format on
 // If you remove the ({}), then reclaration error appears!
-#define fprint(fd, a...) ({\
-	int count = __print_count(a); \
-	unsigned short stack[count], *_p = stack + count; \
-	__print_types(a); \
-	__print_func(fd, count, _p, a);\
-})
+#define fprint(fd, a...)                              \
+  ({                                                  \
+    int count = __print_count(a);                     \
+    unsigned short stack[count], *_p = stack + count; \
+    __print_types(a);                                 \
+    __print_func(fd, count, _p, a);                   \
+  })
 #define print(a...) fprint(stdout, a);
 
 #endif
