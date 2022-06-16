@@ -1,5 +1,6 @@
-#include "../include/cpy.h"
 #include <stdarg.h>
+
+#include "../include/cpy.h"
 
 void listFree(List* list) {
   for (int i = 0; i < listLen(list); i++) {
@@ -54,7 +55,7 @@ void list_add(int argc, unsigned short argv[], ...) {
   for (int j = 0; j < argc; j++) {
     char type = va_type(argv[j]);
     int i = listLen(ls);
-    if (type == CharArray_t) {
+    if (type == CharArray_t || type == Str_t || type == Char_t) {
       const char* str = va_arg(v, char*);
 
       // Make space for new string.
@@ -70,10 +71,14 @@ void list_add(int argc, unsigned short argv[], ...) {
       ls->type[i] = Str_t;
 
       ls->stringc++;
-    } else if (type == Double_t)
+    } 
+	/*else if (type == Char_t) {}*/
+	else if (type == Double_t) {
       list_add_num(ls, double);
-    else if (type == Int_t)
+	}
+    else if (type == Int_t) {
       list_add_num(ls, int);
+	}
   }
   va_end(v);
 }
@@ -129,13 +134,13 @@ int list_index(int argc, unsigned short* argv, ...) {
 }
 
 double listMax(List* ls) {
-	print(ls);
-	return 0;
-	/*double a = list.;*/
+  print(ls);
+  return 0;
+  /*double a = list.;*/
   /*for (int i = 0; i < listLen(list); i++) {*/
-    /*if (list-> > a) {*/
-      /*a = list.value[i];*/
-    /*}*/
+  /*if (list-> > a) {*/
+  /*a = list.value[i];*/
+  /*}*/
   /*}*/
   /*return a;*/
 }
