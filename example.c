@@ -2,22 +2,23 @@
 
 int main() {
 
-	double numbers[] = {1, -2, 3.4, -5.6};
-	print("Array<Number> ", numbers);
+	double numbers[] = {0, -1, 2.3, -4.5};
+	print("array <number> ", numbers);
 
 	List* listAny = new (List_t);
 	listAdd(listAny, 1, -2, 3.4, "5", -6.7);
-	print("Array<any> ", listAny);
+	print("array <any> ", listAny);
 
-	char* str = malloc(sizeof(char*) * 100);
-	strcpy(str, "Malloc-ed string");
+	char* str = malloc(sizeof(char*) * 64);
+	strcpy(str, "this is a malloc'ed string");
 	listAdd(listAny, str);
 
-	char charLiteral[] = {'c', 'h', 'a', 'r', 'A', 'r', 'r', '\0'};
-	listAdd(listAny, charLiteral, "String literal (considered char array literal)");
+	char charLiteral[] = {'a', ' ', 'c', 'h', 'a', 'r', ' ', 'a', 'r', 'r', 'a', 'y', '\0'};
+	listAdd(listAny, charLiteral);
 
-	print("Array<any> ", listAny);
-	print("Length ", listLen(listAny));
+	print("array <any> ", listAny);
+	print("array length ", listLen(listAny));
+
 	free(str);
 	listFree(listAny);
 }

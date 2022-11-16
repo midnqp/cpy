@@ -60,7 +60,7 @@ void cpyErr(const char* e_msg, bool crash);
 
 // clang-format off
 #define new(TYPE) create_##TYPE();
-//clang-format on
+// clang-format on
 
 #define type(a)                               \
   ({                                          \
