@@ -1,2 +1,6 @@
+---
 InlayHints:
   Enabled: No
+CompileFlags:
+  Add: [-I./include]
+...

@@ -1,17 +1,18 @@
 #ifndef CPY_LIST_H
-#include "cpy_core.h"
 #define CPY_LIST_H
 
-void list_add(int argc, unsigned short argv[], ...);
-int list_index(int argc, unsigned short argv[], ...);
-void listFree(List* list);
-int listLen(List* list);
+#include "cpy_core.h"
+
+void __list_add(int argc, unsigned short argv[], ...);
+int __list_index(int argc, unsigned short argv[], ...);
+void list_free(cpy_list* list);
+int list_len(cpy_list* list);
 
 /**
  * Pass any number of strings
  * and numbers as argument.
  */
-#define listAdd(a...) ({ va_argv(list_add, a); })
+#define list_add(a...) ({ va_argv(__list_add, a); })
 
 /**
  * Get index of an item in a list.
@@ -24,6 +25,6 @@ int listLen(List* list);
  * @returns {int} Index of item.
  * Returns -1 if not found.
  */
-#define listIndex(a...) ({ va_argv(list_index, a); })
+#define list_index(a...) ({ va_argv(__list_index, a); })  // NOLINT
 
-#endif
+#endif  // CPY_LIST_H

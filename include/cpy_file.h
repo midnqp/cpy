@@ -10,4 +10,4 @@ bool file_exists(const char* fn);
 bool dir_exists(const char* dirName);
 char* input(const char* prompt);
 
-#endif
+#endif // CPY_FILE_H
