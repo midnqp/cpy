@@ -1,24 +1,30 @@
-#include "include/cpy.h"
+#include <assert.h>
+#include <cpy.h>
+
+cpy_list* example_list_any();
+void string();
+void numbers();
+void print_any();
 
 int main() {
+  cpy_list* l = example_list_any();
+  list_free(l);
 
-	double numbers[] = {0, -1, 2.3, -4.5};
-	print("array <number> ", numbers);
+  return 0;
+}
 
-	List* listAny = new (List_t);
-	listAdd(listAny, 1, -2, 3.4, "5", -6.7);
-	print("array <any> ", listAny);
+cpy_list* example_list_any() {
+  cpy_list* l = new (list_t);
+  list_add(l, 0, -0.03, "7");
+  list_add(l, "any string");
+  char chars[] = {'c', 'h', '\0'};
+  list_add(l, chars);
 
-	char* str = malloc(sizeof(char*) * 64);
-	strcpy(str, "this is a malloc'ed string");
-	listAdd(listAny, str);
+  assert(list_len(l) == 5);
+  assert(list_index(l, -0.03) == 1);
+  assert(list_index(l, "ch") == 4);
+  assert(type(l) == cpy_list_t);
 
-	char charLiteral[] = {'a', ' ', 'c', 'h', 'a', 'r', ' ', 'a', 'r', 'r', 'a', 'y', '\0'};
-	listAdd(listAny, charLiteral);
-
-	print("array <any> ", listAny);
-	print("array length ", listLen(listAny));
-
-	free(str);
-	listFree(listAny);
+  /*list_free(l);*/
+  return l;
 }

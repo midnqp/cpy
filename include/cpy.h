@@ -5,6 +5,15 @@
 #pragma clang system_header
 #endif
 
+// TODO add sc_log.h
+// TODO build some good cmd software
+// TODO in cpy_core.h, change new() and type()? maybe no need.
+// TODO improve examples, with common data types
+// TODO improve examples, with common cmd programs/software
+// TODO add/fix list functions
+// TODO add strings functions and rename
+// TODO add cpy_global_cleanup(), idea from curl
+// TODO add hashmap, too future
 #include <ctype.h>
 #include <float.h>
 #include <limits.h>

@@ -1,6 +1,6 @@
 # Defining constants.
 CC = gcc
-CFLAG = -I ./include -Wall -Wextra -Wno-unused-value -g -fcompare-debug-second
+CFLAG = -I ./include -Wall -Wextra -Wno-unused-value -g
 CMD = $(CC) $(CFLAG)
 OUT = build
 
@@ -47,8 +47,9 @@ clean:
 	@rm $(OBJ)
 	@rm $(OUT)/libcpy.a
 	@rm $(OUT)/libcpy.so
+	@rm -f $(OUT)/a.out
 	@rmdir $(OUT)/objects
 	@rmdir $(OUT)
-	$(info cleaned up)
+	$(info removed all compiled outputs)
 
 .PHONY: clean

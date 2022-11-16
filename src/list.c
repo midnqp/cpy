@@ -90,7 +90,6 @@ int __list_index(int argc, unsigned short* argv, ...) {
   cpy_list* list;
   char item_t;
   const char* item_str;
-  char item_arrc[1024];
   double item_num;
 
   // Unpack.
@@ -99,12 +98,14 @@ int __list_index(int argc, unsigned short* argv, ...) {
   item_t = va_type(argv[1]);
   if (item_t == cpy_num_t)
     item_num = va_arg(v, double);
-  else if (item_t == cpy_str_t)
+  else if (item_t == cpy_str_t || item_t == cpy_arrc_t)
     item_str = va_arg(v, char*);
-  else if (item_t == cpy_arrc_t) {
-    item_str = va_arg(v, char*);
-  } else {
-    print("[libcpy] unexpected datatype in", __FUNCTION__);
+  else {
+    print("[libcpy] in function", __FUNCTION__,
+          "found unexpected type in list");
+    // TODO red-color-labelled error log from sc_log()
+    // TODO get enum names from values
+    // e.g. 4 => one of [cpy_short_t, cpy_int_t]
     return -1;
   }
 
@@ -122,7 +123,6 @@ int __list_index(int argc, unsigned short* argv, ...) {
   if (end < 0 || end > len) end = len;
 
   // Exec.
-  print("[libcpy] item_str", item_str);
   switch (item_t) {
     case cpy_num_t:
       for (int i = start; i < end; i++) {
