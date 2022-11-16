@@ -71,21 +71,24 @@ void __print_func(FILE* fd, int count, unsigned short types[], ...) {
       List* list = va_arg(v, List*);
       fprintf(fd, "[ ");
 
-      for (int i = 0; i < list_len(list); i++) {
+      for (int i = 0; i < listLen(list); i++) {
         int t = list->type[i];
         switch (t) {
           case Str_t:
             if (i > 0) fprintf(fd, ", ");
-            fprintf(fd, "%s", list->string[i]);
+      		__print_color(fd, __print_color_string);
+            fprintf(fd, "\"%s\"", list->string[i]);
             break;
           case Num_t:
             if (i > 0) fprintf(fd, ", ");
+      		__print_color(fd, __print_color_number);
             fprintf(fd, "%G", list->num[i]);
             break;
           default:
             printf("print: list: unknown type: %d", t);
         }
       }
+	  __print_color(fd, __print_color_normal);
       fprintf(fd, " ]");
     } else if (type == Double_t) {
       __print_color(fd, __print_color_float);

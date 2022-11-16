@@ -56,14 +56,16 @@ typedef struct {
 
 // Helper utilities.
 
-void cpy_error(const char* e_msg, bool crash);
+void cpyErr(const char* e_msg, bool crash);
 
-#define new (TYPE) create_##TYPE();
+// clang-format off
+#define new(TYPE) create_##TYPE();
+//clang-format on
 
 #define type(a)                               \
   ({                                          \
     unsigned short stack[1], *_p = stack + 1; \
-    __print_types(a);                         \
+    (void)__print_types(a);                   \
     _p[0] & 0x1F;                             \
   })
 

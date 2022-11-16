@@ -1,3 +1,5 @@
+#include <stdarg.h>
+
 #include "../include/cpy.h"
 
 void listFree(List* list) {
@@ -43,14 +45,17 @@ int listLen(List* list) {
     list->numc++;                                       \
   })
 
-void list_add(List* ls, int argc, unsigned short argv[], ...) {
+void list_add(int argc, unsigned short argv[], ...) {
   va_list v;
   va_start(v, argv);
 
+  // Unpack.
+  List* ls = va_arg(v, List*);
+
   for (int j = 0; j < argc; j++) {
     char type = va_type(argv[j]);
-    int i = list_len(ls);
-    if (type == CharArray_t) {
+    int i = listLen(ls);
+    if (type == CharArray_t || type == Str_t || type == Char_t) {
       const char* str = va_arg(v, char*);
 
       // Make space for new string.
@@ -66,15 +71,19 @@ void list_add(List* ls, int argc, unsigned short argv[], ...) {
       ls->type[i] = Str_t;
 
       ls->stringc++;
-    } else if (type == Double_t)
+    } 
+	/*else if (type == Char_t) {}*/
+	else if (type == Double_t) {
       list_add_num(ls, double);
-    else if (type == Int_t)
+	}
+    else if (type == Int_t) {
       list_add_num(ls, int);
+	}
   }
   va_end(v);
 }
 
-int list_index(int count, unsigned short* argv, ...) {
+int list_index(int argc, unsigned short* argv, ...) {
   va_list v;
   va_start(v, argv);
 
@@ -95,14 +104,14 @@ int list_index(int count, unsigned short* argv, ...) {
   else if (item_t == Str_t)
     item_str = va_arg(v, char*);
 
-  if (count >= 3) {
+  if (argc >= 3) {
     start = va_arg(v, int);
-    if (count > 3) end = va_arg(v, int);
+    if (argc > 3) end = va_arg(v, int);
   }
 
   // Sanity.
   if (start < 0) start = 0;
-  if (end > list_len(list) || end == -1) end = list_len(list);
+  if (end > listLen(list) || end == -1) end = listLen(list);
   if (end != -1 && end < start) end = start;
 
   // Exec.
@@ -125,12 +134,13 @@ int list_index(int count, unsigned short* argv, ...) {
 }
 
 double listMax(List* ls) {
-	print(ls);
-	/*double a = list.;*/
+  print(ls);
+  return 0;
+  /*double a = list.;*/
   /*for (int i = 0; i < listLen(list); i++) {*/
-    /*if (list-> > a) {*/
-      /*a = list.value[i];*/
-    /*}*/
+  /*if (list-> > a) {*/
+  /*a = list.value[i];*/
+  /*}*/
   /*}*/
   /*return a;*/
 }
