@@ -1,0 +1,58 @@
+﻿{
+  "configurations": [
+    {
+      "name": "x64-Debug",
+      "generator": "Ninja",
+      "configurationType": "Debug",
+      "inheritEnvironments": [ "gcc-arm" ],
+      "buildRoot": "${projectDir}\\build\\${name}",
+      "installRoot": "${projectDir}\\out\\install\\${name}",
+      "cmakeCommandArgs": "",
+      "buildCommandArgs": "",
+      "ctestCommandArgs": "",
+      "variables": [
+        {
+          "name": "CMAKE_AR",
+          "value": "C:\\ProgramData\\chocolatey\\bin\\ar.exe",
+          "type": "FILEPATH"
+        },
+        {
+          "name": "CMAKE_ADDR2LINE",
+          "value": "C:\\ProgramData\\chocolatey\\bin\\addr2line.exe",
+          "type": "FILEPATH"
+        },
+        {
+          "name": "CMAKE_C_COMPILER",
+          "value": "C:\\ProgramData\\chocolatey\\bin\\gcc.exe",
+          "type": "FILEPATH"
+        },
+        {
+          "name": "CMAKE_CXX_COMPILER",
+          "value": "C:\\ProgramData\\chocolatey\\bin\\g++.exe",
+          "type": "FILEPATH"
+        },
+        {
+          "name": "CMAKE_DLLTOOL",
+          "value": "C:\\ProgramData\\chocolatey\\bin\\dlltool.exe",
+          "type": "FILEPATH"
+        },
+        {
+          "name": "CMAKE_C_COMPILER_RANLIB",
+          "value": "C:/ProgramData/chocolatey/bin/gcc-ranlib.exe",
+          "type": "FILEPATH"
+        },
+        {
+          "name": "CMAKE_STRIP",
+          "value": "C:/ProgramData/chocolatey/bin/strip.exe",
+          "type": "FILEPATH"
+        },
+        {
+          "name": "CMAKE_RC_COMPILER",
+          "value": "C:\\ProgramData\\chocolatey\\bin\\windres.exe",
+          "type": "FILEPATH"
+        }
+      ],
+      "intelliSenseMode": "linux-gcc-x64"
+    }
+  ]
+}
