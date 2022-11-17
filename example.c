@@ -1,5 +1,8 @@
 #include <assert.h>
+
 #include "./include/cpy.h"
+#include "./module/vld/vld.h"
+
 
 cpy_list* example_list_any();
 void string();
@@ -8,11 +11,10 @@ void print_any();
 
 static char chars[] = {'c', 'h', '\0'};
 
-int main()
-{
-  print(1, "hello", -212, chars);
+int main() {
   cpy_list* l = example_list_any();
-  list_free(l);
+  //list_free(l);
+  getchar();
   return 0;
 }
 
