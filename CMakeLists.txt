@@ -1,5 +1,6 @@
 cmake_minimum_required(VERSION 3.13)
 project(cpy)
+
 #set(CMAKE_LIBRARY_PATH ./build)
 #include(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
 #conan_basic_setup()
@@ -20,10 +21,9 @@ target_link_directories(out PUBLIC ${CMAKE_SOURCE_DIR}/build) #external pre-comp
 target_include_directories(out PUBLIC ${CMAKE_SOURCE_DIR}/module/vld_x64) #external pre-compiled .dll or .so
 #find_library(vld ./build/vld_x64) #won't work: searches in CMAKE_PREFIX
 target_link_libraries(out PUBLIC cpy)
-target_link_libraries(out PRIVATE vld_x64)
-target_link_libraries(out PRIVATE dbghelp)
 #target_link_libraries(out PRIVATE vld_x64)
-#target_link_libraries(out PRIVATE "${vld}")
+#target_link_libraries(out PRIVATE dbghelp)
+
 
 if (MINGW)
 else()
