@@ -1,4 +1,5 @@
 #include "../include/cpy.h"
+#include "pch.h"
 /*
 char* __str_add_va__(const char* strings, ...) {
         va_list allstrings;

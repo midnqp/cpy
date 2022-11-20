@@ -1,6 +1,14 @@
-#include <stdarg.h>
+#include "pch.h"
 
-#include "../include/cpy.h"
+cpy_list* cpy_new_cpy_list_t() {
+  cpy_list l;
+  l.string = malloc(sizeof(char*) * 1);
+  l.stringc = 0;
+  l.num = malloc(sizeof(double) * 1);
+  l.numc = 0;
+  l.type = malloc(sizeof(int) * 1);
+  return &l;
+}
 
 void list_free(cpy_list* list) {
   for (int i = 0; i < list_len(list); i++) {
@@ -25,14 +33,18 @@ int list_len(cpy_list* list) {
  * @param {void*} Pointer
  * @param {size_t} Bytes to allocate
  */
-#define realloc_check(pointer, bytes)   do {\
+#define realloc_check(pointer, bytes)               \
+  do {                                              \
     void* r = realloc(pointer, bytes);              \
-    if (r == NULL) {fprintf(stderr, "[libcpy] realloc failed\n"); return; }                                               \
+    if (r == NULL) {                                \
+      fprintf(stderr, "[libcpy] realloc failed\n"); \
+      return;                                       \
+    }                                               \
     pointer = r;                                    \
-  } while(0)
+  } while (0)
 
 #define list_add_num(list, T)                           \
-  {                                                    \
+  {                                                     \
     T d = va_arg(v, T);                                 \
     realloc_check(list->num, sizeof(double) * (i + 1)); \
     list->num[i] = (double)d;                           \
@@ -85,7 +97,7 @@ int __list_index(int argc, unsigned short* argv, ...) {
   // Arg declare & init default.
   cpy_list* list;
   char item_t;
-  const char* item_str;
+  const char* item_str = "";
   double item_num;
 
   // Unpack.
@@ -97,7 +109,8 @@ int __list_index(int argc, unsigned short* argv, ...) {
   else if (item_t == cpy_str_t || item_t == cpy_arrc_t)
     item_str = va_arg(v, char*);
   else {
-    //fprint(stdout, "[libcpy] in function", __FUNCTION__, "found unexpected type in list");
+    // fprint(stdout, "[libcpy] in function", __FUNCTION__, "found unexpected
+    // type in list");
 
     // TODO red-color-labelled error log from sc_log()
     // TODO get enum names from values
@@ -144,7 +157,7 @@ int __list_index(int argc, unsigned short* argv, ...) {
 }
 
 double listMax(cpy_list* ls) {
-  //print(ls);
+  // print(ls);
   return 0;
   /*double a = list.;*/
   /*for (int i = 0; i < listLen(list); i++) {*/

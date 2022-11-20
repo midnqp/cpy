@@ -1,0 +1,5 @@
+[core] 
+	autocrlf=false
+[alias] 
+	dno=diff --name --only 
+	dnos=diff-- name - only-- staged
