@@ -1,13 +1,20 @@
 #ifndef CPY_H
 #define CPY_H
 
+// detect memory leaks in MSVC
+#if defined(_DEBUG) && defined(_MSC_VER)
+#define _CRT_SECURE_NO_WARNINGS
+#define _CRTDBG_MAP_ALLOC
+#define CPY_CRTDBG_MEMCHECK (0x01 | 0x20)
+#include <crtdbg.h>
+#endif
+
 #ifdef __clang__
 #pragma clang system_header
 #endif
 
 // TODO add sc_log.h
 // TODO build some good cmd software
-// TODO in cpy_core.h, change new() and type()? maybe no need.
 // TODO improve examples, with common data types
 // TODO improve examples, with common cmd programs/software
 // TODO add/fix list functions
@@ -23,6 +30,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <sys/stat.h>
+
 #ifdef _WIN32
 #include <Windows.h>
 #include <io.h>
@@ -38,4 +46,4 @@
 #include "cpy_string.h"
 #include "cpy_types.h"
 
-#endif
+#endif  // CPY_H

@@ -1,8 +1,6 @@
 #ifndef CPY_TYPES_H
 #define CPY_TYPES_H
 
-// Data type definition.
-
 enum CPY_TYPES {
   cpy_void_t = 10,
   cpy_float_t = 1,

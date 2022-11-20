@@ -1,6 +1,12 @@
 #ifndef CPY_CORE_H
 #define CPY_CORE_H
 
+#ifdef _WIN32
+#define DllExport __declspec(dllexport)
+#else
+#define DllExport
+#endif
+
 #include <stdbool.h>
 #include <stdio.h>
 
@@ -16,16 +22,7 @@ typedef struct
   int numc;
 } cpy_list;
 
-#define cpy_create_list_t ({\
-  cpy_list l; \
-  l.string = malloc(sizeof(char*) * 1); \
-  l.stringc = 0;                        \
-  l.num = malloc(sizeof(double) * 1);   \
-  l.numc = 0;                           \
-  l.type = malloc(sizeof(int) * 1);     \
-  &l; })
-
-#define cpy_new(TYPE) cpy_create_##TYPE
+#define cpy_new(TYPE) cpy_new_##TYPE()
 
 #define cpy_type(a)                           \
   ({                                          \
@@ -41,12 +38,14 @@ typedef struct
 #endif
 
 #ifdef _WIN32
-#define va_argv(function, ...) ({                   \
+#define va_argv(function, ...) {                   \
   int count = va_argc(__VA_ARGS__);                 \
-  unsigned short stack[count], *_p = stack + count; \
+  unsigned short *stack = malloc(count);\
+  unsigned short *_p = stack + count; \
   __print_types(__VA_ARGS__);                       \
   function(count, _p, __VA_ARGS__);                 \
-})
+  free(stack);\
+}
 #else
 #define va_argv(function, a...)                           \
 ({                                                       \

@@ -2,10 +2,12 @@
 #define CPY_LIST_H
 
 #include "cpy_core.h"
+#include "cpy_types.h"
 
+DllExport cpy_list* cpy_new_cpy_list_t();
 void __list_add(int argc, unsigned short argv[], ...);
 int __list_index(int argc, unsigned short argv[], ...);
-void list_free(cpy_list* list);
+DllExport void list_free(cpy_list* list);
 int list_len(cpy_list* list);
 
 /**
