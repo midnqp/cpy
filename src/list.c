@@ -25,25 +25,21 @@ int list_len(cpy_list* list) {
  * @param {void*} Pointer
  * @param {size_t} Bytes to allocate
  */
-#define realloc_check(pointer, bytes)               \
-  ({                                                \
+#define realloc_check(pointer, bytes)   do {\
     void* r = realloc(pointer, bytes);              \
-    if (r == NULL) {                                \
-      fprintf(stderr, "[libcpy] realloc failed\n"); \
-      return;                                       \
-    }                                               \
+    if (r == NULL) {fprintf(stderr, "[libcpy] realloc failed\n"); return; }                                               \
     pointer = r;                                    \
-  })
+  } while(0)
 
 #define list_add_num(list, T)                           \
-  ({                                                    \
+  {                                                    \
     T d = va_arg(v, T);                                 \
     realloc_check(list->num, sizeof(double) * (i + 1)); \
     list->num[i] = (double)d;                           \
     realloc_check(list->type, sizeof(int) * (i + 1));   \
     list->type[i] = cpy_double_t;                       \
     list->numc++;                                       \
-  })
+  }
 
 void __list_add(int argc, unsigned short argv[], ...) {
   va_list v;
@@ -101,8 +97,8 @@ int __list_index(int argc, unsigned short* argv, ...) {
   else if (item_t == cpy_str_t || item_t == cpy_arrc_t)
     item_str = va_arg(v, char*);
   else {
-    print("[libcpy] in function", __FUNCTION__,
-          "found unexpected type in list");
+    //fprint(stdout, "[libcpy] in function", __FUNCTION__, "found unexpected type in list");
+
     // TODO red-color-labelled error log from sc_log()
     // TODO get enum names from values
     // e.g. 4 => one of [cpy_short_t, cpy_int_t]
@@ -148,7 +144,7 @@ int __list_index(int argc, unsigned short* argv, ...) {
 }
 
 double listMax(cpy_list* ls) {
-  print(ls);
+  //print(ls);
   return 0;
   /*double a = list.;*/
   /*for (int i = 0; i < listLen(list); i++) {*/
