@@ -1,19 +1,17 @@
-#!/bin/bash
+#!/ bin / bash
 
-cat > ./.git/hooks/pre-commit <<- EOM
-#!/bin/bash
-if [ ! -x "\$(command -v dos2unix)" ]; then
-	echo 'pre-commit hook: command "dos2unix" not found'
-	return 1
-fi
-if [ ! -x "\$(command -v clang-format)" ]; then
+cat >./.git / hooks / pre - commit << -EOM
+#!/ bin / bash
+                                      if[!-x "\$(command -v dos2unix)"];
+then echo 'pre-commit hook: command "dos2unix" not found' return 1 fi if
+    [!-x "\$(command -v clang-format)"]; then
 	echo 'pre-commit hook: command "clang-format" not found'
 	return 1
 fi
 
 staged_file_list=\$(git diff --name-only --staged)
-for file in \$staged_file_list; do
-	dos2unix \$file
-	clang-format -i -style google \$file
-done
-EOM
+for file in \$staged_file_list;
+do
+  if
+    [-f \$file];
+then dos2unix \$file clang - format - i - style google \$file git add \$file fi done EOM
